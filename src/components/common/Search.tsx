@@ -10,7 +10,6 @@ const Search = () => {
 
   const handleSearchClick = () => {
     console.log("Buscando:", searchValue);
-    // Aquí puedes realizar la búsqueda con el valor de 'searchValue'
   };
 
   return (
