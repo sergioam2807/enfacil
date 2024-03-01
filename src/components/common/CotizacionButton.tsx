@@ -8,7 +8,7 @@ interface Props {
 
 export const CotizacionButton = ({ title }: Props) => {
   return (
-    <button className="text-sm font-medium bg-[#FF9D28] rounded-md px-3 py-3 mx-4 flex items-center">
+    <button className="text-sm font-medium bg-[#FF9D28] rounded-md px-3 py-3 mx-4 flex items-center flex-grow">
       <Image
         src="/images/plus.png"
         alt="plus"
