@@ -2,7 +2,11 @@
 import Image from "next/image";
 import React, { useState } from "react";
 
-const Search = () => {
+interface Props {
+  color?: string;
+}
+
+const Search = ({ color = "#EFF4FC" }) => {
   const [searchValue, setSearchValue] = useState("");
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchValue(event.target.value);
@@ -27,7 +31,7 @@ const Search = () => {
         type="text"
         placeholder="Buscar..."
         onChange={handleSearchChange}
-        className="w-full px-3 py-2 pl-10 border rounded-md bg-[#EFF4FC] border-[#EFF4FC] focus:outline-none focus:border-[#edf0f5]"
+        className={`w-full px-3 py-2 pl-10 border rounded-md bg-[${color}] border-[${color}] focus:outline-none focus:border-[${color}]`}
       />
     </div>
   );

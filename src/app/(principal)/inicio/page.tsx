@@ -1,5 +1,6 @@
 import BaseSmallCard from "@/components/common/BaseSmallCard";
 import SemiDonutChart from "@/components/common/SemiDonutChart";
+import TitleComponent from "@/components/common/TitleComponent";
 import BaseTableCard from "@/components/table/BaseTableCard";
 import TableComponent from "@/components/table/TableComponent";
 import Image from "next/image";
@@ -79,9 +80,7 @@ export default function Inicio() {
           </div>
         </BaseSmallCard>
       </div>
-      <div className="text-[#0E436B] font-semibold text-xl mt-5 mb-7">
-        Proyectos totales en gestión
-      </div>
+      <TitleComponent titleName={"Proyectos totales en gestión"} />
       {/* <CustomScrollbar> */}
       <div className={`h-[500px] overflow-y-auto`}>
         <BaseTableCard>

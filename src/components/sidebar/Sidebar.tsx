@@ -1,6 +1,7 @@
 import Image from "next/image";
-import { CotizacionButton } from "../common/CotizacionButton";
+
 import { SidebarItem } from "./SidebarItem";
+import { CreateButton } from "../common/CreateButton";
 
 const sidebarMenuItems = [
   {
@@ -63,7 +64,7 @@ export const Sidebar = () => {
         ))}
       </div>
       <div className="flex justify-center items-center h-1/2">
-        <CotizacionButton title="Crear cotización" />
+        <CreateButton title="Crear cotización" bgcolor="#FF9D28" />
       </div>
       <div className="mt-auto pl-4 pb-4">
         {" "}

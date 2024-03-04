@@ -151,7 +151,7 @@ const TableComponent = () => {
             </TableCell>
             <td className="w-2/4 p-4">
               <button className="px-4 py-2 text-[#097AFF] underline font-normal rounded">
-                Ver Detalle
+                Ver Detalles
               </button>
             </td>
           </tr>
