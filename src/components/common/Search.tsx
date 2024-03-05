@@ -31,7 +31,8 @@ const Search = ({ color = "#EFF4FC" }) => {
         type="text"
         placeholder="Buscar..."
         onChange={handleSearchChange}
-        className={`w-full px-3 py-2 pl-10 border rounded-md bg-[${color}] border-[${color}] focus:outline-none focus:border-[${color}]`}
+        style={{ backgroundColor: `${color}`, borderColor: `${color}` }}
+        className={`w-full px-3 py-2 pl-10 border rounded-md  focus:outline-none focus:border-[#EFF4FC]`}
       />
     </div>
   );
