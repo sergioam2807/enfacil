@@ -8,13 +8,17 @@ const TableHead = ({ children }: { children: React.ReactNode }) => (
   <th className="text-left pb-8 pt-5">{children}</th>
 );
 const TableCell = ({ children }: { children: React.ReactNode }) => (
-  <td className="text-left text-base">
+  <td className="text-left  text-sm font-normal">
     {Array.isArray(children) && typeof children[0] === "object"
       ? children.map(
           (contact: { telefono: string; email: string }, i: number) => (
             <div key={i}>
-              <div>{contact.telefono}</div>
-              <div>{contact.email}</div>
+              <div>
+                <span className="text-sm font-normal">{contact.telefono}</span>
+              </div>
+              <div>
+                <span className="text-sm font-normal">{contact.email}</span>
+              </div>
             </div>
           )
         )

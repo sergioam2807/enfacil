@@ -16,6 +16,8 @@ const config: Config = {
       colors: {
         "custom-green": "#66AA10",
         "custom-red": "#FF4D4D",
+        "custom-blue": "#0E436B",
+        "custon-gray": "#6F6F6F",
       },
       scrollbar: ["rounded", "dark"],
     },

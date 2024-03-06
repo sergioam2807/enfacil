@@ -15,7 +15,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
           </div>
         </div>
 
-        <div className="flex-grow overflow-y-auto pt-8 pl-8 bg-[#EFF4FC]">
+        <div className="flex-grow overflow-y-auto pt-8 pl-8 pr-8 bg-[#EFF4FC]">
           {children}
         </div>
       </div>
