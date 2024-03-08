@@ -1,8 +1,9 @@
 import BaseSmallCard from "@/components/common/BaseSmallCard";
 import SemiDonutChart from "@/components/common/SemiDonutChart";
 import TitleComponent from "@/components/common/TitleComponent";
-import BaseTableCard from "@/components/table/BaseTableCard";
-import TableComponent from "@/components/table/TableComponent";
+import BaseTableCard from "@/components/tables/table/BaseTableCard";
+import TableComponent from "@/components/tables/table/TableComponent";
+
 import Image from "next/image";
 
 export default function Inicio() {

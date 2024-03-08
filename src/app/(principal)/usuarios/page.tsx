@@ -1,17 +1,20 @@
-import ActionTableComponent from "@/components/actionTable/ActionTable";
+import { getUserData } from "@/api/data";
 import { CreateButton } from "@/components/common/CreateButton";
 import Search from "@/components/common/Search";
 import TitleComponent from "@/components/common/TitleComponent";
 import { FilterDropdown } from "@/components/filter/FilterDropdown";
 import Modal from "@/components/modal/Modal";
-import BaseTableCard from "@/components/table/BaseTableCard";
+import ActionTableComponent from "@/components/tables/actionTable/ActionTable";
+import BaseTableCard from "@/components/tables/table/BaseTableCard";
 import Link from "next/link";
 
 type SearchParamProps = {
   searchParams: Record<string, string> | null | undefined;
 };
 
-export default function Usuarios({ searchParams }: SearchParamProps) {
+export default async function Usuarios({ searchParams }: SearchParamProps) {
+  const userData = await getUserData();
+
   const show = searchParams?.show;
   return (
     <div className="pr-5 pb-5">
@@ -40,7 +43,7 @@ export default function Usuarios({ searchParams }: SearchParamProps) {
       </div>
       <div className={`h-[600px] overflow-y-auto`}>
         <BaseTableCard>
-          <ActionTableComponent />
+          <ActionTableComponent usersData={userData.data} />
         </BaseTableCard>
         {/* </CustomScrollbar> */}
       </div>
