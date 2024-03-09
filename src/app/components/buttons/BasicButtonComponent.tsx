@@ -6,6 +6,7 @@ interface Props {
   borderColor: string;
   textColor: string;
   text: string;
+  onClick: () => void;
 }
 
 const BasicButtonComponent = ({
@@ -13,9 +14,11 @@ const BasicButtonComponent = ({
   borderColor,
   textColor,
   text,
+  onClick,
 }: Props) => {
   return (
     <button
+      onClick={onClick}
       style={{
         backgroundColor: bgColor,
         borderColor: borderColor,

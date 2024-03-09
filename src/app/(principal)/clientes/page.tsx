@@ -1,11 +1,12 @@
-import { getClientData, getPersonalData } from "@/api/data";
-import { CreateButton } from "@/components/common/CreateButton";
-import Search from "@/components/common/Search";
-import TitleComponent from "@/components/common/TitleComponent";
-import { FilterDropdown } from "@/components/filter/FilterDropdown";
-import Modal from "@/components/modal/Modal";
-import ClientTable from "@/components/tables/clientTable/ClientTable";
-import BaseTableCard from "@/components/tables/table/BaseTableCard";
+import { getClientData, getPersonalData } from "@/app/api/data";
+import { CreateButton } from "@/app/components/common/CreateButton";
+import Search from "@/app/components/common/Search";
+import TitleComponent from "@/app/components/common/TitleComponent";
+import { FilterDropdown } from "@/app/components/filter/FilterDropdown";
+import Modal from "@/app/components/modal/Modal";
+import ClientTable from "@/app/components/tables/clientTable/ClientTable";
+import BaseTableCard from "@/app/components/tables/table/BaseTableCard";
+
 import Link from "next/link";
 
 type SearchParamProps = {
@@ -32,7 +33,7 @@ export default async function Clientes({ searchParams }: SearchParamProps) {
           <div>
             <Link href="/usuarios?show=true">
               <CreateButton
-                title="Añadir Personal"
+                title="Crear nuevo cliente"
                 iconSize={14}
                 bgcolor="#0E436B"
               />

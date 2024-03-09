@@ -1,7 +1,7 @@
 import React from "react";
 
 import AdvanceBar from "./AdvanceBar";
-import ChipStatus from "@/components/chip/ChipStatus";
+import ChipStatus from "@/app/components/chip/ChipStatus";
 
 const TableHead = ({ children }: { children: React.ReactNode }) => (
   <th className="w-1/5 text-left pl-12 pb-8 pt-5">{children}</th>

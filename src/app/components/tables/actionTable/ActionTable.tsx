@@ -1,43 +1,55 @@
 import React from "react";
 
-import userIcon from "../../../../public/images/user.svg";
-import Image from "next/image";
-import TableHead from "../../common/TableHead";
-import TableCell from "../../common/TableCell";
-import ChipStatus from "../../chip/ChipStatus";
-import ActionButtons from "../actionTable/ActionButtons";
+import userIcon from "../../../../../public/images/user.svg";
 
-interface Client {
+import Image from "next/image";
+import ActionButtons from "./ActionButtons";
+import TableHead from "@/app/components/common/TableHead";
+import TableCell from "@/app/components/common/TableCell";
+import ChipStatus from "@/app/components/chip/ChipStatus";
+
+interface User {
   id: string;
   name: string;
-  address: string;
-  taxId: string;
-  fcreacion: string;
+  cargo: string;
+  superAdmin: string;
+  fIngreso: string;
   state: string;
   phone: string;
   email: string;
 }
 
-interface clientProps {
-  clientData: Client[];
+interface userProps {
+  usersData: User[];
 }
 
-const ClientTable = ({ clientData }: clientProps) => {
+interface userDataProps {
+  name: string;
+  superAdmin: boolean;
+  fIngreso: string | null;
+  estado: string | null;
+  email: string;
+  phone: string;
+  id: number;
+}
+
+const ActionTableComponent = ({ usersData }: userProps) => {
   return (
     <table className="w-full table-auto">
       <thead>
         <tr className="text-[#0E436B] font-semibold text-sm">
           <th className="text-left pb-8 pt-5"></th>
-          <TableHead>Cliente</TableHead>
-          <TableHead>Rut</TableHead>
-          <TableHead>F.Creación</TableHead>
+          <TableHead>Nombre</TableHead>
+          <TableHead>Cargo</TableHead>
+          <TableHead>Tipo Usuario</TableHead>
+          <TableHead>F.ingreso</TableHead>
           <TableHead>Estado</TableHead>
           <TableHead>Contacto</TableHead>
           <TableHead>Acciones</TableHead>
         </tr>
       </thead>
       <tbody>
-        {clientData.map((row: Client) => (
+        {usersData.map((row: User) => (
           <tr
             key={row.id}
             className="text-[#797979] font-medium text-sm border-t border-[#EAEAEA]"
@@ -52,20 +64,17 @@ const ClientTable = ({ clientData }: clientProps) => {
                 />
               </div>
             </td>
+            <TableCell>{row.name ?? "-"}</TableCell>
+            <TableCell>No data</TableCell>
             <TableCell>
-              <div>
-                <div>{row.name ?? "-"}</div>
-                <div>{row.address ?? "-"}</div>
-              </div>
+              {row.superAdmin ? "Administrador" : "Usuario"}
             </TableCell>
-            <TableCell>{row.taxId}</TableCell>
-            <TableCell>{row.fcreacion ?? "-"}</TableCell>
+            <TableCell>{row.fIngreso ?? "-"}</TableCell>
             <TableCell>
               <ChipStatus status={row.state ?? "Activo"}>
                 {row.state ?? "Activo"}
               </ChipStatus>
             </TableCell>
-            {/* <TableCell>{row.specialty ?? "-"}</TableCell> */}
             <TableCell>
               <div>
                 <div>{row.email}</div>
@@ -73,7 +82,7 @@ const ClientTable = ({ clientData }: clientProps) => {
               </div>
             </TableCell>
             <td className="text-left text-base">
-              <ActionButtons id={row.id} path="personal" />
+              <ActionButtons id={row.id} path="usuarios" />
             </td>
           </tr>
         ))}
@@ -82,4 +91,4 @@ const ClientTable = ({ clientData }: clientProps) => {
   );
 };
 
-export default ClientTable;
+export default ActionTableComponent;

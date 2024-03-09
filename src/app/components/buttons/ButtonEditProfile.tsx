@@ -1,6 +1,6 @@
 import Image from "next/image";
 import React from "react";
-import editwhite from "../../../public/images/editwhite.svg";
+import editwhite from "../../../../public/images/editwhite.svg";
 
 const ButtonEditProfile = () => {
   return (

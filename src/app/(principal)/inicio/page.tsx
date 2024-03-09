@@ -1,8 +1,8 @@
-import BaseSmallCard from "@/components/common/BaseSmallCard";
-import SemiDonutChart from "@/components/common/SemiDonutChart";
-import TitleComponent from "@/components/common/TitleComponent";
-import BaseTableCard from "@/components/tables/table/BaseTableCard";
-import TableComponent from "@/components/tables/table/TableComponent";
+import BaseSmallCard from "@/app/components/common/BaseSmallCard";
+import SemiDonutChart from "@/app/components/common/SemiDonutChart";
+import TitleComponent from "@/app/components/common/TitleComponent";
+import BaseTableCard from "@/app/components/tables/table/BaseTableCard";
+import TableComponent from "@/app/components/tables/table/TableComponent";
 
 import Image from "next/image";
 

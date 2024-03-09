@@ -1,11 +1,12 @@
 import React from "react";
 
-import userIcon from "../../../../public/images/user.svg";
+import userIcon from "../../../../../public/images/user.svg";
 import Image from "next/image";
+
+import ActionButtons from "../actionTable/ActionButtons";
 import TableHead from "../../common/TableHead";
 import TableCell from "../../common/TableCell";
 import ChipStatus from "../../chip/ChipStatus";
-import ActionButtons from "../actionTable/ActionButtons";
 
 interface Personal {
   id: string;

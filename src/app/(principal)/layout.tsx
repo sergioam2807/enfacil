@@ -1,6 +1,5 @@
-import Search from "@/components/common/Search";
-import { Sidebar } from "@/components/sidebar/Sidebar";
-import Image from "next/image";
+import Search from "@/app/components/common/Search";
+import { Sidebar } from "../components/sidebar/Sidebar";
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (

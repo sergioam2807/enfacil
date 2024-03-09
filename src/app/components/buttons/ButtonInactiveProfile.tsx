@@ -1,5 +1,5 @@
 import Image from "next/image";
-import close from "../../../public/images/close.svg";
+import close from "../../../../public/images/close.svg";
 import React from "react";
 
 const ButtonInactiveProfile = () => {

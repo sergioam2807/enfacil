@@ -1,11 +1,12 @@
 "use client";
 import Image from "next/image";
 import React from "react";
-import edit from "../../../../public/images/edit.svg";
-import trash from "../../../../public/images/trash.svg";
-import { useRouter } from "next/navigation";
+import edit from "../../../../../public/images/edit.svg";
+import trash from "../../../../../public/images/trash.svg";
+
 import Link from "next/link";
-import { deletePersonalData, deleteUserData } from "@/api/data";
+import { deletePersonalData, deleteUserData } from "@/app/api/data";
+import { useRouter } from "next/navigation";
 interface ActionButtonsProps {
   id: string | number;
   path: string;

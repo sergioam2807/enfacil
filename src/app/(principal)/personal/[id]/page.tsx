@@ -6,19 +6,19 @@ import ChipStatus from "@/app/components/chip/ChipStatus";
 import ButtonEditProfile from "@/app/components/buttons/ButtonEditProfile";
 import ButtonInactiveProfile from "@/app/components/buttons/ButtonInactiveProfile";
 import { getUserData } from "@/app/api/data";
-export default async function PerfilUsuario({
+export default async function PerfilPersonal({
   params,
 }: {
   params: { id: string };
 }) {
-  const userData = await getUserData();
+  const personalData = await getUserData();
 
-  const userProfile = userData.data.find(
-    (user: any) => user.id === Number(params.id)
+  const personalProfile = personalData.data.find(
+    (personal: any) => personal.id === Number(params.id)
   );
 
-  if (!user) {
-    return <div>Usuario no encontrado</div>;
+  if (!personalProfile) {
+    return <div>Personal no encontrado</div>;
   }
 
   return (
@@ -28,24 +28,24 @@ export default async function PerfilUsuario({
           <Image src={user} width={83} height={83} alt="user-profile" />
         </div>
         <div>
-          <ChipStatus status={userProfile.state ?? "Activo"}>
-            {userProfile.state ?? "Activo"}
+          <ChipStatus status={personalProfile.state ?? "Activo"}>
+            {personalProfile.state ?? "Activo"}
           </ChipStatus>
         </div>
       </div>
       <div className="w-2/5 flex flex-col">
         <span className="text-xl font-semibold text-custom-blue">
-          {userProfile.name ?? "-"}
+          {personalProfile.name ?? "-"}
         </span>
         <span className="text-base text-custon-gray">
-          {userProfile.cargo ?? "-"}
+          {personalProfile.cargo ?? "-"}
         </span>
         <div className="flex flex-col mt-2">
           <span className="text-base text-custon-gray">
-            {userProfile.taxID ?? "-"}
+            {personalProfile.taxID ?? "-"}
           </span>
           <span className="text-base text-custon-gray">
-            {userProfile.region ?? "-"}
+            {personalProfile.region ?? "-"}
           </span>
         </div>
       </div>
@@ -53,13 +53,13 @@ export default async function PerfilUsuario({
         <div className="flex items-center">
           <Image src={phone} width={40} height={40} alt="telefono" />
           <span className="text-base text-custon-gray">
-            {userProfile.phone ?? "-"}
+            {personalProfile.phone ?? "-"}
           </span>
         </div>
         <div className="flex items-center">
           <Image src={email} width={40} height={40} alt="telefono" />
           <span className="text-base text-custon-gray">
-            {userProfile.email ?? "-"}
+            {personalProfile.email ?? "-"}
           </span>
         </div>
       </div>

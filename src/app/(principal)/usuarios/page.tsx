@@ -1,11 +1,12 @@
-import { getUserData } from "@/api/data";
-import { CreateButton } from "@/components/common/CreateButton";
-import Search from "@/components/common/Search";
-import TitleComponent from "@/components/common/TitleComponent";
-import { FilterDropdown } from "@/components/filter/FilterDropdown";
-import Modal from "@/components/modal/Modal";
-import ActionTableComponent from "@/components/tables/actionTable/ActionTable";
-import BaseTableCard from "@/components/tables/table/BaseTableCard";
+import { getUserData } from "@/app/api/data";
+import { CreateButton } from "@/app/components/common/CreateButton";
+import Search from "@/app/components/common/Search";
+import TitleComponent from "@/app/components/common/TitleComponent";
+import { FilterDropdown } from "@/app/components/filter/FilterDropdown";
+import Modal from "@/app/components/modal/Modal";
+import ActionTableComponent from "@/app/components/tables/actionTable/ActionTable";
+import BaseTableCard from "@/app/components/tables/table/BaseTableCard";
+
 import Link from "next/link";
 
 type SearchParamProps = {
