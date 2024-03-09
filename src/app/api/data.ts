@@ -1,5 +1,5 @@
 const token =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiIiwiZW1haWwiOiJhZG1pbkBhZG1pbi5jbCIsIlN1cGVyQWRtaW4iOiJUcnVlIiwiZXhwIjoxNzA5ODY3MDQ0fQ.6MmJZeYwDi7RGFxByXoCoCAFvm0Q-mQ8xpdsKKMLvTU";
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiIiwiZW1haWwiOiJhZG1pbkBhZG1pbi5jbCIsIlN1cGVyQWRtaW4iOiJUcnVlIiwiZXhwIjoxNzA5OTg3NjI1fQ.8Ty9Ngt5GVKWvQi0ELzxJMfyykidJm34BZL819Y8c10";
 export async function getUserData() {
   const res = await fetch(`${process.env.BASE_URL}/UserApi/GetUsers`, {
     headers: {
@@ -91,6 +91,20 @@ export async function deletePersonalData(id: string) {
 
 export async function getClientData() {
   const res = await fetch(`${process.env.BASE_URL}/ClientApi/GetClients`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch data");
+  }
+
+  return res.json();
+}
+
+export async function getProyectsData() {
+  const res = await fetch(`${process.env.BASE_URL}/ProjectApi/GetProjects`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },

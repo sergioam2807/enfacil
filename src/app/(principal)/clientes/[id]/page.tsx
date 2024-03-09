@@ -5,23 +5,46 @@ import phone from "../../../../../public/images/phone.svg";
 import ChipStatus from "@/app/components/chip/ChipStatus";
 import ButtonEditProfile from "@/app/components/buttons/ButtonEditProfile";
 import ButtonInactiveProfile from "@/app/components/buttons/ButtonInactiveProfile";
-import { getPersonalData } from "@/app/api/data";
-import Link from "next/link";
-import { CreateButton } from "@/app/components/common/CreateButton";
-import PersonalProyectTable from "@/app/components/tables/personalTable/PersonalProyectTable";
+import { getClientData } from "@/app/api/data";
 import BaseTableCard from "@/app/components/tables/table/BaseTableCard";
-export default async function PerfilPersonal({
+import ClientProyectTable from "@/app/components/tables/clientTable/ClientProyectTable";
+export default async function PerfilClient({
   params,
 }: {
   params: { id: string };
 }) {
-  const personalData = await getPersonalData();
+  // const clientData = await getClientData();
+  const clientData = {
+    data: [
+      {
+        id: 1,
+        name: "John Doe",
+        cargo: "Developer",
+        taxID: "123456789",
+        region: "North America",
+        phone: "123-456-7890",
+        email: "john.doe@example.com",
+        state: "Activo",
+        data: [
+          {
+            id: "1",
+            project: "Project 1",
+            fIngreso: "2022-01-01",
+            fTermino: "2022-12-31",
+            state: "Activo",
+          },
+          // ... más proyectos ...
+        ],
+      },
+      // ... más clientes ...
+    ],
+  };
 
-  const personalProfile = personalData.data.find(
-    (personal: any) => personal.id === Number(params.id)
+  const clientProfile = clientData.data.find(
+    (client: any) => client.id === Number(params.id)
   );
 
-  if (!personalProfile) {
+  if (!clientProfile) {
     return <div>Personal no encontrado</div>;
   }
 
@@ -33,24 +56,24 @@ export default async function PerfilPersonal({
             <Image src={user} width={83} height={83} alt="user-profile" />
           </div>
           <div>
-            <ChipStatus status={personalProfile.state ?? "Activo"}>
-              {personalProfile.state ?? "Activo"}
+            <ChipStatus status={clientProfile.state ?? "Activo"}>
+              {clientProfile.state ?? "Activo"}
             </ChipStatus>
           </div>
         </div>
         <div className="w-2/5 flex flex-col">
           <span className="text-xl font-semibold text-custom-blue">
-            {personalProfile.name ?? "-"}
+            {clientProfile.name ?? "-"}
           </span>
           <span className="text-base text-custon-gray">
-            {personalProfile.cargo ?? "-"}
+            {clientProfile.cargo ?? "-"}
           </span>
           <div className="flex flex-col mt-2">
             <span className="text-base text-custon-gray">
-              {personalProfile.taxID ?? "-"}
+              {clientProfile.taxID ?? "-"}
             </span>
             <span className="text-base text-custon-gray">
-              {personalProfile.region ?? "-"}
+              {clientProfile.region ?? "-"}
             </span>
           </div>
         </div>
@@ -58,13 +81,13 @@ export default async function PerfilPersonal({
           <div className="flex items-center">
             <Image src={phone} width={40} height={40} alt="telefono" />
             <span className="text-base text-custon-gray">
-              {personalProfile.phone ?? "-"}
+              {clientProfile.phone ?? "-"}
             </span>
           </div>
           <div className="flex items-center">
             <Image src={email} width={40} height={40} alt="telefono" />
             <span className="text-base text-custon-gray">
-              {personalProfile.email ?? "-"}
+              {clientProfile.email ?? "-"}
             </span>
           </div>
         </div>
@@ -78,20 +101,9 @@ export default async function PerfilPersonal({
         </div>
         <div className="w-1/5 flex flex-col gap-2 items-center"></div>
       </div>
-
-      <div className="flex justify-end pt-8 pb-8">
-        <Link href="#">
-          <CreateButton
-            title="Asignar proyecto"
-            iconSize={14}
-            bgcolor="#0E436B"
-          />
-        </Link>
-      </div>
-
-      <div className={`h-[600px] overflow-y-auto`}>
+      <div className={`h-[600px] overflow-y-auto mt-10`}>
         <BaseTableCard>
-          <PersonalProyectTable proyectData={personalProfile.data} />
+          <ClientProyectTable proyectData={clientProfile.data} />
         </BaseTableCard>
       </div>
     </div>

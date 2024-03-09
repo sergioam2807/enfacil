@@ -7,40 +7,39 @@ import ActionButtons from "../actionTable/ActionButtons";
 import TableHead from "../../common/TableHead";
 import TableCell from "../../common/TableCell";
 import ChipStatus from "../../chip/ChipStatus";
+import { getProyectsData } from "@/app/api/data";
 
-interface Client {
+interface Proyect {
   id: string;
-  name: string;
-  address: string;
-  taxId: string;
-  fcreacion: string;
+  proyect: string;
+  fIngreso: string;
+  fTermino: string;
   state: string;
-  phone: string;
-  email: string;
 }
 
-interface clientProps {
-  clientData: Client[];
+interface proyectProps {
+  proyectData: Proyect[];
 }
 
-const ClientTable = ({ clientData }: clientProps) => {
+const PersonalProyectTable = async ({ proyectData }: proyectProps) => {
+  // const proyectData = await getProyectsData();
+
   return (
     <table className="w-full table-auto">
       <thead>
         <tr className="text-[#0E436B] font-semibold text-sm">
-          <th className="text-left pb-8 pt-5"></th>
-          <TableHead>Cliente</TableHead>
-          <TableHead>Rut</TableHead>
-          <TableHead>F.Creación</TableHead>
+          <th></th>
+          <TableHead>Proyecto</TableHead>
+          <TableHead>F.inicio Proyecto</TableHead>
+          <TableHead>F.término Proyecto</TableHead>
           <TableHead>Estado</TableHead>
-          <TableHead>Contacto</TableHead>
           <TableHead>Acciones</TableHead>
         </tr>
       </thead>
       <tbody>
-        {clientData.map((row: Client) => (
+        {proyectData?.map((row: Proyect) => (
           <tr
-            key={row.id}
+            key={row?.id}
             className="text-[#797979] font-medium text-sm border-t border-[#EAEAEA]"
           >
             <td className="text-left text-base pl-10 py-2">
@@ -53,28 +52,16 @@ const ClientTable = ({ clientData }: clientProps) => {
                 />
               </div>
             </td>
-            <TableCell>
-              <div>
-                <div>{row.name ?? "-"}</div>
-                <div>{row.address ?? "-"}</div>
-              </div>
-            </TableCell>
-            <TableCell>{row.taxId}</TableCell>
-            <TableCell>{row.fcreacion ?? "-"}</TableCell>
+            <TableCell>{row.proyect ?? "-"}</TableCell>
+            <TableCell>{row.fIngreso ?? "-"}</TableCell>
+            <TableCell>{row.fTermino ?? "-"}</TableCell>
             <TableCell>
               <ChipStatus status={row.state ?? "Activo"}>
                 {row.state ?? "Activo"}
               </ChipStatus>
             </TableCell>
-            {/* <TableCell>{row.specialty ?? "-"}</TableCell> */}
-            <TableCell>
-              <div>
-                <div>{row.email}</div>
-                <div>{row.phone}</div>
-              </div>
-            </TableCell>
             <td className="text-left text-base">
-              <ActionButtons id={row.id} path="clientes" />
+              <ActionButtons id={row?.id} path="/detalle-proyecto" />
             </td>
           </tr>
         ))}
@@ -83,4 +70,23 @@ const ClientTable = ({ clientData }: clientProps) => {
   );
 };
 
-export default ClientTable;
+// export async function getServerSideProps() {
+//   try {
+//     const proyectData = await getProyectsData();
+
+//     return {
+//       props: {
+//         proyectData,
+//       },
+//     };
+//   } catch (error) {
+//     console.error(error);
+//     return {
+//       props: {
+//         proyectData: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
+//       },
+//     };
+//   }
+// }
+
+export default PersonalProyectTable;
