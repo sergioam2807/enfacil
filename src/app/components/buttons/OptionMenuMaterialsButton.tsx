@@ -4,10 +4,10 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import editwhite from "../../../../public/images/edit.svg";
 import trash from "../../../../public/images/trash.svg";
-
+import view from "../../../../public/images/viewgray.svg";
 // TODO: RECIBIR EL ID Y REDIRECCIONAR SEGUN ID A LA PAGINA DE EDICION
 
-const OptionMenuButton = () => {
+const OptionMenuMaterialsButton = () => {
   const [isOpen, setIsOpen] = useState(false);
   const ref = useRef<HTMLDivElement | null>(null);
 
@@ -62,6 +62,14 @@ const OptionMenuButton = () => {
           >
             <a
               href="#"
+              className="flex gap-2 mr-2 items-center  py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+              role="menuitem"
+            >
+              <Image src={view} alt="Eliminar" width={15} height={15} />
+              <span>Detalles</span>
+            </a>
+            <a
+              href="#"
               className="flex gap-3 mr-2 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 w-fit"
               role="menuitem"
             >
@@ -83,4 +91,4 @@ const OptionMenuButton = () => {
   );
 };
 
-export default OptionMenuButton;
+export default OptionMenuMaterialsButton;

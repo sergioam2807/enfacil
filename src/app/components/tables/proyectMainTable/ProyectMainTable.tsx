@@ -1,9 +1,8 @@
 import React from "react";
 import TableHead from "../../common/TableHead";
-import Image from "next/image";
 import TableCell from "../../common/TableCell";
 import ChipStatus from "../../chip/ChipStatus";
-import ActionButtons from "../actionTable/ActionButtons";
+
 import OptionMenuButton from "../../buttons/OptionMenuButton";
 
 interface Proyect {
