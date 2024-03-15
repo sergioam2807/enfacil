@@ -46,7 +46,7 @@ export default async function Materiales({ searchParams }: SearchParamProps) {
       </div>
       <div className={`h-[600px] overflow-y-auto`}>
         <BaseTableCard>
-          <TableMaterial clientData={clientData.data} />
+          <TableMaterial />
         </BaseTableCard>
         {/* </CustomScrollbar> */}
       </div>
