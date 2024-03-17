@@ -4,27 +4,33 @@ import TableCell from "../../common/TableCell";
 import AdvanceBar from "../table/AdvanceBar";
 
 interface Proyect {
-  id: string;
+  id: number;
   place: string;
   activity: string;
   progress: string;
 }
-const ProyectDetailsTable = () => {
-  const proyectData: Proyect[] = [
+
+interface ProyectDetailsTableProps {
+  proyectData: Proyect[];
+}
+const ProyectDetailsTable: React.FC<ProyectDetailsTableProps> = ({
+  proyectData,
+}) => {
+  const proyectData1: Proyect[] = [
     {
-      id: "1",
+      id: 1,
       place: "Recinto 1",
       activity: "Actividad 1",
       progress: "50",
     },
     {
-      id: "2",
+      id: 2,
       place: "Recinto 2",
       activity: "Actividad 2",
       progress: "30",
     },
     {
-      id: "3",
+      id: 3,
       place: "Recinto 3",
       activity: "Actividad 3",
       progress: "80",
@@ -44,7 +50,7 @@ const ProyectDetailsTable = () => {
         </tr>
       </thead>
       <tbody>
-        {proyectData?.map((row: Proyect) => (
+        {proyectData1?.map((row: Proyect) => (
           <tr
             key={row?.id}
             className="text-[#797979] font-medium text-sm border-t border-[#EAEAEA]"

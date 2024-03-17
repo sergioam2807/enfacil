@@ -34,8 +34,8 @@ export default function Home() {
         <Image src={logo} alt="login" width={430} height={340} />
       </div>
 
-      <div className="flex-grow w-1/2 flex justify-center items-center ">
-        <div className="flex flex-col justify-center items-center h-full">
+      <div className="flex-grow w-1/2 flex justify-center items-center bg-[#EFF4FC] ">
+        <div className="flex flex-col justify-center items-center shadow-lg p-10 rounded-xl bg-custom-blue bg-opacity-20">
           <InputLogin
             type="text"
             placeholder="Usuario"

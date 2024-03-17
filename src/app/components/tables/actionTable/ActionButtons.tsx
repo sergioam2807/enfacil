@@ -8,7 +8,7 @@ import Link from "next/link";
 import { deletePersonalData, deleteUserData } from "@/app/api/data";
 import { useRouter } from "next/navigation";
 interface ActionButtonsProps {
-  id: string | number;
+  id: number | string;
   path: string;
 }
 const ActionButtons = ({ id, path }: ActionButtonsProps) => {
@@ -39,7 +39,7 @@ const ActionButtons = ({ id, path }: ActionButtonsProps) => {
         <Image src={edit} alt="Edit Icon" width={20} height={20} />
       </Link>
 
-      <button onClick={() => handleDelete(id)}>
+      <button onClick={() => handleDelete(id.toString())}>
         <Image src={trash} alt="Delete Icon" width={20} height={20} />
       </button>
     </div>

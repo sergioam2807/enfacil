@@ -27,7 +27,9 @@ export default async function PerfilClient({
         data: [
           {
             id: "1",
-            project: "Project 1",
+            proyect: "Project 1",
+            type: "Some type", // Añade esta propiedad
+            advance: "Some advance", // Añade esta propiedad
             fIngreso: "2022-01-01",
             fTermino: "2022-12-31",
             state: "Activo",
@@ -38,7 +40,6 @@ export default async function PerfilClient({
       // ... más clientes ...
     ],
   };
-
   const clientProfile = clientData.data.find(
     (client: any) => client.id === Number(params.id)
   );

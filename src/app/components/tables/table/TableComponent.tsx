@@ -141,7 +141,13 @@ const TableComponent = () => {
             className="text-[#797979] font-medium text-sm border-t border-[#EAEAEA]"
           >
             {/* FIX THE RENDER PROPS */}
-            <TableCell>{row.proyecto}</TableCell>
+            <TableCell>
+              {row.proyecto.map((proyecto) => (
+                <div key={proyecto.id}>
+                  {proyecto.proyectName} - {proyecto.region} - {proyecto.codigo}
+                </div>
+              ))}
+            </TableCell>
             <TableCell>{row.cliente}</TableCell>
             <TableCell>
               <AdvanceBar avance={row.avance} />
