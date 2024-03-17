@@ -20,6 +20,11 @@ const config: Config = {
         "custon-gray": "#6F6F6F",
       },
       scrollbar: ["rounded", "dark"],
+      variants: {
+        extend: {
+          textColor: ["placeholder"],
+        },
+      },
     },
   },
   plugins: [require("tailwind-scrollbar")],

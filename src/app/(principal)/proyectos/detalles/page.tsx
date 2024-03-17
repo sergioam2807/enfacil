@@ -29,17 +29,17 @@ export default function ProyectDetails({ searchParams }: SearchParamProps) {
     data: [
       {
         id: 1,
-        name: "Tarea 1",
-        status: "Activo",
-        // Agrega más campos según sea necesario
+        place: "Place 1",
+        activity: "Tarea 1",
+        progress: "50",
       },
       {
         id: 2,
-        name: "Tarea 2",
-        status: "Inactivo",
-        // Agrega más campos según sea necesario
+        place: "Place 2",
+        activity: "Tarea 2",
+        progress: "30",
       },
-      // Agrega más objetos de tarea según sea necesario
+      // Add more project objects as needed
     ],
   };
 

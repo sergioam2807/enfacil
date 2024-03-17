@@ -41,7 +41,7 @@ const ProyectMainTable = () => {
           <TableHead>F.contractual término</TableHead>
           <TableHead>Estado</TableHead>
           <TableHead>Acciones</TableHead>
-          <th></th>
+          <th>&nbsp;</th>
         </tr>
       </thead>
       <tbody>

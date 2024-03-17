@@ -12,54 +12,41 @@ import ModalCotizacion from "@/app/components/modal/ModalCotizacion";
 type SearchParamProps = {
   searchParams: Record<string, string> | null | undefined;
 };
-export default function Cotizaciones({ searchParams }: SearchParamProps) {
+export default function CotizacionDetalle({ searchParams }: SearchParamProps) {
   const show = searchParams?.show;
 
   return (
     <div className="pr-5 pb-5">
       <div>
         <TitleComponent titleName={"Cotización"} />
-        <div className="text-[#0E436B] font-semibold text-xl mb-7">
-          Cliente: Cliente Name
+        <div className="flex items-center justify-between">
+          <div className="text-[#0E436B] font-semibold text-xl mb-7">
+            Cliente: Cliente Name
+          </div>
+          <div className="flex justify-between items-center pb-7">
+            <div className="flex gap-4">
+              <div>
+                <Link
+                  href="/cotizaciones/detalle?show=true"
+                  className={`text-sm font-medium bg-custom-blue text-[#FFFFFF]  rounded-md px-3 py-3 mx-4 flex items-center flex-grow`}
+                >
+                  <Image
+                    src={pencil}
+                    alt="edit"
+                    width={23}
+                    height={23}
+                    className="mr-2"
+                  />
+                  Convertir a proyecto
+                </Link>
+                {show && <ModalCotizacion />}
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-      <div className="flex justify-between items-center pb-7">
-        <div>
-          <Search color="#FFFFFF" />
-        </div>
-        <div className="flex gap-4">
-          {/* <div>
-            <Link
-              href="/cotizaciones?show=true"
-              className={`text-sm font-medium bg-[#868686] text-[#FFFFFF]  rounded-md px-3 py-3 mx-4 flex items-center flex-grow`}
-            >
-              <Image
-                src={pencil}
-                alt="edit"
-                width={23}
-                height={23}
-                className="mr-2"
-              />
-              Convertir a proyectos
-            </Link>
-            {show && <ModalCotizacion />}
-          </div> */}
-        </div>
-      </div>
-      <div className={`h-[300px] overflow-y-auto`}>
-        <BaseTableCard>
-          <TableCotizacion />
-        </BaseTableCard>
       </div>
 
-      <div className="flex justify-between items-center">
-        <TitleComponent titleName={"Cotización actual"} />
-        <div className="flex text-[#797979] bg-white px-4 py-2 font-semibold items-center text-md gap-2">
-          <input type="checkbox" className="border-[#49454F]" />
-          Aplicar a todos
-        </div>
-      </div>
-      <div className={`h-[300px] overflow-y-auto`}>
+      <div className={`h-[600px] overflow-y-auto`}>
         <BaseTableCard>
           <TableCotizacionActual />
         </BaseTableCard>
@@ -97,8 +84,9 @@ export default function Cotizaciones({ searchParams }: SearchParamProps) {
           </div>
         </div>
         <div className="w-full flex justify-end py-6">
-          <button className="bg-custom-blue p-3 flex rounded-md text-white h-fit">
-            Finalizar cotización
+          <button className="bg-custom-blue p-3 flex rounded-md text-white h-fit gap-1">
+            <Image src={download} alt="edit" width={23} height={23} />
+            Descargar PDF
           </button>
         </div>
       </div>

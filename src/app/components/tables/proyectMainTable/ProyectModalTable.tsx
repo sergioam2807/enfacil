@@ -58,8 +58,7 @@ const ProyectModalTable = () => {
           <th className="text-left pb-8 pt-5 pl-10">Actividad</th>
           <TableHead>Avance</TableHead>
           <TableHead>Encargado</TableHead>
-
-          <th></th>
+          <th>&nbsp;</th>
         </tr>
       </thead>
       <tbody>

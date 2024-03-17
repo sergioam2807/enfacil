@@ -28,7 +28,7 @@ const PersonalProyectTable = async ({ proyectData }: proyectProps) => {
     <table className="w-full table-auto">
       <thead>
         <tr className="text-[#0E436B] font-semibold text-sm">
-          <th></th>
+          <th>&nbsp;</th>
           <TableHead>Proyecto</TableHead>
           <TableHead>F.inicio Proyecto</TableHead>
           <TableHead>F.término Proyecto</TableHead>
