@@ -45,8 +45,7 @@ const ProyectDetailsTable: React.FC<ProyectDetailsTableProps> = ({
           <th className="text-left pb-8 pt-5 pl-10">Recinto</th>
           <TableHead>Actividad</TableHead>
           <TableHead>Avance</TableHead>
-
-          <th></th>
+          <th>&nbsp;</th>
         </tr>
       </thead>
       <tbody>

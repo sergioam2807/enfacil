@@ -58,7 +58,7 @@ const TableMaterial = () => {
           <TableHead>U.Medida</TableHead>
           <TableHead>Precio U.Neto</TableHead>
           <TableHead>Precio Total Neto</TableHead>
-          <th></th>
+          <th>&nbsp;</th>
         </tr>
       </thead>
       <tbody>
