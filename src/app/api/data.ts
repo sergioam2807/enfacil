@@ -1,6 +1,9 @@
-const token =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiIiwiZW1haWwiOiJhZG1pbkBhZG1pbi5jbCIsIlN1cGVyQWRtaW4iOiJUcnVlIiwiZXhwIjoxNzA5OTg3NjI1fQ.8Ty9Ngt5GVKWvQi0ELzxJMfyykidJm34BZL819Y8c10";
+import { cookies } from "next/headers";
+
 export async function getUserData() {
+  const cookieStore = cookies();
+  const token = cookieStore.get("token")?.value;
+
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/UserApi/GetUsers`,
     {
@@ -18,14 +21,19 @@ export async function getUserData() {
 }
 
 export async function createUserData(data: any) {
-  const res = await fetch(`http://64.176.3.190:8080/api/UserApi/InsertUser`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify(data),
-  });
+  const cookieStore = cookies();
+  const token = cookieStore.get("token")?.value;
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/UserApi/InsertUser`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(data),
+    }
+  );
 
   if (!res.ok) {
     throw new Error("Failed to create user");
@@ -35,9 +43,11 @@ export async function createUserData(data: any) {
 }
 
 export async function deleteUserData(id: string, apiEndpoint: string) {
+  const cookieStore = cookies();
+  const token = cookieStore.get("token")?.value;
   const res = await fetch(
-    // `${process.env.NEXT_PUBLIC_BASE_URL}/UserApi/DeleteUser?id=${id}`,
-    `http://64.176.3.190:8080/api/${apiEndpoint}?id=${id}`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/UserApi/DeleteUser?id=${id}`,
+    // `http://64.176.3.190:8080/api/${apiEndpoint}?id=${id}`,
     {
       method: "DELETE",
       headers: {
@@ -57,7 +67,11 @@ export async function deleteUserData(id: string, apiEndpoint: string) {
 }
 
 export async function getPersonalData() {
+  const cookieStore = cookies();
+  const token = cookieStore.get("token")?.value;
+
   const res = await fetch(
+    // "http://192.168.0.6:7194/api/PersonnelApi/GetPersonnel",
     `${process.env.NEXT_PUBLIC_BASE_URL}/PersonnelApi/GetPersonnel`,
     {
       headers: {
@@ -67,6 +81,8 @@ export async function getPersonalData() {
   );
 
   if (!res.ok) {
+    console.error("Error status:", res.status);
+    console.error("Error text:", await res.text());
     throw new Error("Failed to fetch data");
   }
 
@@ -74,9 +90,11 @@ export async function getPersonalData() {
 }
 
 export async function deletePersonalData(id: string) {
+  const cookieStore = cookies();
+  const token = cookieStore.get("token")?.value;
   const res = await fetch(
-    // `${process.env.NEXT_PUBLIC_BASE_URL}/UserApi/DeleteUser?id=${id}`,
-    `http://64.176.3.190:8080/api/UserApi/DeleteUser?id=${id}`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/UserApi/DeleteUser?id=${id}`,
+    // `http://64.176.3.190:8080/api/UserApi/DeleteUser?id=${id}`,
     {
       method: "DELETE",
       headers: {
@@ -96,6 +114,8 @@ export async function deletePersonalData(id: string) {
 }
 
 export async function getClientData() {
+  const cookieStore = cookies();
+  const token = cookieStore.get("token")?.value;
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/ClientApi/GetClients`,
     {
@@ -113,6 +133,8 @@ export async function getClientData() {
 }
 
 export async function getProyectsData() {
+  const cookieStore = cookies();
+  const token = cookieStore.get("token")?.value;
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/ProjectApi/GetProjects`,
     {

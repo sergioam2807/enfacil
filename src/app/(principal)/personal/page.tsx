@@ -1,5 +1,4 @@
 import { getPersonalData } from "@/app/api/data";
-
 import { CreateButton } from "@/app/components/common/CreateButton";
 import Search from "@/app/components/common/Search";
 import TitleComponent from "@/app/components/common/TitleComponent";

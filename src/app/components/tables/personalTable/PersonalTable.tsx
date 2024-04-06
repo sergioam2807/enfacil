@@ -34,6 +34,8 @@ interface personalDataProps {
 }
 
 const PersonalTable = ({ personalData }: userProps) => {
+  console.log(personalData);
+
   return (
     <table className="w-full table-auto">
       <thead>

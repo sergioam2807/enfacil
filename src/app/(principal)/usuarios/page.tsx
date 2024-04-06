@@ -6,7 +6,6 @@ import { FilterDropdown } from "@/app/components/filter/FilterDropdown";
 import Modal from "@/app/components/modal/Modal";
 import ActionTableComponent from "@/app/components/tables/actionTable/ActionTable";
 import BaseTableCard from "@/app/components/tables/table/BaseTableCard";
-
 import Link from "next/link";
 
 type SearchParamProps = {
