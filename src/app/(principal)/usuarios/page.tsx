@@ -1,4 +1,3 @@
-import { getUserData } from "@/app/api/data";
 import { CreateButton } from "@/app/components/common/CreateButton";
 import Search from "@/app/components/common/Search";
 import TitleComponent from "@/app/components/common/TitleComponent";
@@ -8,13 +7,27 @@ import ActionTableComponent from "@/app/components/tables/actionTable/ActionTabl
 import BaseTableCard from "@/app/components/tables/table/BaseTableCard";
 import Link from "next/link";
 import { Suspense } from "react";
+import SkeletonTable from "@/app/components/skeleton/SkeletonTable";
+import { getUserData } from "@/app/api/data";
 
 type SearchParamProps = {
   searchParams: Record<string, string> | null | undefined;
 };
 
 export default async function Usuarios({ searchParams }: SearchParamProps) {
+  const usersData = await getUserData();
   const show = searchParams?.show;
+  const search = searchParams?.search || "";
+
+  let filteredData;
+  if (search) {
+    filteredData = usersData.data.filter((user) =>
+      user.name.toLowerCase().includes(search.toLowerCase())
+    );
+  } else {
+    filteredData = usersData;
+  }
+
   return (
     <div className="pr-5 pb-5">
       <div>
@@ -41,11 +54,12 @@ export default async function Usuarios({ searchParams }: SearchParamProps) {
         </div>
       </div>
       <div className={`h-[600px] overflow-y-auto`}>
-        <BaseTableCard>
-          <Suspense fallback={<div>Loading...</div>}>
-            <ActionTableComponent />
-          </Suspense>
-        </BaseTableCard>
+        <Suspense fallback={<SkeletonTable />}>
+          <BaseTableCard>
+            <ActionTableComponent searchData={filteredData} />
+          </BaseTableCard>
+        </Suspense>
+
         {/* </CustomScrollbar> */}
       </div>
     </div>

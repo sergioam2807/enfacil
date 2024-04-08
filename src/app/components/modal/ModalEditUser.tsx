@@ -36,8 +36,6 @@ const ModalEditUser = ({ handleCloseEdit, userData }: ModalEditUserProps) => {
   );
   const token = localStorage.getItem("token");
 
-  console.log(editUser);
-
   useEffect(() => {
     setEditUser(userData as User);
   }, [userData]);

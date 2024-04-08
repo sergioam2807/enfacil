@@ -23,9 +23,10 @@ const ActionButtons = ({ id }: ActionButtonsProps) => {
   const [editUser, setEditUser] = useState<User | null>(initialUserState);
   const [isUserDataLoaded, setIsUserDataLoaded] = useState(false);
   const router = useRouter();
-  const token = localStorage.getItem("token");
 
   const fetchUserData = async () => {
+    const token = localStorage.getItem("token");
+
     try {
       const userData = await getUserByIdData(id.toString(), token || "");
       if (userData.data && typeof userData.data === "object") {
@@ -49,8 +50,8 @@ const ActionButtons = ({ id }: ActionButtonsProps) => {
   }
 
   async function handleDelete(id: string) {
+    const token = localStorage.getItem("token");
     try {
-      console.log(id);
       const data = await deleteUserData(id.toString(), token || "");
       console.log("Deleted successfully", data);
       router.refresh();

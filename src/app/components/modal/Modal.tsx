@@ -18,8 +18,6 @@ const Modal = () => {
     job: "",
   });
 
-  console.log(createUser);
-
   const token = localStorage.getItem("token");
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -45,7 +43,6 @@ const Modal = () => {
 
   const handleCreateUser = async () => {
     try {
-      console.log(createUser);
       await createUserData(createUser, token || "");
       router.push("/usuarios");
       router.refresh();

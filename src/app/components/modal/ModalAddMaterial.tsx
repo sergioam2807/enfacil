@@ -18,7 +18,6 @@ const ModalAddMaterial = () => {
       ...createUser,
       [event.target.name]: event.target.value,
     });
-    console.log(event.target.value);
   };
 
   const handleCreateUser = async () => {

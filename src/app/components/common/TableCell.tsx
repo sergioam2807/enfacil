@@ -1,8 +1,17 @@
 import { capitalizeFirstLetter } from "@/helpers/capitaliizeFirstLetter";
 import React from "react";
 
-const TableCell = ({ children }: { children: React.ReactNode }) => (
-  <td className="text-left  text-sm font-normal">
+interface TableCellProps {
+  children: React.ReactNode;
+  clickable?: boolean;
+}
+
+const TableCell = ({ children, clickable }: TableCellProps) => (
+  <td
+    className={`text-left  text-sm font-normal capitalize ${
+      clickable ? "text-custom-blue font-semibold" : ""
+    }`}
+  >
     {Array.isArray(children) && typeof children[0] === "object"
       ? children.map(
           (contact: { telefono: string; email: string }, i: number) => (

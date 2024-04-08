@@ -21,7 +21,6 @@ export async function getUserData(id?: string) {
 }
 
 export async function getUserByIdData(id?: string, token?: string) {
-  console.log("id", id, "token", token);
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/UserApi/GetUsers?id=${id}`,
     {
@@ -37,6 +36,7 @@ export async function getUserByIdData(id?: string, token?: string) {
 
   return res.json();
 }
+
 export async function createUserData(data: any, token: string) {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/UserApi/InsertUser`,
@@ -89,7 +89,6 @@ export async function editUserData(id: string, data: any, token: string) {
   return res.json();
 }
 export async function deleteUserData(id: string, token: string) {
-  console.log(token);
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/UserApi/DeleteUser?id=${id}`,
     {

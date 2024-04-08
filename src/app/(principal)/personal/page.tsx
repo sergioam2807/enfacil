@@ -4,10 +4,12 @@ import Search from "@/app/components/common/Search";
 import TitleComponent from "@/app/components/common/TitleComponent";
 import { FilterDropdown } from "@/app/components/filter/FilterDropdown";
 import Modal from "@/app/components/modal/Modal";
+import SkeletonTable from "@/app/components/skeleton/SkeletonTable";
 import PersonalTable from "@/app/components/tables/personalTable/PersonalTable";
 import BaseTableCard from "@/app/components/tables/table/BaseTableCard";
 
 import Link from "next/link";
+import { Suspense } from "react";
 
 type SearchParamProps = {
   searchParams: Record<string, string> | null | undefined;
@@ -43,10 +45,11 @@ export default async function Personal({ searchParams }: SearchParamProps) {
         </div>
       </div>
       <div className={`h-[600px] overflow-y-auto`}>
-        <BaseTableCard>
-          <PersonalTable personalData={personalData.data} />
-        </BaseTableCard>
-        {/* </CustomScrollbar> */}
+        <Suspense fallback={<SkeletonTable />}>
+          <BaseTableCard>
+            <PersonalTable personalData={personalData.data} />
+          </BaseTableCard>
+        </Suspense>
       </div>
     </div>
   );

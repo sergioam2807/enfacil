@@ -2,7 +2,7 @@ import { NextResponse, NextRequest } from "next/server";
 
 export async function POST(req: NextRequest) {
   const { email, password } = await req.json();
-  console.log(email, password);
+
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/Login/Authenticate`,
     {

@@ -7,6 +7,7 @@ import ActionButtons from "../actionTable/ActionButtons";
 import TableHead from "../../common/TableHead";
 import TableCell from "../../common/TableCell";
 import ChipStatus from "../../chip/ChipStatus";
+import Link from "next/link";
 
 interface Personal {
   id: string;
@@ -66,7 +67,9 @@ const PersonalTable = ({ personalData }: userProps) => {
                 />
               </div>
             </td>
-            <TableCell>{row.name ?? "-"}</TableCell>
+            <TableCell clickable={true}>
+              <Link href={`/personal/${row.id}`}>{row.name ?? "-"}</Link>
+            </TableCell>
             <TableCell>No data</TableCell>
             <TableCell>{row.specialty ?? "-"}</TableCell>
             <TableCell>{row.fIngreso ?? "-"}</TableCell>
