@@ -1,54 +1,74 @@
 "use client";
-import Link from "next/link";
-import React, { useState } from "react";
+
+import React, { useEffect, useState } from "react";
 import InputComponent from "../input/InputComponent";
 import BasicButtonComponent from "../buttons/BasicButtonComponent";
-import { createUserData } from "@/app/api/data";
+import { editUserData } from "@/app/api/data";
 import { useRouter } from "next/navigation";
 
-const Modal = () => {
+export interface User {
+  id: number;
+  name: string;
+  job: string;
+  superAdmin: boolean;
+  vigency: boolean;
+  phone: number;
+  email: string;
+}
+
+interface ModalEditUserProps {
+  handleCloseEdit: () => void;
+  userData?: User;
+}
+
+const ModalEditUser = ({ handleCloseEdit, userData }: ModalEditUserProps) => {
   const router = useRouter();
-  const [createUser, setCreateUser] = useState({
-    name: "",
-    created: "2024-04-06T15:51:34.094Z",
-    superAdmin: false,
-    vigency: false,
-    phone: "",
-    email: "",
-    job: "",
-  });
-
-  console.log(createUser);
-
+  const [editUser, setEditUser] = useState<User>(
+    userData || {
+      id: 0,
+      name: "",
+      job: "",
+      superAdmin: false,
+      vigency: false,
+      phone: 0,
+      email: "",
+    }
+  );
   const token = localStorage.getItem("token");
 
+  console.log(editUser);
+
+  useEffect(() => {
+    setEditUser(userData as User);
+  }, [userData]);
+
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setCreateUser({
-      ...createUser,
+    setEditUser({
+      ...editUser,
       [event.target.name]: event.target.value,
     });
   };
 
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setCreateUser({
-      ...createUser,
+    setEditUser({
+      ...editUser,
       [event.target.name]: event.target.checked,
     });
   };
 
   const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setCreateUser({
-      ...createUser,
+    setEditUser({
+      ...editUser,
       [event.target.name]: event.target.value === "activo",
     });
   };
 
-  const handleCreateUser = async () => {
+  const handleEditUser = async () => {
     try {
-      console.log(createUser);
-      await createUserData(createUser, token || "");
+      await editUserData(editUser?.id?.toString(), editUser, token || "");
       router.push("/usuarios");
       router.refresh();
+      handleCloseEdit();
     } catch (error) {
       console.error("Failed to create user", error);
     }
@@ -60,7 +80,7 @@ const Modal = () => {
         <div className="text-center p-4">
           <div className="flex justify-start">
             <h3 className="text-xl font-semibold text-[#000E41]">
-              Crea un nuevo usuario
+              Editar usuario {editUser?.id}
             </h3>
           </div>
           <div className="w-full">
@@ -69,10 +89,10 @@ const Modal = () => {
               name="name"
               placeholder="Nombre de usuario"
               onChange={handleInputChange}
-              value={createUser.name}
+              value={editUser?.name}
             />
           </div>
-          <div className="flex items-center justify-between gap-5">
+          <div className="flex items-center  gap-5">
             {/* <div>
               <InputComponent name="Fecha ingreso" placeholder="Fecha" />
             </div> */}
@@ -82,77 +102,86 @@ const Modal = () => {
                 name="job"
                 placeholder="Cargo"
                 onChange={handleInputChange}
-                value={createUser.job}
+                value={editUser?.job}
               />
             </div>
-          </div>
-          <div className="flex items-center justify-between gap-5">
-            <div>
-              <div>
-                <div className="flex justify-start">
-                  <span className="text-sm text-[#000E41]">
-                    Tipo de Usuario
-                  </span>
-                </div>
-                <input
-                  type="checkbox"
-                  name="superAdmin"
-                  checked={createUser.superAdmin}
-                  onChange={handleCheckboxChange}
-                />
-              </div>
-            </div>
-            <div>
+
+            <div className="flex-col justify-start">
               <div className="flex justify-start">
-                <span className="text-sm text-[#000E41]">Estado</span>
+                <span className="text-sm text-[#000E41]">Tipo de Usuario</span>
               </div>
-              <select
-                name="vigency"
-                value={createUser.vigency ? "activo" : "inactivo"}
-                onChange={handleSelectChange}
-              >
-                <option value="activo">Activo</option>
-                <option value="inactivo">Inactivo</option>
-              </select>
+              <div className="mt-4">
+                <div className="flex gap-3">
+                  <span className="text-sm  text-[#000E41]">Administrador</span>
+
+                  <input
+                    type="checkbox"
+                    name="superAdmin"
+                    checked={editUser?.superAdmin}
+                    onChange={handleCheckboxChange}
+                  />
+                </div>
+              </div>
             </div>
           </div>
-          <div className="flex items-center justify-between gap-5">
+
+          <div className="flex items-center gap-5">
             <div>
               <InputComponent
                 nameVizualization="Teléfono"
                 name="phone"
                 placeholder="+569 87592653"
                 onChange={handleInputChange}
-                value={createUser.phone.toString()}
+                value={editUser?.phone.toString()}
               />
             </div>
-            <div>
-              <InputComponent
-                nameVizualization="Correo"
-                name="email"
-                placeholder="joseretamal@gmail.com"
-                onChange={handleInputChange}
-                value={createUser.email}
-              />
+            <div className="flex flex-col mt-4">
+              <div className="flex justify-start">
+                <span className="text-sm text-[#000E41]">Estado</span>
+              </div>
+
+              <select
+                name="vigency"
+                value={editUser?.vigency ? "activo" : "inactivo"}
+                onChange={handleSelectChange}
+                className="w-full mt-1 py-3 pl-2 text-sm font-medium border rounded-md focus:outline-none focus:border-[#EFF4FC]"
+              >
+                <option
+                  value="activo"
+                  style={{ fontSize: "14px", padding: "12px 8px" }}
+                >
+                  Activo
+                </option>
+                <option value="inactivo">Inactivo</option>
+              </select>
             </div>
+          </div>
+          <div>
+            <InputComponent
+              nameVizualization="Correo"
+              name="email"
+              placeholder="joseretamal@gmail.com"
+              onChange={handleInputChange}
+              value={editUser?.email}
+            />
           </div>
           <div className="flex justify-end items-center gap-6 pt-5">
             <div className="flex justify-end mt-4">
-              <Link
-                href="/usuarios"
+              <button
+                onClick={handleCloseEdit}
                 style={{ borderColor: "#0E436B", color: "#0E436B" }}
                 className="py-3 px-8 rounded-lg text-custom-blue text-sm font-semibold shadow-sm shadow-custom-blue border-custom-blue focus:outline-none focus:ring-2 focus:ring-gray-300"
               >
                 Close
-              </Link>
+              </button>
             </div>
             <div className="flex justify-end mt-4">
               <BasicButtonComponent
                 bgColor="#0E436B"
                 borderColor="#0E436B"
                 textColor="#FFFFFF"
-                text="Añadir"
-                onClick={handleCreateUser}
+                text="Editar"
+                onClick={handleEditUser}
               />
             </div>
           </div>
@@ -162,4 +191,4 @@ const Modal = () => {
   );
 };
 
-export default Modal;
+export default ModalEditUser;

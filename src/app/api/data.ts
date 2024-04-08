@@ -1,11 +1,11 @@
 import { cookies } from "next/headers";
 
-export async function getUserData() {
+export async function getUserData(id?: string) {
   const cookieStore = cookies();
   const token = cookieStore.get("token")?.value;
 
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/UserApi/GetUsers`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/UserApi/GetUsers${id ? `/${id}` : ""}`,
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -20,9 +20,24 @@ export async function getUserData() {
   return res.json();
 }
 
-export async function createUserData(data: any) {
-  const cookieStore = cookies();
-  const token = cookieStore.get("token")?.value;
+export async function getUserByIdData(id?: string, token?: string) {
+  console.log("id", id, "token", token);
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/UserApi/GetUsers?id=${id}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch data");
+  }
+
+  return res.json();
+}
+export async function createUserData(data: any, token: string) {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/UserApi/InsertUser`,
     {
@@ -36,22 +51,52 @@ export async function createUserData(data: any) {
   );
 
   if (!res.ok) {
-    throw new Error("Failed to create user");
+    let errorData = "";
+    if (res.headers.get("content-type")?.includes("application/json")) {
+      errorData = await res.json();
+    }
+    throw new Error(
+      `Failed to create user: ${res.status} ${res.statusText} ${errorData}`
+    );
   }
 
   return res.json();
 }
 
-export async function deleteUserData(id: string, apiEndpoint: string) {
-  const cookieStore = cookies();
-  const token = cookieStore.get("token")?.value;
+export async function editUserData(id: string, data: any, token: string) {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/UserApi/UpdateUser?id=${id}`,
+    {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(data),
+    }
+  );
+
+  if (!res.ok) {
+    let errorData = "";
+    if (res.headers.get("content-type")?.includes("application/json")) {
+      errorData = await res.json();
+    }
+    throw new Error(
+      `Failed to edit user: ${res.status} ${res.statusText} ${errorData}`
+    );
+  }
+
+  return res.json();
+}
+export async function deleteUserData(id: string, token: string) {
+  console.log(token);
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/UserApi/DeleteUser?id=${id}`,
-    // `http://64.176.3.190:8080/api/${apiEndpoint}?id=${id}`,
     {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
     }
   );

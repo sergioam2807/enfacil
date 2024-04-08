@@ -24,7 +24,11 @@ export default function Home() {
       },
       body: JSON.stringify({ email, password }),
     });
+    const data = await response.json();
+    const token = data.token;
+
     if (response.ok) {
+      localStorage.setItem("token", token);
       router.push("/inicio");
     } else {
       setError("*Usuario o contraseña incorrectos");

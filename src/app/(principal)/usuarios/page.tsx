@@ -7,14 +7,13 @@ import Modal from "@/app/components/modal/Modal";
 import ActionTableComponent from "@/app/components/tables/actionTable/ActionTable";
 import BaseTableCard from "@/app/components/tables/table/BaseTableCard";
 import Link from "next/link";
+import { Suspense } from "react";
 
 type SearchParamProps = {
   searchParams: Record<string, string> | null | undefined;
 };
 
 export default async function Usuarios({ searchParams }: SearchParamProps) {
-  const userData = await getUserData();
-
   const show = searchParams?.show;
   return (
     <div className="pr-5 pb-5">
@@ -43,7 +42,9 @@ export default async function Usuarios({ searchParams }: SearchParamProps) {
       </div>
       <div className={`h-[600px] overflow-y-auto`}>
         <BaseTableCard>
-          <ActionTableComponent usersData={userData.data} />
+          <Suspense fallback={<div>Loading...</div>}>
+            <ActionTableComponent />
+          </Suspense>
         </BaseTableCard>
         {/* </CustomScrollbar> */}
       </div>

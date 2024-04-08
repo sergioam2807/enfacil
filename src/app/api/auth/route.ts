@@ -20,7 +20,7 @@ export async function POST(req: NextRequest) {
   if (response.ok) {
     let responseToken = NextResponse.json({
       message: "Authentication successful",
-      token: data.token,
+      token: token,
     });
     responseToken.cookies.set("token", token);
     return responseToken;

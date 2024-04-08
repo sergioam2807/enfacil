@@ -7,11 +7,12 @@ import ActionButtons from "./ActionButtons";
 import TableHead from "@/app/components/common/TableHead";
 import TableCell from "@/app/components/common/TableCell";
 import ChipStatus from "@/app/components/chip/ChipStatus";
+import { getUserData } from "@/app/api/data";
 
 interface User {
   id: string;
   name: string;
-  cargo: string;
+  job: string;
   superAdmin: string;
   fIngreso: string;
   state: string;
@@ -28,12 +29,15 @@ interface userDataProps {
   superAdmin: boolean;
   fIngreso: string | null;
   estado: string | null;
+  job: string;
   email: string;
   phone: string;
   id: number;
 }
 
-const ActionTableComponent = ({ usersData }: userProps) => {
+const ActionTableComponent = async () => {
+  const usersData = await getUserData();
+  console.log(usersData);
   return (
     <table className="w-full table-auto">
       <thead>
@@ -49,7 +53,7 @@ const ActionTableComponent = ({ usersData }: userProps) => {
         </tr>
       </thead>
       <tbody>
-        {usersData.map((row: User) => (
+        {usersData?.data.map((row: User) => (
           <tr
             key={row.id}
             className="text-[#797979] font-medium text-sm border-t border-[#EAEAEA]"
@@ -65,7 +69,7 @@ const ActionTableComponent = ({ usersData }: userProps) => {
               </div>
             </td>
             <TableCell>{row.name ?? "-"}</TableCell>
-            <TableCell>No data</TableCell>
+            <TableCell>{row.job ?? "-"}</TableCell>
             <TableCell>
               {row.superAdmin ? "Administrador" : "Usuario"}
             </TableCell>
@@ -82,7 +86,7 @@ const ActionTableComponent = ({ usersData }: userProps) => {
               </div>
             </TableCell>
             <td className="text-left text-base">
-              <ActionButtons id={row.id} path="usuarios" />
+              <ActionButtons id={row.id} />
             </td>
           </tr>
         ))}
