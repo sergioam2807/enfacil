@@ -7,7 +7,6 @@ import ActionButtons from "../actionTable/ActionButtons";
 import TableHead from "../../common/TableHead";
 import TableCell from "../../common/TableCell";
 import ChipStatus from "../../chip/ChipStatus";
-import { getProyectsData } from "@/app/api/data";
 
 interface Proyect {
   id: string;
@@ -61,7 +60,7 @@ const PersonalProyectTable = async ({ proyectData }: proyectProps) => {
               </ChipStatus>
             </TableCell>
             <td className="text-left text-base">
-              <ActionButtons id={row?.id} path="/detalle-proyecto" />
+              <ActionButtons id={row?.id} />
             </td>
           </tr>
         ))}

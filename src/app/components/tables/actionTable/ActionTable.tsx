@@ -1,17 +1,17 @@
 import React from "react";
-
 import userIcon from "../../../../../public/images/user.svg";
-
 import Image from "next/image";
 import ActionButtons from "./ActionButtons";
 import TableHead from "@/app/components/common/TableHead";
 import TableCell from "@/app/components/common/TableCell";
 import ChipStatus from "@/app/components/chip/ChipStatus";
 
+import Link from "next/link";
+
 interface User {
   id: string;
   name: string;
-  cargo: string;
+  job: string;
   superAdmin: string;
   fIngreso: string;
   state: string;
@@ -28,12 +28,15 @@ interface userDataProps {
   superAdmin: boolean;
   fIngreso: string | null;
   estado: string | null;
+  job: string;
   email: string;
   phone: string;
   id: number;
 }
 
-const ActionTableComponent = ({ usersData }: userProps) => {
+const ActionTableComponent = async ({ searchData }: any) => {
+  const data = Array.isArray(searchData) ? searchData : searchData?.data || [];
+  console.log(searchData);
   return (
     <table className="w-full table-auto">
       <thead>
@@ -49,7 +52,7 @@ const ActionTableComponent = ({ usersData }: userProps) => {
         </tr>
       </thead>
       <tbody>
-        {usersData.map((row: User) => (
+        {data.map((row: User) => (
           <tr
             key={row.id}
             className="text-[#797979] font-medium text-sm border-t border-[#EAEAEA]"
@@ -64,8 +67,10 @@ const ActionTableComponent = ({ usersData }: userProps) => {
                 />
               </div>
             </td>
-            <TableCell>{row.name ?? "-"}</TableCell>
-            <TableCell>No data</TableCell>
+            <TableCell clickable>
+              <Link href={`/usuarios/${row.id}`}>{row.name ?? "-"}</Link>
+            </TableCell>
+            <TableCell>{row.job ?? "-"}</TableCell>
             <TableCell>
               {row.superAdmin ? "Administrador" : "Usuario"}
             </TableCell>
@@ -82,7 +87,7 @@ const ActionTableComponent = ({ usersData }: userProps) => {
               </div>
             </TableCell>
             <td className="text-left text-base">
-              <ActionButtons id={row.id} path="usuarios" />
+              <ActionButtons id={row.id} />
             </td>
           </tr>
         ))}

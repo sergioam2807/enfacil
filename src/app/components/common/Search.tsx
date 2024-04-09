@@ -1,24 +1,31 @@
 "use client";
 import Image from "next/image";
-import React, { useState } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import React from "react";
 
 interface Props {
   color?: string;
 }
 
 const Search = ({ color = "#EFF4FC" }) => {
-  const [searchValue, setSearchValue] = useState("");
-  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchValue(event.target.value);
-  };
+  const searchParams = useSearchParams();
+  const { replace } = useRouter();
+  const pathname = usePathname();
 
-  const handleSearchClick = () => {
-    console.log("Buscando:", searchValue);
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const params = new URLSearchParams(searchParams);
+
+    if (event.target.value) {
+      params.set("search", event.target.value);
+    } else {
+      params.delete("search");
+    }
+    replace(`${pathname}?${params}`);
   };
 
   return (
     <div className="min-w-96 relative">
-      <div onClick={handleSearchClick} className="cursor-pointer">
+      <div className="cursor-pointer">
         <Image
           src="/images/search.svg"
           alt="Search Icon"

@@ -1,4 +1,4 @@
-import { getClientData } from "@/app/api/data";
+import { getClientData } from "@/app/api/getUser";
 import { CreateButton } from "@/app/components/common/CreateButton";
 import Search from "@/app/components/common/Search";
 import TitleComponent from "@/app/components/common/TitleComponent";
@@ -9,6 +9,7 @@ import TableMaterial from "@/app/components/tables/materialTable/TableMaterial";
 import BaseTableCard from "@/app/components/tables/table/BaseTableCard";
 
 import Link from "next/link";
+import { Suspense } from "react";
 
 type SearchParamProps = {
   searchParams: Record<string, string> | null | undefined;
@@ -25,7 +26,9 @@ export default async function Materiales({ searchParams }: SearchParamProps) {
       </div>
       <div className="flex justify-between items-center pb-7">
         <div>
-          <Search color="#FFFFFF" />
+          <Suspense fallback={<div>Loading...</div>}>
+            <Search color="#FFFFFF" />
+          </Suspense>
         </div>
         <div className="flex gap-4">
           <div>

@@ -1,5 +1,6 @@
 import Search from "@/app/components/common/Search";
 import { Sidebar } from "../components/sidebar/Sidebar";
+import { Suspense } from "react";
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -8,7 +9,9 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
 
       <div className="flex flex-col flex-grow">
         <div className="w-full p-4 bg-[#FAFCFE] h-fit flex justify-between items-center pr-32 pl-12">
-          <Search />
+          <Suspense fallback={<div>Loading...</div>}>
+            <Search color="#FFFFFF" />
+          </Suspense>
           <div className="flex justify-center">
             <span className="font-medium">Henry</span>
           </div>

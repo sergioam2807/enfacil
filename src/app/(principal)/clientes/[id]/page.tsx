@@ -7,39 +7,17 @@ import ButtonEditProfile from "@/app/components/buttons/ButtonEditProfile";
 import ButtonInactiveProfile from "@/app/components/buttons/ButtonInactiveProfile";
 import BaseTableCard from "@/app/components/tables/table/BaseTableCard";
 import ClientProyectTable from "@/app/components/tables/clientTable/ClientProyectTable";
+
+import { formatTaxId } from "@/helpers/capitaliizeFirstLetter";
+import { getClientData } from "@/app/api/getUser";
 export default async function PerfilClient({
   params,
 }: {
   params: { id: string };
 }) {
-  // const clientData = await getClientData();
-  const clientData = {
-    data: [
-      {
-        id: 1,
-        name: "John Doe",
-        cargo: "Developer",
-        taxID: "123456789",
-        region: "North America",
-        phone: "123-456-7890",
-        email: "john.doe@example.com",
-        state: "Activo",
-        data: [
-          {
-            id: "1",
-            proyect: "Project 1",
-            type: "Some type", // Añade esta propiedad
-            advance: "Some advance", // Añade esta propiedad
-            fIngreso: "2022-01-01",
-            fTermino: "2022-12-31",
-            state: "Activo",
-          },
-          // ... más proyectos ...
-        ],
-      },
-      // ... más clientes ...
-    ],
-  };
+  const clientData = await getClientData();
+  console.log(clientData);
+
   const clientProfile = clientData.data.find(
     (client: any) => client.id === Number(params.id)
   );
@@ -65,12 +43,9 @@ export default async function PerfilClient({
           <span className="text-xl font-semibold text-custom-blue">
             {clientProfile.name ?? "-"}
           </span>
-          <span className="text-base text-custon-gray">
-            {clientProfile.cargo ?? "-"}
-          </span>
           <div className="flex flex-col mt-2">
             <span className="text-base text-custon-gray">
-              {clientProfile.taxID ?? "-"}
+              {formatTaxId(clientProfile.taxId) ?? "-"}
             </span>
             <span className="text-base text-custon-gray">
               {clientProfile.region ?? "-"}

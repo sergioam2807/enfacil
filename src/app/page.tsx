@@ -5,27 +5,32 @@ import user from "../../public/images/loginUser.svg";
 import passwordIcon from "../../public/images/loginPassword.svg";
 import InputLogin from "./components/login/InputLogin";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  // admin@admin.cl
+  // admin1234
+  const router = useRouter();
 
   const handleLogin = async () => {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/Login/Authenticate`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      }
-    );
-    console.log(response);
+    const response = await fetch("/api/auth", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, password }),
+    });
+    const data = await response.json();
+    const token = data.token;
+
     if (response.ok) {
-      // handle successful login
+      localStorage.setItem("token", token);
+      router.push("/inicio");
     } else {
-      // handle error
+      setError("*Usuario o contraseña incorrectos");
     }
   };
   return (
@@ -38,7 +43,7 @@ export default function Home() {
         <div className="flex flex-col justify-center items-center shadow-lg p-10 rounded-xl bg-custom-blue bg-opacity-20">
           <InputLogin
             type="text"
-            placeholder="Usuario"
+            placeholder={"Usuario"}
             icon={user}
             width={20}
             height={20}
@@ -60,6 +65,7 @@ export default function Home() {
           >
             Entrar
           </button>
+          {error && <div className="text-red-500">{error}</div>}
         </div>
       </div>
     </div>

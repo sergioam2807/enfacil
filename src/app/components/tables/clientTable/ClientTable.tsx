@@ -7,6 +7,7 @@ import ActionButtons from "../actionTable/ActionButtons";
 import TableHead from "../../common/TableHead";
 import TableCell from "../../common/TableCell";
 import ChipStatus from "../../chip/ChipStatus";
+import Link from "next/link";
 
 interface Client {
   id: string;
@@ -53,10 +54,12 @@ const ClientTable = ({ clientData }: clientProps) => {
                 />
               </div>
             </td>
-            <TableCell>
+            <TableCell clickable>
               <div>
-                <div>{row.name ?? "-"}</div>
-                <div>{row.address ?? "-"}</div>
+                <Link href={`/clientes/${row.id}`}>
+                  <div>{row.name ?? "-"}</div>
+                  <div>{row.address ?? "-"}</div>
+                </Link>
               </div>
             </TableCell>
             <TableCell>{row.taxId}</TableCell>
@@ -74,7 +77,7 @@ const ClientTable = ({ clientData }: clientProps) => {
               </div>
             </TableCell>
             <td className="text-left text-base">
-              <ActionButtons id={row.id} path="clientes" />
+              <ActionButtons id={row.id} />
             </td>
           </tr>
         ))}

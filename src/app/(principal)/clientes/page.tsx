@@ -1,13 +1,15 @@
-import { getClientData, getPersonalData } from "@/app/api/data";
+import { getClientData } from "@/app/api/getUser";
 import { CreateButton } from "@/app/components/common/CreateButton";
 import Search from "@/app/components/common/Search";
 import TitleComponent from "@/app/components/common/TitleComponent";
 import { FilterDropdown } from "@/app/components/filter/FilterDropdown";
 import Modal from "@/app/components/modal/Modal";
+import SkeletonTable from "@/app/components/skeleton/SkeletonTable";
 import ClientTable from "@/app/components/tables/clientTable/ClientTable";
 import BaseTableCard from "@/app/components/tables/table/BaseTableCard";
 
 import Link from "next/link";
+import { Suspense } from "react";
 
 type SearchParamProps = {
   searchParams: Record<string, string> | null | undefined;
@@ -24,7 +26,9 @@ export default async function Clientes({ searchParams }: SearchParamProps) {
       </div>
       <div className="flex justify-between items-center pb-7">
         <div>
-          <Search color="#FFFFFF" />
+          <Suspense fallback={<div>Loading...</div>}>
+            <Search color="#FFFFFF" />
+          </Suspense>
         </div>
         <div className="flex gap-4">
           <div>
@@ -43,9 +47,11 @@ export default async function Clientes({ searchParams }: SearchParamProps) {
         </div>
       </div>
       <div className={`h-[600px] overflow-y-auto`}>
-        <BaseTableCard>
-          <ClientTable clientData={clientData.data} />
-        </BaseTableCard>
+        <Suspense fallback={<SkeletonTable />}>
+          <BaseTableCard>
+            <ClientTable clientData={clientData.data} />
+          </BaseTableCard>
+        </Suspense>
         {/* </CustomScrollbar> */}
       </div>
     </div>

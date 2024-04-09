@@ -2,16 +2,23 @@ import React, { ChangeEvent } from "react";
 
 interface Props {
   name: string;
+  nameVizualization?: string;
   placeholder: string;
   value: string;
   onChange: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
-const InputComponent = ({ name, placeholder, value, onChange }: Props) => {
+const InputComponent = ({
+  name,
+  nameVizualization,
+  placeholder,
+  value,
+  onChange,
+}: Props) => {
   return (
     <div className="flex flex-col mt-4">
       <div className="flex justify-start">
-        <span className="text-sm text-[#000E41]">{name}</span>
+        <span className="text-sm text-[#000E41]">{nameVizualization}</span>
       </div>
       <input
         name={name}

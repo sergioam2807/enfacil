@@ -5,11 +5,12 @@ import phone from "../../../../../public/images/phone.svg";
 import ChipStatus from "@/app/components/chip/ChipStatus";
 import ButtonEditProfile from "@/app/components/buttons/ButtonEditProfile";
 import ButtonInactiveProfile from "@/app/components/buttons/ButtonInactiveProfile";
-import { getPersonalData } from "@/app/api/data";
 import Link from "next/link";
 import { CreateButton } from "@/app/components/common/CreateButton";
 import PersonalProyectTable from "@/app/components/tables/personalTable/PersonalProyectTable";
 import BaseTableCard from "@/app/components/tables/table/BaseTableCard";
+import { formatTaxId } from "@/helpers/capitaliizeFirstLetter";
+import { getPersonalData } from "@/app/api/getUser";
 export default async function PerfilPersonal({
   params,
 }: {
@@ -24,6 +25,8 @@ export default async function PerfilPersonal({
   if (!personalProfile) {
     return <div>Personal no encontrado</div>;
   }
+
+  console.log(personalData);
 
   return (
     <div>
@@ -43,14 +46,14 @@ export default async function PerfilPersonal({
             {personalProfile.name ?? "-"}
           </span>
           <span className="text-base text-custon-gray">
-            {personalProfile.cargo ?? "-"}
+            {personalProfile.specialty ?? "-"}
           </span>
           <div className="flex flex-col mt-2">
             <span className="text-base text-custon-gray">
-              {personalProfile.taxID ?? "-"}
+              {formatTaxId(personalProfile.taxId) ?? "-"}
             </span>
             <span className="text-base text-custon-gray">
-              {personalProfile.region ?? "-"}
+              {personalProfile.region ?? "Valparaíso"}
             </span>
           </div>
         </div>

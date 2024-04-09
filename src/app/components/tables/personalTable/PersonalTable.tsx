@@ -7,6 +7,7 @@ import ActionButtons from "../actionTable/ActionButtons";
 import TableHead from "../../common/TableHead";
 import TableCell from "../../common/TableCell";
 import ChipStatus from "../../chip/ChipStatus";
+import Link from "next/link";
 
 interface Personal {
   id: string;
@@ -34,6 +35,8 @@ interface personalDataProps {
 }
 
 const PersonalTable = ({ personalData }: userProps) => {
+  console.log(personalData);
+
   return (
     <table className="w-full table-auto">
       <thead>
@@ -64,7 +67,9 @@ const PersonalTable = ({ personalData }: userProps) => {
                 />
               </div>
             </td>
-            <TableCell>{row.name ?? "-"}</TableCell>
+            <TableCell clickable={true}>
+              <Link href={`/personal/${row.id}`}>{row.name ?? "-"}</Link>
+            </TableCell>
             <TableCell>No data</TableCell>
             <TableCell>{row.specialty ?? "-"}</TableCell>
             <TableCell>{row.fIngreso ?? "-"}</TableCell>
@@ -80,7 +85,7 @@ const PersonalTable = ({ personalData }: userProps) => {
               </div>
             </TableCell>
             <td className="text-left text-base">
-              <ActionButtons id={row.id} path="personal" />
+              <ActionButtons id={row.id} />
             </td>
           </tr>
         ))}
