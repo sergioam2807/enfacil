@@ -36,7 +36,7 @@ interface userDataProps {
 
 const ActionTableComponent = async ({ searchData }: any) => {
   const data = Array.isArray(searchData) ? searchData : searchData?.data || [];
-  console.log(searchData);
+
   return (
     <table className="w-full table-auto">
       <thead>

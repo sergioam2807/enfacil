@@ -16,7 +16,6 @@ export default async function PerfilClient({
   params: { id: string };
 }) {
   const clientData = await getClientData();
-  console.log(clientData);
 
   const clientProfile = clientData.data.find(
     (client: any) => client.id === Number(params.id)
