@@ -77,7 +77,7 @@ const ClientTable = ({ clientData }: clientProps) => {
               </div>
             </TableCell>
             <td className="text-left text-base">
-              <ActionButtons id={row.id} path="clientes" />
+              <ActionButtons id={row.id} />
             </td>
           </tr>
         ))}

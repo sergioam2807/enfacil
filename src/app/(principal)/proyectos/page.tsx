@@ -3,6 +3,7 @@ import TitleComponent from "@/app/components/common/TitleComponent";
 import { FilterDropdown } from "@/app/components/filter/FilterDropdown";
 import ProyectMainTable from "@/app/components/tables/proyectMainTable/ProyectMainTable";
 import BaseTableCard from "@/app/components/tables/table/BaseTableCard";
+import { Suspense } from "react";
 
 export default function Proyectos() {
   return (
@@ -12,7 +13,9 @@ export default function Proyectos() {
       </div>
       <div className="flex justify-between items-center pb-7">
         <div>
-          <Search color="#FFFFFF" />
+          <Suspense fallback={<div>Loading...</div>}>
+            <Search color="#FFFFFF" />
+          </Suspense>
         </div>
         <div className="flex gap-4">
           <div>

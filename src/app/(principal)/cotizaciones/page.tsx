@@ -8,6 +8,7 @@ import BaseTableCard from "@/app/components/tables/table/BaseTableCard";
 import TableCotizacion from "@/app/components/tables/cotizacionTable/TableCotizacion";
 import TableCotizacionActual from "@/app/components/tables/cotizacionTable/TableCotizacionActual";
 import ModalCotizacion from "@/app/components/modal/ModalCotizacion";
+import { Suspense } from "react";
 
 type SearchParamProps = {
   searchParams: Record<string, string> | null | undefined;
@@ -25,7 +26,9 @@ export default function Cotizaciones({ searchParams }: SearchParamProps) {
       </div>
       <div className="flex justify-between items-center pb-7">
         <div>
-          <Search color="#FFFFFF" />
+          <Suspense fallback={<div>Loading...</div>}>
+            <Search color="#FFFFFF" />
+          </Suspense>
         </div>
         <div className="flex gap-4">
           {/* <div>

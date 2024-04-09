@@ -5,7 +5,8 @@ import phone from "../../../../../public/images/phone.svg";
 import ChipStatus from "@/app/components/chip/ChipStatus";
 import ButtonEditProfile from "@/app/components/buttons/ButtonEditProfile";
 import ButtonInactiveProfile from "@/app/components/buttons/ButtonInactiveProfile";
-import { getUserData } from "@/app/api/data";
+import { getUserData } from "@/app/api/getUser";
+
 export default async function PerfilUsuario({
   params,
 }: {

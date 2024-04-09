@@ -8,7 +8,9 @@ import BaseTableCard from "@/app/components/tables/table/BaseTableCard";
 import Link from "next/link";
 import { Suspense } from "react";
 import SkeletonTable from "@/app/components/skeleton/SkeletonTable";
-import { getUserData } from "@/app/api/data";
+
+import { User } from "@/app/components/modal/ModalEditUser";
+import { getUserData } from "@/app/api/getUser";
 
 type SearchParamProps = {
   searchParams: Record<string, string> | null | undefined;
@@ -21,7 +23,7 @@ export default async function Usuarios({ searchParams }: SearchParamProps) {
 
   let filteredData;
   if (search) {
-    filteredData = usersData.data.filter((user) =>
+    filteredData = usersData.data.filter((user: User) =>
       user.name.toLowerCase().includes(search.toLowerCase())
     );
   } else {
@@ -35,7 +37,9 @@ export default async function Usuarios({ searchParams }: SearchParamProps) {
       </div>
       <div className="flex justify-between items-center pb-7">
         <div>
-          <Search color="#FFFFFF" />
+          <Suspense fallback={<div>Loading...</div>}>
+            <Search color="#FFFFFF" />
+          </Suspense>
         </div>
         <div className="flex gap-4">
           <div>

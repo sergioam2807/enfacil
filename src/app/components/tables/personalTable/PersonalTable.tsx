@@ -85,7 +85,7 @@ const PersonalTable = ({ personalData }: userProps) => {
               </div>
             </TableCell>
             <td className="text-left text-base">
-              <ActionButtons id={row.id} path="personal" />
+              <ActionButtons id={row.id} />
             </td>
           </tr>
         ))}

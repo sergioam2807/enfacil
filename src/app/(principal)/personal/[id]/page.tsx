@@ -5,12 +5,12 @@ import phone from "../../../../../public/images/phone.svg";
 import ChipStatus from "@/app/components/chip/ChipStatus";
 import ButtonEditProfile from "@/app/components/buttons/ButtonEditProfile";
 import ButtonInactiveProfile from "@/app/components/buttons/ButtonInactiveProfile";
-import { getPersonalData } from "@/app/api/data";
 import Link from "next/link";
 import { CreateButton } from "@/app/components/common/CreateButton";
 import PersonalProyectTable from "@/app/components/tables/personalTable/PersonalProyectTable";
 import BaseTableCard from "@/app/components/tables/table/BaseTableCard";
 import { formatTaxId } from "@/helpers/capitaliizeFirstLetter";
+import { getPersonalData } from "@/app/api/getUser";
 export default async function PerfilPersonal({
   params,
 }: {

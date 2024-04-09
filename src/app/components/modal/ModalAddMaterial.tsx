@@ -3,7 +3,6 @@ import Link from "next/link";
 import React, { useState } from "react";
 import InputComponent from "../input/InputComponent";
 import BasicButtonComponent from "../buttons/BasicButtonComponent";
-import { createUserData } from "@/app/api/data";
 
 const ModalAddMaterial = () => {
   const [createUser, setCreateUser] = useState({
@@ -21,9 +20,7 @@ const ModalAddMaterial = () => {
   };
 
   const handleCreateUser = async () => {
-    try {
-      await createUserData(createUser);
-    } catch (error) {}
+    console.log("createMterial");
   };
 
   return (

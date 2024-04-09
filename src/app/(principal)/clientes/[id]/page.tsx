@@ -7,8 +7,9 @@ import ButtonEditProfile from "@/app/components/buttons/ButtonEditProfile";
 import ButtonInactiveProfile from "@/app/components/buttons/ButtonInactiveProfile";
 import BaseTableCard from "@/app/components/tables/table/BaseTableCard";
 import ClientProyectTable from "@/app/components/tables/clientTable/ClientProyectTable";
-import { getClientData } from "@/app/api/data";
+
 import { formatTaxId } from "@/helpers/capitaliizeFirstLetter";
+import { getClientData } from "@/app/api/getUser";
 export default async function PerfilClient({
   params,
 }: {

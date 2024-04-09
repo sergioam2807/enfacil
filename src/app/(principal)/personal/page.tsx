@@ -1,4 +1,4 @@
-import { getPersonalData } from "@/app/api/data";
+import { getPersonalData } from "@/app/api/getUser";
 import { CreateButton } from "@/app/components/common/CreateButton";
 import Search from "@/app/components/common/Search";
 import TitleComponent from "@/app/components/common/TitleComponent";
@@ -26,7 +26,9 @@ export default async function Personal({ searchParams }: SearchParamProps) {
       </div>
       <div className="flex justify-between items-center pb-7">
         <div>
-          <Search color="#FFFFFF" />
+          <Suspense fallback={<div>Loading...</div>}>
+            <Search color="#FFFFFF" />
+          </Suspense>
         </div>
         <div className="flex gap-4">
           <div>
