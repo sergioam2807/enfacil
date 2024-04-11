@@ -87,3 +87,31 @@ export async function deleteUserData(id: string, token: string) {
   const data = await res.json();
   return data;
 }
+
+//personal
+
+export async function createPersonalData(data: any, token: string) {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/PersonnelApi/InsertPersonnel`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(data),
+    }
+  );
+
+  if (!res.ok) {
+    let errorData = "";
+    if (res.headers.get("content-type")?.includes("application/json")) {
+      errorData = await res.json();
+    }
+    throw new Error(
+      `Failed to create user: ${res.status} ${res.statusText} ${errorData}`
+    );
+  }
+
+  return res.json();
+}

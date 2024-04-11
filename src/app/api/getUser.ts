@@ -14,7 +14,10 @@ export async function getUserData(id?: string) {
   );
 
   if (!res.ok) {
-    throw new Error("Failed to fetch data");
+    const errorText = await res.text();
+    throw new Error(
+      `Failed to fetch data. Status: ${res.status} ${res.statusText}. Response text: ${errorText}`
+    );
   }
 
   return res.json();
@@ -25,7 +28,6 @@ export async function getPersonalData() {
   const token = cookieStore.get("token")?.value;
 
   const res = await fetch(
-    // "http://192.168.0.6:7194/api/PersonnelApi/GetPersonnel",
     `${process.env.NEXT_PUBLIC_BASE_URL}/PersonnelApi/GetPersonnel`,
     {
       headers: {

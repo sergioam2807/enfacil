@@ -18,6 +18,7 @@ type SearchParamProps = {
 
 export default async function Usuarios({ searchParams }: SearchParamProps) {
   const usersData = await getUserData();
+
   const show = searchParams?.show;
   const search = searchParams?.search || "";
 

@@ -1,9 +1,7 @@
 import React from "react";
-
 import userIcon from "../../../../../public/images/user.svg";
 import Image from "next/image";
-
-import ActionButtons from "../actionTable/ActionButtons";
+// import ActionButtons from "../actionTable/ActionButtons";
 import TableHead from "../../common/TableHead";
 import TableCell from "../../common/TableCell";
 import ChipStatus from "../../chip/ChipStatus";
@@ -77,7 +75,7 @@ const ClientTable = ({ clientData }: clientProps) => {
               </div>
             </TableCell>
             <td className="text-left text-base">
-              <ActionButtons id={row.id} />
+              {/* <ActionButtons id={row.id} /> */}
             </td>
           </tr>
         ))}

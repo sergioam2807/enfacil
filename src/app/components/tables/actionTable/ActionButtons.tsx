@@ -30,7 +30,7 @@ const ActionButtons = ({ id, deleteURL, byIdURL }: ActionButtonsProps) => {
     const token = localStorage.getItem("token");
 
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URL}${byIdURL}${id ? `/${id}` : ""}`,
+      `${process.env.NEXT_PUBLIC_BASE_URL}${byIdURL}?id=${id}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,

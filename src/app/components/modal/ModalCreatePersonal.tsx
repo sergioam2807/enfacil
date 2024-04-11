@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import InputComponent from "../input/InputComponent";
 import BasicButtonComponent from "../buttons/BasicButtonComponent";
 import { useRouter } from "next/navigation";
-import { createPersonalData } from "../../api/personal";
+import { createPersonalData } from "@/app/api/data";
 
 const ModalCreatePersonal = () => {
   const router = useRouter();

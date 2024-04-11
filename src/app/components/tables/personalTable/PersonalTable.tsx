@@ -33,29 +33,29 @@ interface personalDataProps {
 }
 
 const PersonalTable = ({ personalData }: userProps) => {
-  const dummyData: Personal[] = [
-    {
-      id: "1",
-      name: "John Doe",
-      cargo: "Developer",
-      specialty: "Frontend",
-      fIngreso: "2022-01-01",
-      state: "Active",
-      phone: "123-456-7890",
-      email: "john.doe@example.com",
-    },
-    {
-      id: "2",
-      name: "Jane Smith",
-      cargo: "Designer",
-      specialty: "UI/UX",
-      fIngreso: "2022-02-01",
-      state: "Inactive",
-      phone: "098-765-4321",
-      email: "jane.smith@example.com",
-    },
-    // Add more data as needed
-  ];
+  // const dummyData: Personal[] = [
+  //   {
+  //     id: "1",
+  //     name: "John Doe",
+  //     cargo: "Developer",
+  //     specialty: "Frontend",
+  //     fIngreso: "2022-01-01",
+  //     state: "Active",
+  //     phone: "123-456-7890",
+  //     email: "john.doe@example.com",
+  //   },
+  //   {
+  //     id: "2",
+  //     name: "Jane Smith",
+  //     cargo: "Designer",
+  //     specialty: "UI/UX",
+  //     fIngreso: "2022-02-01",
+  //     state: "Inactive",
+  //     phone: "098-765-4321",
+  //     email: "jane.smith@example.com",
+  //   },
+  //   // Add more data as needed
+  // ];
   return (
     <table className="w-full table-auto">
       <thead>
@@ -71,7 +71,7 @@ const PersonalTable = ({ personalData }: userProps) => {
         </tr>
       </thead>
       <tbody>
-        {dummyData.map((row: Personal) => (
+        {personalData?.map((row: Personal) => (
           <tr
             key={row.id}
             className="text-[#797979] font-medium text-sm border-t border-[#EAEAEA]"
