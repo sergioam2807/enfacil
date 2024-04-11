@@ -87,7 +87,11 @@ const ActionTableComponent = async ({ searchData }: any) => {
               </div>
             </TableCell>
             <td className="text-left text-base">
-              <ActionButtons id={row.id} />
+              <ActionButtons
+                id={row.id}
+                byIdURL={"/UserApi/GetUsers"}
+                deleteURL={"/UserApi/DeleteUser"}
+              />
             </td>
           </tr>
         ))}

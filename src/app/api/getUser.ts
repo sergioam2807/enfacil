@@ -43,28 +43,28 @@ export async function getPersonalData() {
   return res.json();
 }
 
-export async function deletePersonalData(id: string) {
-  const cookieStore = cookies();
-  const token = cookieStore.get("token")?.value;
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/UserApi/DeleteUser?id=${id}`,
-    // `http://64.176.3.190:8080/api/UserApi/DeleteUser?id=${id}`,
-    {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
+export function deletePersonalData() {
+  return async (id: string, token: string) => {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/UserApi/DeleteUser?id=${id}`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    console.log("API response:", res);
+
+    if (!res.ok) {
+      throw new Error("Failed to delete user");
     }
-  );
 
-  console.log("API response:", res);
-
-  if (!res.ok) {
-    throw new Error("Failed to delete user");
-  }
-
-  const data = await res.json();
-  return data;
+    const data = await res.json();
+    return data;
+  };
 }
 
 export async function getClientData() {

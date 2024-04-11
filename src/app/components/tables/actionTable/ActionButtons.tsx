@@ -10,6 +10,8 @@ import ModalEditUser, { User } from "../../modal/ModalEditUser";
 
 interface ActionButtonsProps {
   id: number | string;
+  deleteURL: string;
+  byIdURL: string;
 }
 
 interface ModalEditUserProps {
@@ -18,7 +20,7 @@ interface ModalEditUserProps {
 }
 
 const initialUserState: User | null = null;
-const ActionButtons = ({ id }: ActionButtonsProps) => {
+const ActionButtons = ({ id, deleteURL, byIdURL }: ActionButtonsProps) => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [editUser, setEditUser] = useState<User | null>(initialUserState);
   const [isUserDataLoaded, setIsUserDataLoaded] = useState(false);
@@ -27,16 +29,26 @@ const ActionButtons = ({ id }: ActionButtonsProps) => {
   const fetchUserData = async () => {
     const token = localStorage.getItem("token");
 
-    try {
-      const userData = await getUserByIdData(id.toString(), token || "");
-      if (userData.data && typeof userData.data === "object") {
-        setEditUser(userData.data);
-        setIsUserDataLoaded(true);
-      } else {
-        console.error("User data is not an object", userData.data);
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}${byIdURL}${id ? `/${id}` : ""}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       }
-    } catch (error) {
-      console.error("Failed to fetch user data", error);
+    );
+
+    if (!res.ok) {
+      throw new Error("Failed to fetch data");
+    }
+
+    const userData = await res.json();
+
+    if (userData.data && typeof userData.data === "object") {
+      setEditUser(userData.data);
+      setIsUserDataLoaded(true);
+    } else {
+      console.error("User data is not an object", userData.data);
     }
   };
 
@@ -51,13 +63,25 @@ const ActionButtons = ({ id }: ActionButtonsProps) => {
 
   async function handleDelete(id: string) {
     const token = localStorage.getItem("token");
-    try {
-      const data = await deleteUserData(id.toString(), token || "");
-      console.log("Deleted successfully", data);
-      router.refresh();
-    } catch (error) {
-      console.error("Failed to delete", error);
+
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}${deleteURL}?id=${id}`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    if (!res.ok) {
+      throw new Error("Failed to delete user");
     }
+
+    const data = await res.json();
+    console.log("Deleted successfully", data);
+    router.refresh();
   }
 
   return (
@@ -72,6 +96,7 @@ const ActionButtons = ({ id }: ActionButtonsProps) => {
         />
       )}
       <button onClick={() => handleDelete(id.toString())}>
+        {id}
         <Image src={trash} alt="Delete Icon" width={20} height={20} />
       </button>
     </div>

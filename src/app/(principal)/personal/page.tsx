@@ -3,7 +3,7 @@ import { CreateButton } from "@/app/components/common/CreateButton";
 import Search from "@/app/components/common/Search";
 import TitleComponent from "@/app/components/common/TitleComponent";
 import { FilterDropdown } from "@/app/components/filter/FilterDropdown";
-import Modal from "@/app/components/modal/Modal";
+import ModalCreatePersonal from "@/app/components/modal/ModalCreatePersonal";
 import SkeletonTable from "@/app/components/skeleton/SkeletonTable";
 import PersonalTable from "@/app/components/tables/personalTable/PersonalTable";
 import BaseTableCard from "@/app/components/tables/table/BaseTableCard";
@@ -16,7 +16,7 @@ type SearchParamProps = {
 };
 
 export default async function Personal({ searchParams }: SearchParamProps) {
-  const personalData = await getPersonalData();
+  // const personalData = await getPersonalData();
 
   const show = searchParams?.show;
   return (
@@ -35,21 +35,23 @@ export default async function Personal({ searchParams }: SearchParamProps) {
             <FilterDropdown />
           </div>
           <div>
-            <Link href="/usuarios?show=true">
+            <Link href="/personal?show=true">
               <CreateButton
                 title="Añadir Personal"
                 iconSize={14}
                 bgcolor="#0E436B"
               />
             </Link>
-            {show && <Modal />}
+            {show && <ModalCreatePersonal />}
           </div>
         </div>
       </div>
       <div className={`h-[600px] overflow-y-auto`}>
         <Suspense fallback={<SkeletonTable />}>
           <BaseTableCard>
-            <PersonalTable personalData={personalData.data} />
+            <PersonalTable
+            // personalData={personalData.data}
+            />
           </BaseTableCard>
         </Suspense>
       </div>
