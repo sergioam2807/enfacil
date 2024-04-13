@@ -1,4 +1,4 @@
-import { getClientData } from "@/app/api/getUser";
+import { getMaterialsData } from "@/app/api/getUser";
 import { CreateButton } from "@/app/components/common/CreateButton";
 import Search from "@/app/components/common/Search";
 import TitleComponent from "@/app/components/common/TitleComponent";
@@ -16,7 +16,7 @@ type SearchParamProps = {
 };
 
 export default async function Materiales({ searchParams }: SearchParamProps) {
-  const clientData = await getClientData();
+  const materialData = await getMaterialsData();
 
   const show = searchParams?.show;
   return (
@@ -49,7 +49,7 @@ export default async function Materiales({ searchParams }: SearchParamProps) {
       </div>
       <div className={`h-[600px] overflow-y-auto`}>
         <BaseTableCard>
-          <TableMaterial />
+          <TableMaterial materialData={materialData?.data} />
         </BaseTableCard>
         {/* </CustomScrollbar> */}
       </div>

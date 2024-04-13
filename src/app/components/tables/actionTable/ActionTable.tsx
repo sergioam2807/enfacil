@@ -35,6 +35,13 @@ interface userDataProps {
 }
 
 const ActionTableComponent = async ({ searchData }: any) => {
+  if (!searchData || searchData.length === 0) {
+    return (
+      <div className="w-full text-center py-10">
+        <p className="text-xl text-custom-blue">No hay datos disponibles</p>
+      </div>
+    );
+  }
   const data = Array.isArray(searchData) ? searchData : searchData?.data || [];
 
   return (
@@ -91,6 +98,7 @@ const ActionTableComponent = async ({ searchData }: any) => {
                 id={row.id}
                 byIdURL={"/UserApi/GetUsers"}
                 deleteURL={"/UserApi/DeleteUser"}
+                type="usuarios"
               />
             </td>
           </tr>

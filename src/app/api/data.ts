@@ -42,8 +42,9 @@ export async function createUserData(data: any, token: string) {
 }
 
 export async function editUserData(id: string, data: any, token: string) {
+  console.log("data", data);
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/UserApi/UpdateUser?id=${id}`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/UserApi/UpdateUser`,
     {
       method: "PUT",
       headers: {
@@ -110,6 +111,85 @@ export async function createPersonalData(data: any, token: string) {
     }
     throw new Error(
       `Failed to create user: ${res.status} ${res.statusText} ${errorData}`
+    );
+  }
+
+  return res.json();
+}
+
+export async function editPersonnelData(data: any, token: string) {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/PersonnelApi/UpdatePersonnel`,
+    {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(data),
+    }
+  );
+
+  if (!res.ok) {
+    let errorData = "";
+    if (res.headers.get("content-type")?.includes("application/json")) {
+      errorData = await res.json();
+    }
+    throw new Error(
+      `Failed to edit user: ${res.status} ${res.statusText} ${errorData}`
+    );
+  }
+
+  return res.json();
+}
+
+//CLIENT FETCH
+export async function createClientData(data: any, token: string) {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/ClientApi/InsertClient`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(data),
+    }
+  );
+
+  if (!res.ok) {
+    let errorData = "";
+    if (res.headers.get("content-type")?.includes("application/json")) {
+      errorData = await res.json();
+    }
+    throw new Error(
+      `Failed to create user: ${res.status} ${res.statusText} ${errorData}`
+    );
+  }
+
+  return res.json();
+}
+
+export async function editClientData(data: any, token: string) {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/ClientApi/UpdateClient`,
+    {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(data),
+    }
+  );
+
+  if (!res.ok) {
+    let errorData = "";
+    if (res.headers.get("content-type")?.includes("application/json")) {
+      errorData = await res.json();
+    }
+    throw new Error(
+      `Failed to edit user: ${res.status} ${res.statusText} ${errorData}`
     );
   }
 

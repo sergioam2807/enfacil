@@ -1,38 +1,61 @@
 "use client";
-import Link from "next/link";
-import React, { useState } from "react";
+
+import React, { useEffect, useState } from "react";
 import InputComponent from "../input/InputComponent";
 import BasicButtonComponent from "../buttons/BasicButtonComponent";
+import { editClientData, editPersonnelData } from "@/app/api/data";
 import { useRouter } from "next/navigation";
-import { createPersonalData } from "@/app/api/data";
 
-const ModalCreatePersonal = () => {
+type Client = {
+  name: string;
+  email: string;
+  taxId: number | null;
+  phone: number | null;
+  adress: string;
+};
+
+interface ModalEditClientProps {
+  handleCloseEdit: () => void;
+  userData?: Client;
+}
+
+const ModalEditClient = ({
+  handleCloseEdit,
+  userData,
+}: ModalEditClientProps) => {
   const router = useRouter();
-  const [createPesonnel, setCreatePersonnel] = useState({
-    email: "",
-    name: "",
-    specialty: "",
-    pricePerWorkDay: 0,
-    taxId: 0,
-    phone: 0,
-  });
+
+  const [editClient, setEditClient] = useState<Client>(
+    userData || {
+      name: "",
+      email: "",
+      taxId: null,
+      phone: null,
+      adress: "",
+    }
+  );
 
   const token = localStorage.getItem("token");
 
+  useEffect(() => {
+    setEditClient(userData as Client);
+  }, [userData]);
+
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setCreatePersonnel({
-      ...createPesonnel,
+    setEditClient({
+      ...editClient,
       [event.target.name]: event.target.value,
     });
   };
 
-  const handleCreatePesonnel = async () => {
+  const handleEditClient = async () => {
     try {
-      await createPersonalData(createPesonnel, token || "");
-      router.push("/personal");
+      await editClientData(editClient, token || "");
+      router.push("/clientes");
       router.refresh();
+      handleCloseEdit();
     } catch (error) {
-      console.error("Failed to create personnel", error);
+      console.error("Failed to create user", error);
     }
   };
 
@@ -42,16 +65,16 @@ const ModalCreatePersonal = () => {
         <div className="text-center p-4">
           <div className="flex justify-start">
             <h3 className="text-xl font-semibold text-[#000E41]">
-              Crear personal
+              Editar Cliente
             </h3>
           </div>
           <div className="w-full">
             <InputComponent
-              nameVizualization="Nombre de usuario"
+              nameVizualization="Nombre cliente"
               name="name"
-              placeholder="Nombre de usuario"
+              placeholder="Nombre de cliente"
               onChange={handleInputChange}
-              value={createPesonnel?.name}
+              value={editClient?.name ?? ""}
             />
           </div>
 
@@ -62,7 +85,7 @@ const ModalCreatePersonal = () => {
                 name="taxId"
                 placeholder="00.000.000-0"
                 onChange={handleInputChange}
-                value={createPesonnel?.taxId?.toString()}
+                value={editClient?.taxId?.toString() ?? ""}
               />
             </div>
 
@@ -72,58 +95,48 @@ const ModalCreatePersonal = () => {
                 name="phone"
                 placeholder="+569 87592653"
                 onChange={handleInputChange}
-                value={createPesonnel?.phone?.toString()}
+                value={editClient?.phone?.toString() ?? ""}
               />
             </div>
           </div>
           <div className="flex items-center justify-between gap-5">
             <div>
               <InputComponent
-                nameVizualization="Cargo"
-                name="specialty"
-                placeholder="Cargo"
+                nameVizualization="Correo"
+                name="email"
+                placeholder="email@ejemplo.cl"
                 onChange={handleInputChange}
-                value={createPesonnel?.specialty}
+                value={editClient?.email}
               />
             </div>
             <div>
               <InputComponent
-                nameVizualization="Valor día"
-                name="pricePerWorkDay"
-                placeholder="Cargo"
+                nameVizualization="Dirección"
+                name="adress"
+                placeholder="Dirección cliente"
                 onChange={handleInputChange}
-                value={createPesonnel?.pricePerWorkDay?.toString()}
+                value={editClient?.adress ?? ""}
               />
             </div>
           </div>
 
-          <div>
-            <InputComponent
-              nameVizualization="Correo"
-              name="email"
-              placeholder="joseretamal@gmail.com"
-              onChange={handleInputChange}
-              value={createPesonnel?.email}
-            />
-          </div>
-
           <div className="flex justify-end items-center gap-6 pt-5">
             <div className="flex justify-end mt-4">
-              <Link
-                href="/personal"
+              <button
+                onClick={handleCloseEdit}
                 style={{ borderColor: "#0E436B", color: "#0E436B" }}
                 className="py-3 px-8 rounded-lg text-custom-blue text-sm font-semibold shadow-sm shadow-custom-blue border-custom-blue focus:outline-none focus:ring-2 focus:ring-gray-300"
               >
                 Close
-              </Link>
+              </button>
             </div>
             <div className="flex justify-end mt-4">
               <BasicButtonComponent
                 bgColor="#0E436B"
                 borderColor="#0E436B"
                 textColor="#FFFFFF"
-                text="Añadir"
-                onClick={handleCreatePesonnel}
+                text="Editar"
+                onClick={handleEditClient}
               />
             </div>
           </div>
@@ -133,4 +146,4 @@ const ModalCreatePersonal = () => {
   );
 };
 
-export default ModalCreatePersonal;
+export default ModalEditClient;

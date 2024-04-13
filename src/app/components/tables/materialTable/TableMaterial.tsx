@@ -2,52 +2,30 @@ import React from "react";
 import TableHead from "../../common/TableHead";
 import TableCell from "../../common/TableCell";
 import OptionMenuMaterialsButton from "../../buttons/OptionMenuMaterialsButton";
+import { capitalizeFirstLetter } from "@/helpers/capitaliizeFirstLetter";
 
 interface Material {
   id: string;
-  material: string;
+  name: string;
   Activity: string;
-  amount: number;
-  mesoureU: string;
-  priceU: number;
-  totalPrice: number;
+  pricingPerSinglePurchase: number;
+  metricUnit: string;
+  unitsPerSinglePurchase: number;
+  providerName: string;
 }
 
 interface materialProps {
   materialData: Material[];
 }
 
-const TableMaterial = () => {
-  const materialData: Material[] = [
-    {
-      id: "1",
-      material: "Material 1",
-      Activity: "Actividad 1",
-      amount: 10,
-      mesoureU: "kg",
-      priceU: 100,
-      totalPrice: 1000,
-    },
-    {
-      id: "2",
-      material: "Material 2",
-      Activity: "Actividad 2",
-      amount: 20,
-      mesoureU: "kg",
-      priceU: 200,
-      totalPrice: 4000,
-    },
-    {
-      id: "3",
-      material: "Material 3",
-      Activity: "Actividad 3",
-      amount: 30,
-      mesoureU: "kg",
-      priceU: 300,
-      totalPrice: 9000,
-    },
-    // Agrega más objetos de material según sea necesario
-  ];
+const TableMaterial = ({ materialData }: materialProps) => {
+  if (!materialData || materialData.length === 0) {
+    return (
+      <div className="w-full text-center py-10">
+        <p className="text-xl text-custom-blue">No hay datos disponibles</p>
+      </div>
+    );
+  }
   return (
     <table className="w-full table-auto">
       <thead>
@@ -58,6 +36,7 @@ const TableMaterial = () => {
           <TableHead>U.Medida</TableHead>
           <TableHead>Precio U.Neto</TableHead>
           <TableHead>Precio Total Neto</TableHead>
+          <TableHead>Proveedor</TableHead>
           <th>&nbsp;</th>
         </tr>
       </thead>
@@ -67,13 +46,20 @@ const TableMaterial = () => {
             key={row?.id}
             className="text-[#797979] font-medium text-sm border-t border-[#EAEAEA]"
           >
-            <td className="text-left pb-8 pt-5 pl-10">{row.material ?? "-"}</td>
+            <td className="text-left pb-8 pt-5 pl-10">
+              {capitalizeFirstLetter(row.name) ?? "-"}
+            </td>
 
             <TableCell>{row.Activity ?? "-"}</TableCell>
-            <TableCell>{row.amount ?? "-"}</TableCell>
-            <TableCell>{row.mesoureU ?? "-"}</TableCell>
-            <TableCell>{row.priceU ?? "-"}</TableCell>
-            <TableCell>{row.totalPrice ?? "-"}</TableCell>
+            <TableCell>{row.unitsPerSinglePurchase ?? "-"}</TableCell>
+            <TableCell>{row.metricUnit ?? "-"}</TableCell>
+            <TableCell>{row.pricingPerSinglePurchase ?? "-"}</TableCell>
+            <TableCell>
+              {row.pricingPerSinglePurchase * row.unitsPerSinglePurchase ?? "-"}
+            </TableCell>
+            <TableCell>
+              {capitalizeFirstLetter(row.providerName) ?? "-"}
+            </TableCell>
             <td className="text-left text-base">
               <OptionMenuMaterialsButton />
             </td>

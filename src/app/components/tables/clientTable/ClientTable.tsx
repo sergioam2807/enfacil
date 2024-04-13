@@ -6,6 +6,7 @@ import TableHead from "../../common/TableHead";
 import TableCell from "../../common/TableCell";
 import ChipStatus from "../../chip/ChipStatus";
 import Link from "next/link";
+import ActionButtons from "../actionTable/ActionButtons";
 
 interface Client {
   id: string;
@@ -23,6 +24,14 @@ interface clientProps {
 }
 
 const ClientTable = ({ clientData }: clientProps) => {
+  if (!clientData || clientData.length === 0) {
+    return (
+      <div className="w-full text-center py-10">
+        <p className="text-xl text-custom-blue">No hay datos disponibles</p>
+      </div>
+    );
+  }
+
   return (
     <table className="w-full table-auto">
       <thead>
@@ -75,7 +84,13 @@ const ClientTable = ({ clientData }: clientProps) => {
               </div>
             </TableCell>
             <td className="text-left text-base">
-              {/* <ActionButtons id={row.id} /> */}
+              <ActionButtons
+                id={row.id}
+                byIdURL={"/ClientApi/GetClients"}
+                deleteURL={"/ClientApi/DeleteClient"}
+                type="clientes"
+                hasIdentifier
+              />
             </td>
           </tr>
         ))}

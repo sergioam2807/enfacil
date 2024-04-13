@@ -14,23 +14,27 @@ export async function getUserData(id?: string) {
   );
 
   if (!res.ok) {
-    const errorText = await res.text();
-    throw new Error(
-      `Failed to fetch data. Status: ${res.status} ${res.statusText}. Response text: ${errorText}`
-    );
+    console.log("Failed to fetch data");
   }
 
-  return res.json();
+  const contentType = res.headers.get("content-type");
+  if (contentType && contentType.includes("application/json")) {
+    return res.json();
+  } else {
+    console.log("No JSON content found in response");
+    return [];
+  }
 }
 
 export async function getPersonalData() {
   const cookieStore = cookies();
   const token = cookieStore.get("token")?.value;
-
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/PersonnelApi/GetPersonnel`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/PersonnelApi/GetPersonnel?identifier=all&value=true`,
     {
+      method: "GET",
       headers: {
+        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
     }
@@ -73,7 +77,7 @@ export async function getClientData() {
   const cookieStore = cookies();
   const token = cookieStore.get("token")?.value;
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/ClientApi/GetClients`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/ClientApi/GetClients?identifier=all&value=true`,
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -82,10 +86,16 @@ export async function getClientData() {
   );
 
   if (!res.ok) {
-    throw new Error("Failed to fetch data");
+    console.log("Failed to fetch data");
   }
 
-  return res.json();
+  const contentType = res.headers.get("content-type");
+  if (contentType && contentType.includes("application/json")) {
+    return res.json();
+  } else {
+    console.log("No JSON content found in response");
+    return [];
+  }
 }
 
 export async function getProyectsData() {
@@ -101,8 +111,40 @@ export async function getProyectsData() {
   );
 
   if (!res.ok) {
-    throw new Error("Failed to fetch data");
+    console.log("Failed to fetch data");
   }
 
-  return res.json();
+  const contentType = res.headers.get("content-type");
+  if (contentType && contentType.includes("application/json")) {
+    return res.json();
+  } else {
+    console.log("No JSON content found in response");
+    return [];
+  }
+}
+
+export async function getMaterialsData() {
+  const cookieStore = cookies();
+  const token = cookieStore.get("token")?.value;
+
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/MaterialApi/GetMaterials`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
+  if (!res.ok) {
+    console.log("Failed to fetch data");
+  }
+
+  const contentType = res.headers.get("content-type");
+  if (contentType && contentType.includes("application/json")) {
+    return res.json();
+  } else {
+    console.log("No JSON content found in response");
+    return [];
+  }
 }

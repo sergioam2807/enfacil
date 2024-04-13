@@ -1,4 +1,5 @@
 import { getPersonalData } from "@/app/api/getUser";
+import { getUserDataPG } from "@/app/api/getUserDataPG";
 import { CreateButton } from "@/app/components/common/CreateButton";
 import Search from "@/app/components/common/Search";
 import TitleComponent from "@/app/components/common/TitleComponent";
@@ -49,7 +50,7 @@ export default async function Personal({ searchParams }: SearchParamProps) {
       <div className={`h-[600px] overflow-y-auto`}>
         <Suspense fallback={<SkeletonTable />}>
           <BaseTableCard>
-            <PersonalTable personalData={personalData.data} />
+            <PersonalTable personalData={personalData?.data} />
           </BaseTableCard>
         </Suspense>
       </div>

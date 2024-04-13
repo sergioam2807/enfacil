@@ -3,7 +3,7 @@ import { CreateButton } from "@/app/components/common/CreateButton";
 import Search from "@/app/components/common/Search";
 import TitleComponent from "@/app/components/common/TitleComponent";
 import { FilterDropdown } from "@/app/components/filter/FilterDropdown";
-import Modal from "@/app/components/modal/Modal";
+import ModalCreateClient from "@/app/components/modal/ModalCreateClient";
 import SkeletonTable from "@/app/components/skeleton/SkeletonTable";
 import ClientTable from "@/app/components/tables/clientTable/ClientTable";
 import BaseTableCard from "@/app/components/tables/table/BaseTableCard";
@@ -26,7 +26,7 @@ export default async function Clientes({ searchParams }: SearchParamProps) {
       </div>
       <div className="flex justify-between items-center pb-7">
         <div>
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense fallback={<SkeletonTable />}>
             <Search color="#FFFFFF" />
           </Suspense>
         </div>
@@ -35,14 +35,14 @@ export default async function Clientes({ searchParams }: SearchParamProps) {
             <FilterDropdown />
           </div>
           <div>
-            <Link href="/usuarios?show=true">
+            <Link href="/clientes?show=true">
               <CreateButton
                 title="Crear nuevo cliente"
                 iconSize={14}
                 bgcolor="#0E436B"
               />
             </Link>
-            {show && <Modal />}
+            {show && <ModalCreateClient />}
           </div>
         </div>
       </div>
@@ -52,7 +52,6 @@ export default async function Clientes({ searchParams }: SearchParamProps) {
             <ClientTable clientData={clientData.data} />
           </BaseTableCard>
         </Suspense>
-        {/* </CustomScrollbar> */}
       </div>
     </div>
   );

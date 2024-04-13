@@ -6,32 +6,33 @@ import BasicButtonComponent from "../buttons/BasicButtonComponent";
 import { editUserData } from "@/app/api/data";
 import { useRouter } from "next/navigation";
 
-export interface User {
-  id: number;
+type User = {
+  id: number | null;
   name: string;
-  job: string;
-  superAdmin: boolean;
-  vigency: boolean;
-  phone: number;
+  phone: number | null;
   email: string;
-}
+  password: string;
+};
 
 interface ModalEditUserProps {
   handleCloseEdit: () => void;
+  userId: number | null;
   userData?: User;
 }
 
-const ModalEditUser = ({ handleCloseEdit, userData }: ModalEditUserProps) => {
+const ModalEditUser = ({
+  handleCloseEdit,
+  userId,
+  userData,
+}: ModalEditUserProps) => {
   const router = useRouter();
   const [editUser, setEditUser] = useState<User>(
     userData || {
-      id: 0,
+      id: null,
       name: "",
-      job: "",
-      superAdmin: false,
-      vigency: false,
-      phone: 0,
+      phone: null,
       email: "",
+      password: "",
     }
   );
   const token = localStorage.getItem("token");
@@ -63,12 +64,23 @@ const ModalEditUser = ({ handleCloseEdit, userData }: ModalEditUserProps) => {
 
   const handleEditUser = async () => {
     try {
-      await editUserData(editUser?.id?.toString(), editUser, token || "");
+      if (userId && editUser) {
+        const updateUser = {
+          id: editUser.id,
+          name: editUser.name,
+          email: editUser.email,
+          phone: editUser.phone,
+          password: editUser.password,
+        };
+        await editUserData(userId.toString(), updateUser, token || "");
+      } else {
+        console.error("editUser or id is undefined");
+      }
       router.push("/usuarios");
       router.refresh();
       handleCloseEdit();
     } catch (error) {
-      console.error("Failed to create user", error);
+      console.error("Failed to edit user", error);
     }
   };
 
@@ -78,7 +90,7 @@ const ModalEditUser = ({ handleCloseEdit, userData }: ModalEditUserProps) => {
         <div className="text-center p-4">
           <div className="flex justify-start">
             <h3 className="text-xl font-semibold text-[#000E41]">
-              Editar usuario {editUser?.id}
+              Editar usuario
             </h3>
           </div>
           <div className="w-full">
@@ -94,17 +106,7 @@ const ModalEditUser = ({ handleCloseEdit, userData }: ModalEditUserProps) => {
             {/* <div>
               <InputComponent name="Fecha ingreso" placeholder="Fecha" />
             </div> */}
-            <div>
-              <InputComponent
-                nameVizualization="Cargo"
-                name="job"
-                placeholder="Cargo"
-                onChange={handleInputChange}
-                value={editUser?.job}
-              />
-            </div>
-
-            <div className="flex-col justify-start">
+            {/* <div className="flex-col justify-start">
               <div className="flex justify-start">
                 <span className="text-sm text-[#000E41]">Tipo de Usuario</span>
               </div>
@@ -115,12 +117,12 @@ const ModalEditUser = ({ handleCloseEdit, userData }: ModalEditUserProps) => {
                   <input
                     type="checkbox"
                     name="superAdmin"
-                    checked={editUser?.superAdmin}
+                    checked={editUser?.superAdmin ?? false}
                     onChange={handleCheckboxChange}
                   />
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
 
           <div className="flex items-center gap-5">
@@ -130,10 +132,10 @@ const ModalEditUser = ({ handleCloseEdit, userData }: ModalEditUserProps) => {
                 name="phone"
                 placeholder="+569 87592653"
                 onChange={handleInputChange}
-                value={editUser?.phone.toString()}
+                value={editUser?.phone?.toString() ?? ""}
               />
             </div>
-            <div className="flex flex-col mt-4">
+            {/* <div className="flex flex-col mt-4">
               <div className="flex justify-start">
                 <span className="text-sm text-[#000E41]">Estado</span>
               </div>
@@ -152,7 +154,7 @@ const ModalEditUser = ({ handleCloseEdit, userData }: ModalEditUserProps) => {
                 </option>
                 <option value="inactivo">Inactivo</option>
               </select>
-            </div>
+            </div> */}
           </div>
           <div>
             <InputComponent
@@ -161,6 +163,15 @@ const ModalEditUser = ({ handleCloseEdit, userData }: ModalEditUserProps) => {
               placeholder="joseretamal@gmail.com"
               onChange={handleInputChange}
               value={editUser?.email}
+            />
+          </div>
+          <div>
+            <InputComponent
+              nameVizualization="Contraseña"
+              name="password"
+              placeholder="Contraseña"
+              onChange={handleInputChange}
+              value={editUser?.password}
             />
           </div>
           <div className="flex justify-end items-center gap-6 pt-5">
@@ -173,6 +184,7 @@ const ModalEditUser = ({ handleCloseEdit, userData }: ModalEditUserProps) => {
                 Close
               </button>
             </div>
+
             <div className="flex justify-end mt-4">
               <BasicButtonComponent
                 bgColor="#0E436B"
