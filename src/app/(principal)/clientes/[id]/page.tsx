@@ -10,6 +10,7 @@ import ClientProyectTable from "@/app/components/tables/clientTable/ClientProyec
 
 import { formatTaxId } from "@/helpers/capitaliizeFirstLetter";
 import { getClientData } from "@/app/api/getUser";
+import Breadcrumbs from "@/app/components/common/Breadcrumbs";
 export default async function PerfilClient({
   params,
 }: {
@@ -27,6 +28,8 @@ export default async function PerfilClient({
 
   return (
     <div>
+      <Breadcrumbs nameMapping={{ [params.id]: `Perfil cliente` }} />
+
       <div className="w-full mt-10 py-6 px-8 bg-white rounded-lg flex items-center">
         <div className="w-1/5 flex flex-col">
           <div>

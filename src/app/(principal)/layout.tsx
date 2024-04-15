@@ -1,6 +1,7 @@
 import Search from "@/app/components/common/Search";
 import { Sidebar } from "../components/sidebar/Sidebar";
 import { Suspense } from "react";
+import LogoutButton from "../components/common/LogoutButton";
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -12,8 +13,11 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
           <Suspense fallback={<div>Loading...</div>}>
             <Search color="#FFFFFF" />
           </Suspense>
-          <div className="flex justify-center">
-            <span className="font-medium">Henry</span>
+          <div className="flex gap-2 items-center">
+            <div className="flex justify-center">
+              <span className="font-medium">Henry |</span>
+            </div>
+            <LogoutButton />
           </div>
         </div>
 

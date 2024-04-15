@@ -11,6 +11,7 @@ import PersonalProyectTable from "@/app/components/tables/personalTable/Personal
 import BaseTableCard from "@/app/components/tables/table/BaseTableCard";
 import { formatTaxId } from "@/helpers/capitaliizeFirstLetter";
 import { getPersonalData } from "@/app/api/getUser";
+import Breadcrumbs from "@/app/components/common/Breadcrumbs";
 export default async function PerfilPersonal({
   params,
 }: {
@@ -28,6 +29,8 @@ export default async function PerfilPersonal({
 
   return (
     <div>
+      <Breadcrumbs nameMapping={{ [params.id]: `Perfil personal` }} />
+
       <div className="w-full mt-10 py-6 px-8 bg-white rounded-lg flex items-center">
         <div className="w-1/5 flex flex-col">
           <div>
