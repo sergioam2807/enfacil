@@ -8,7 +8,7 @@ import ModalEditUser from "../modal/ModalEditUser";
 import { Client, Personnel, User } from "@/types/types";
 
 interface Props {
-  id: number | string;
+  id?: number | string;
   text?: string;
   byIdURL?: string;
   hasIdentifier?: boolean;
@@ -71,7 +71,7 @@ const ButtonEditProfile = ({
         return (
           <ModalEditUser
             handleCloseEdit={handleCloseEdit}
-            userId={typeof id === "string" ? Number(id) : id}
+            userId={typeof id === "string" ? Number(id) : id ?? null}
             userData={editUser as User}
           />
         );
