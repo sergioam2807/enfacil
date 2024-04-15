@@ -7,7 +7,6 @@ import ButtonEditProfile from "@/app/components/buttons/ButtonEditProfile";
 import ButtonInactiveProfile from "@/app/components/buttons/ButtonInactiveProfile";
 import BaseTableCard from "@/app/components/tables/table/BaseTableCard";
 import ClientProyectTable from "@/app/components/tables/clientTable/ClientProyectTable";
-
 import { formatTaxId } from "@/helpers/capitaliizeFirstLetter";
 import { getClientData } from "@/app/api/getUser";
 import Breadcrumbs from "@/app/components/common/Breadcrumbs";

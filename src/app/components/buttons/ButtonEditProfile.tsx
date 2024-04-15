@@ -10,10 +10,10 @@ import { Client, Personnel, User } from "@/types/types";
 interface Props {
   id: number | string;
   text?: string;
-  byIdURL: string;
+  byIdURL?: string;
   hasIdentifier?: boolean;
   icon?: any;
-  type: "user" | "client" | "personnel";
+  type?: "user" | "client" | "personnel";
 }
 
 const initialUserState: User | Personnel | Client | null = null;
