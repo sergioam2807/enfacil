@@ -5,8 +5,6 @@ import { useEffect, useRef, useState } from "react";
 import editwhite from "../../../../public/images/edit.svg";
 import trash from "../../../../public/images/trash.svg";
 
-// TODO: RECIBIR EL ID Y REDIRECCIONAR SEGUN ID A LA PAGINA DE EDICION
-
 const OptionMenuButton = () => {
   const [isOpen, setIsOpen] = useState(false);
   const ref = useRef<HTMLDivElement | null>(null);

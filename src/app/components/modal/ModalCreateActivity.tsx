@@ -4,33 +4,33 @@ import React, { useState } from "react";
 import InputComponent from "../input/InputComponent";
 import BasicButtonComponent from "../buttons/BasicButtonComponent";
 import { useRouter } from "next/navigation";
-import { createMaterialData } from "@/app/api/data";
+import { createActivityData } from "@/app/api/data";
 
-const ModalAddMaterial = () => {
+const ModalCreateActivity = () => {
   const router = useRouter();
-  const [createMaterial, setCreateMaterial] = useState({
+  const [createActivity, setCreateActivity] = useState({
     name: "",
-    metricUnit: "",
-    unitsPerSinglePurchase: "",
-    pricingPerSinglePurchase: "",
-    providerName: "",
+    metricUnit: "0",
+    manPowerUnitPricing: "",
+    materialsUnitPricing: "",
+    materialsRecipeIds: "0",
   });
   const token = localStorage.getItem("token");
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setCreateMaterial({
-      ...createMaterial,
+    setCreateActivity({
+      ...createActivity,
       [event.target.name]: event.target.value,
     });
   };
 
-  const handleCreateMaterial = async () => {
+  const handleCreateActivity = async () => {
     try {
-      await createMaterialData(createMaterial, token || "");
-      router.push("/materiales");
+      await createActivityData(createActivity, token || "");
+      router.push("/actividades");
       router.refresh();
     } catch (error) {
-      console.error("Failed to create material", error);
+      console.error("Failed to create activity", error);
     }
   };
 
@@ -40,7 +40,7 @@ const ModalAddMaterial = () => {
         <div className="text-center p-4">
           <div className="flex justify-start">
             <h3 className="text-xl font-semibold text-[#000E41]">
-              Añadir material
+              Añadir Actividad
             </h3>
           </div>
           <div className="w-full">
@@ -49,52 +49,34 @@ const ModalAddMaterial = () => {
               name="name"
               placeholder="Nombre"
               onChange={handleInputChange}
-              value={createMaterial?.name}
+              value={createActivity?.name}
             />
           </div>
 
           <div>
             <InputComponent
-              nameVizualization="Unidad de medida"
-              name="metricUnit"
-              placeholder="Ej: Kg"
+              nameVizualization="Precio mano de obra unitario"
+              name="manPowerUnitPricing"
+              placeholder="$00.000"
               onChange={handleInputChange}
-              value={createMaterial?.metricUnit}
+              value={createActivity?.manPowerUnitPricing}
             />
           </div>
           <div className="flex items-center justify-between gap-5">
             <div>
               <InputComponent
-                nameVizualization="Cantidad"
-                name="unitsPerSinglePurchase"
-                placeholder="0"
+                nameVizualization="Precio material unitario"
+                name="materialsUnitPricing"
+                placeholder="$00.000"
                 onChange={handleInputChange}
-                value={createMaterial?.unitsPerSinglePurchase}
+                value={createActivity?.materialsUnitPricing}
               />
             </div>
-            <div>
-              <InputComponent
-                nameVizualization="Precio unidad"
-                name="pricingPerSinglePurchase"
-                placeholder="$0"
-                onChange={handleInputChange}
-                value={createMaterial?.pricingPerSinglePurchase}
-              />
-            </div>
-          </div>
-          <div>
-            <InputComponent
-              nameVizualization="Proveedor"
-              name="providerName"
-              placeholder="Ej: Sodimac"
-              onChange={handleInputChange}
-              value={createMaterial?.providerName}
-            />
           </div>
           <div className="flex justify-end items-center gap-6 pt-5">
             <div className="flex justify-end mt-4">
               <Link
-                href="/materiales"
+                href="/actividades"
                 style={{ borderColor: "#0E436B", color: "#0E436B" }}
                 className="py-3 px-8 rounded-lg text-custom-blue text-sm font-semibold shadow-sm shadow-custom-blue border-custom-blue focus:outline-none focus:ring-2 focus:ring-gray-300"
               >
@@ -107,7 +89,7 @@ const ModalAddMaterial = () => {
                 borderColor="#0E436B"
                 textColor="#FFFFFF"
                 text="Añadir"
-                onClick={handleCreateMaterial}
+                onClick={handleCreateActivity}
               />
             </div>
           </div>
@@ -117,4 +99,4 @@ const ModalAddMaterial = () => {
   );
 };
 
-export default ModalAddMaterial;
+export default ModalCreateActivity;

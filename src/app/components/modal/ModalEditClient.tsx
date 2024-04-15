@@ -3,16 +3,9 @@
 import React, { useEffect, useState } from "react";
 import InputComponent from "../input/InputComponent";
 import BasicButtonComponent from "../buttons/BasicButtonComponent";
-import { editClientData, editPersonnelData } from "@/app/api/data";
+import { editClientData } from "@/app/api/data";
 import { useRouter } from "next/navigation";
-
-type Client = {
-  name: string;
-  email: string;
-  taxId: number | null;
-  phone: number | null;
-  adress: string;
-};
+import { Client } from "@/types/types";
 
 interface ModalEditClientProps {
   handleCloseEdit: () => void;

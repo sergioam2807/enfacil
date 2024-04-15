@@ -13,3 +13,10 @@ export function formatTaxId(taxId: number | string) {
   }
   return null;
 }
+
+export function formatPrice(price: number) {
+  if (isNaN(price)) {
+    return "-";
+  }
+  return price.toLocaleString("es-CL", { style: "currency", currency: "CLP" });
+}

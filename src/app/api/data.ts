@@ -42,7 +42,6 @@ export async function createUserData(data: any, token: string) {
 }
 
 export async function editUserData(id: string, data: any, token: string) {
-  console.log("data", data);
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/UserApi/UpdateUser`,
     {
@@ -173,6 +172,114 @@ export async function createClientData(data: any, token: string) {
 export async function editClientData(data: any, token: string) {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/ClientApi/UpdateClient`,
+    {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(data),
+    }
+  );
+
+  if (!res.ok) {
+    let errorData = "";
+    if (res.headers.get("content-type")?.includes("application/json")) {
+      errorData = await res.json();
+    }
+    throw new Error(
+      `Failed to edit user: ${res.status} ${res.statusText} ${errorData}`
+    );
+  }
+
+  return res.json();
+}
+
+//CREATE MATERIAL
+
+export async function createMaterialData(data: any, token: string) {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/MaterialApi/InsertMaterial`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(data),
+    }
+  );
+
+  if (!res.ok) {
+    let errorData = "";
+    if (res.headers.get("content-type")?.includes("application/json")) {
+      errorData = await res.json();
+    }
+    throw new Error(
+      `Failed to create user: ${res.status} ${res.statusText} ${errorData}`
+    );
+  }
+
+  return res.json();
+}
+
+export async function editMaterialData(data: any, token: string) {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/MaterialApi/UpdateMaterial`,
+    {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(data),
+    }
+  );
+
+  if (!res.ok) {
+    let errorData = "";
+    if (res.headers.get("content-type")?.includes("application/json")) {
+      errorData = await res.json();
+    }
+    throw new Error(
+      `Failed to edit user: ${res.status} ${res.statusText} ${errorData}`
+    );
+  }
+
+  return res.json();
+}
+
+//activity
+
+export async function createActivityData(data: any, token: string) {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/ActivityApi/InsertActivity`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(data),
+    }
+  );
+
+  if (!res.ok) {
+    let errorData = "";
+    if (res.headers.get("content-type")?.includes("application/json")) {
+      errorData = await res.json();
+    }
+    throw new Error(
+      `Failed to create user: ${res.status} ${res.statusText} ${errorData}`
+    );
+  }
+
+  return res.json();
+}
+
+export async function editActivityData(data: any, token: string) {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/ActivityApi/UpdateActivity`,
     {
       method: "PUT",
       headers: {

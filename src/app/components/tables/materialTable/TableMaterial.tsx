@@ -2,7 +2,10 @@ import React from "react";
 import TableHead from "../../common/TableHead";
 import TableCell from "../../common/TableCell";
 import OptionMenuMaterialsButton from "../../buttons/OptionMenuMaterialsButton";
-import { capitalizeFirstLetter } from "@/helpers/capitaliizeFirstLetter";
+import {
+  capitalizeFirstLetter,
+  formatPrice,
+} from "@/helpers/capitaliizeFirstLetter";
 
 interface Material {
   id: string;
@@ -53,15 +56,27 @@ const TableMaterial = ({ materialData }: materialProps) => {
             <TableCell>{row.Activity ?? "-"}</TableCell>
             <TableCell>{row.unitsPerSinglePurchase ?? "-"}</TableCell>
             <TableCell>{row.metricUnit ?? "-"}</TableCell>
-            <TableCell>{row.pricingPerSinglePurchase ?? "-"}</TableCell>
             <TableCell>
-              {row.pricingPerSinglePurchase * row.unitsPerSinglePurchase ?? "-"}
+              {formatPrice(Number(row.pricingPerSinglePurchase)) ?? "-"}
+            </TableCell>
+            <TableCell>
+              {formatPrice(
+                Number(
+                  row.pricingPerSinglePurchase * row.unitsPerSinglePurchase
+                )
+              ) ?? "-"}
             </TableCell>
             <TableCell>
               {capitalizeFirstLetter(row.providerName) ?? "-"}
             </TableCell>
             <td className="text-left text-base">
-              <OptionMenuMaterialsButton />
+              <OptionMenuMaterialsButton
+                id={row.id}
+                byIdURL={"/MaterialApi/GetMaterials"}
+                deleteURL={"/MaterialApi/DeleteMaterial"}
+                type={"materiales"}
+                details
+              />
             </td>
           </tr>
         ))}

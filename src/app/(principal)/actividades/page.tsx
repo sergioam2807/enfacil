@@ -1,7 +1,8 @@
+import { getActivityData } from "@/app/api/getUser";
 import { CreateButton } from "@/app/components/common/CreateButton";
 import Search from "@/app/components/common/Search";
 import TitleComponent from "@/app/components/common/TitleComponent";
-import Modal from "@/app/components/modal/Modal";
+import ModalCreateActivity from "@/app/components/modal/ModalCreateActivity";
 import ActividadesTable from "@/app/components/tables/actividadesTable/ActividadesTable";
 import BaseTableCard from "@/app/components/tables/table/BaseTableCard";
 import Link from "next/link";
@@ -10,8 +11,10 @@ type SearchParamProps = {
   searchParams: Record<string, string> | null | undefined;
 };
 
-export default function Actividades({ searchParams }: SearchParamProps) {
+export default async function Actividades({ searchParams }: SearchParamProps) {
+  const activityData = await getActivityData();
   const show = searchParams?.show;
+
   return (
     <div className="pr-5 pb-5">
       <div>
@@ -30,15 +33,14 @@ export default function Actividades({ searchParams }: SearchParamProps) {
                 bgcolor="#0E436B"
               />
             </Link>
-            {show && <Modal />}
+            {show && <ModalCreateActivity />}
           </div>
         </div>
       </div>
       <div className={`h-[600px] overflow-y-auto`}>
         <BaseTableCard>
-          <ActividadesTable />
+          <ActividadesTable activityData={activityData?.data} />
         </BaseTableCard>
-        {/* </CustomScrollbar> */}
       </div>
     </div>
   );

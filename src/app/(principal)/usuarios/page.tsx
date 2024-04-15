@@ -9,7 +9,6 @@ import Link from "next/link";
 import { Suspense } from "react";
 import SkeletonTable from "@/app/components/skeleton/SkeletonTable";
 
-import { User } from "@/app/components/modal/ModalEditUser";
 import { getUserData } from "@/app/api/getUser";
 
 type SearchParamProps = {

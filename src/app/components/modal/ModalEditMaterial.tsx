@@ -1,36 +1,54 @@
 "use client";
-import Link from "next/link";
-import React, { useState } from "react";
+
+import React, { useEffect, useState } from "react";
 import InputComponent from "../input/InputComponent";
 import BasicButtonComponent from "../buttons/BasicButtonComponent";
+import { editMaterialData } from "@/app/api/data";
 import { useRouter } from "next/navigation";
-import { createMaterialData } from "@/app/api/data";
+import { Material } from "@/types/types";
 
-const ModalAddMaterial = () => {
+interface ModalEditMaterialProps {
+  handleCloseEdit: () => void;
+  materialData?: Material;
+}
+
+const ModalEditMaterial = ({
+  handleCloseEdit,
+  materialData,
+}: ModalEditMaterialProps) => {
   const router = useRouter();
-  const [createMaterial, setCreateMaterial] = useState({
-    name: "",
-    metricUnit: "",
-    unitsPerSinglePurchase: "",
-    pricingPerSinglePurchase: "",
-    providerName: "",
-  });
+
+  const [editMaterial, setEditMaterial] = useState<Material>(
+    materialData || {
+      name: "",
+      metricUnit: "",
+      unitsPerSinglePurchase: "",
+      pricingPerSinglePurchase: "",
+      providerName: "",
+    }
+  );
+
   const token = localStorage.getItem("token");
 
+  useEffect(() => {
+    setEditMaterial(materialData as Material);
+  }, [materialData]);
+
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setCreateMaterial({
-      ...createMaterial,
+    setEditMaterial({
+      ...editMaterial,
       [event.target.name]: event.target.value,
     });
   };
 
-  const handleCreateMaterial = async () => {
+  const handleEditClient = async () => {
     try {
-      await createMaterialData(createMaterial, token || "");
+      await editMaterialData(editMaterial, token || "");
       router.push("/materiales");
       router.refresh();
+      handleCloseEdit();
     } catch (error) {
-      console.error("Failed to create material", error);
+      console.error("Failed to create user", error);
     }
   };
 
@@ -40,7 +58,7 @@ const ModalAddMaterial = () => {
         <div className="text-center p-4">
           <div className="flex justify-start">
             <h3 className="text-xl font-semibold text-[#000E41]">
-              Añadir material
+              Editar Material
             </h3>
           </div>
           <div className="w-full">
@@ -49,7 +67,7 @@ const ModalAddMaterial = () => {
               name="name"
               placeholder="Nombre"
               onChange={handleInputChange}
-              value={createMaterial?.name}
+              value={editMaterial?.name ?? ""}
             />
           </div>
 
@@ -59,7 +77,7 @@ const ModalAddMaterial = () => {
               name="metricUnit"
               placeholder="Ej: Kg"
               onChange={handleInputChange}
-              value={createMaterial?.metricUnit}
+              value={editMaterial?.metricUnit ?? ""}
             />
           </div>
           <div className="flex items-center justify-between gap-5">
@@ -69,7 +87,7 @@ const ModalAddMaterial = () => {
                 name="unitsPerSinglePurchase"
                 placeholder="0"
                 onChange={handleInputChange}
-                value={createMaterial?.unitsPerSinglePurchase}
+                value={editMaterial?.unitsPerSinglePurchase ?? ""}
               />
             </div>
             <div>
@@ -78,7 +96,7 @@ const ModalAddMaterial = () => {
                 name="pricingPerSinglePurchase"
                 placeholder="$0"
                 onChange={handleInputChange}
-                value={createMaterial?.pricingPerSinglePurchase}
+                value={editMaterial?.pricingPerSinglePurchase ?? ""}
               />
             </div>
           </div>
@@ -88,26 +106,27 @@ const ModalAddMaterial = () => {
               name="providerName"
               placeholder="Ej: Sodimac"
               onChange={handleInputChange}
-              value={createMaterial?.providerName}
+              value={editMaterial?.providerName ?? ""}
             />
           </div>
+
           <div className="flex justify-end items-center gap-6 pt-5">
             <div className="flex justify-end mt-4">
-              <Link
-                href="/materiales"
+              <button
+                onClick={handleCloseEdit}
                 style={{ borderColor: "#0E436B", color: "#0E436B" }}
                 className="py-3 px-8 rounded-lg text-custom-blue text-sm font-semibold shadow-sm shadow-custom-blue border-custom-blue focus:outline-none focus:ring-2 focus:ring-gray-300"
               >
                 Close
-              </Link>
+              </button>
             </div>
             <div className="flex justify-end mt-4">
               <BasicButtonComponent
                 bgColor="#0E436B"
                 borderColor="#0E436B"
                 textColor="#FFFFFF"
-                text="Añadir"
-                onClick={handleCreateMaterial}
+                text="Editar"
+                onClick={handleEditClient}
               />
             </div>
           </div>
@@ -117,4 +136,4 @@ const ModalAddMaterial = () => {
   );
 };
 
-export default ModalAddMaterial;
+export default ModalEditMaterial;

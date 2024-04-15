@@ -1,36 +1,54 @@
 "use client";
-import Link from "next/link";
-import React, { useState } from "react";
+
+import React, { useEffect, useState } from "react";
 import InputComponent from "../input/InputComponent";
 import BasicButtonComponent from "../buttons/BasicButtonComponent";
 import { useRouter } from "next/navigation";
-import { createMaterialData } from "@/app/api/data";
+import { editActivityData } from "@/app/api/data";
+import { Activity } from "@/types/types";
 
-const ModalAddMaterial = () => {
+interface ModalEditActivityProps {
+  handleCloseEdit: () => void;
+  activityData?: Activity;
+}
+
+const ModalEditActivity = ({
+  handleCloseEdit,
+  activityData,
+}: ModalEditActivityProps) => {
   const router = useRouter();
-  const [createMaterial, setCreateMaterial] = useState({
-    name: "",
-    metricUnit: "",
-    unitsPerSinglePurchase: "",
-    pricingPerSinglePurchase: "",
-    providerName: "",
-  });
+
+  const [editActivity, setEditActivity] = useState<Activity>(
+    activityData || {
+      name: "",
+      metricUnit: "0",
+      manPowerUnitPricing: "",
+      materialsUnitPricing: "",
+      materialsRecipeIds: "0",
+    }
+  );
+
   const token = localStorage.getItem("token");
 
+  useEffect(() => {
+    setEditActivity(activityData as Activity);
+  }, [activityData]);
+
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setCreateMaterial({
-      ...createMaterial,
+    setEditActivity({
+      ...editActivity,
       [event.target.name]: event.target.value,
     });
   };
 
-  const handleCreateMaterial = async () => {
+  const handleEditClient = async () => {
     try {
-      await createMaterialData(createMaterial, token || "");
-      router.push("/materiales");
+      await editActivityData(editActivity, token || "");
+      router.push("/actividades");
       router.refresh();
+      handleCloseEdit();
     } catch (error) {
-      console.error("Failed to create material", error);
+      console.error("Failed to create user", error);
     }
   };
 
@@ -40,74 +58,57 @@ const ModalAddMaterial = () => {
         <div className="text-center p-4">
           <div className="flex justify-start">
             <h3 className="text-xl font-semibold text-[#000E41]">
-              Añadir material
+              Editar Actividad
             </h3>
           </div>
           <div className="w-full">
             <InputComponent
-              nameVizualization="Nombre"
+              nameVizualization="Actividad"
               name="name"
               placeholder="Nombre"
               onChange={handleInputChange}
-              value={createMaterial?.name}
+              value={editActivity?.name ?? ""}
             />
           </div>
 
           <div>
             <InputComponent
-              nameVizualization="Unidad de medida"
-              name="metricUnit"
-              placeholder="Ej: Kg"
+              nameVizualization="Precio mano de obra unitario"
+              name="manPowerUnitPricing"
+              placeholder="$00.000"
               onChange={handleInputChange}
-              value={createMaterial?.metricUnit}
+              value={editActivity?.manPowerUnitPricing ?? ""}
             />
           </div>
           <div className="flex items-center justify-between gap-5">
             <div>
               <InputComponent
-                nameVizualization="Cantidad"
-                name="unitsPerSinglePurchase"
-                placeholder="0"
+                nameVizualization="Precio material unitario"
+                name="materialsUnitPricing"
+                placeholder="$00.000"
                 onChange={handleInputChange}
-                value={createMaterial?.unitsPerSinglePurchase}
-              />
-            </div>
-            <div>
-              <InputComponent
-                nameVizualization="Precio unidad"
-                name="pricingPerSinglePurchase"
-                placeholder="$0"
-                onChange={handleInputChange}
-                value={createMaterial?.pricingPerSinglePurchase}
+                value={editActivity?.materialsUnitPricing ?? ""}
               />
             </div>
           </div>
-          <div>
-            <InputComponent
-              nameVizualization="Proveedor"
-              name="providerName"
-              placeholder="Ej: Sodimac"
-              onChange={handleInputChange}
-              value={createMaterial?.providerName}
-            />
-          </div>
+
           <div className="flex justify-end items-center gap-6 pt-5">
             <div className="flex justify-end mt-4">
-              <Link
-                href="/materiales"
+              <button
+                onClick={handleCloseEdit}
                 style={{ borderColor: "#0E436B", color: "#0E436B" }}
                 className="py-3 px-8 rounded-lg text-custom-blue text-sm font-semibold shadow-sm shadow-custom-blue border-custom-blue focus:outline-none focus:ring-2 focus:ring-gray-300"
               >
                 Close
-              </Link>
+              </button>
             </div>
             <div className="flex justify-end mt-4">
               <BasicButtonComponent
                 bgColor="#0E436B"
                 borderColor="#0E436B"
                 textColor="#FFFFFF"
-                text="Añadir"
-                onClick={handleCreateMaterial}
+                text="Editar"
+                onClick={handleEditClient}
               />
             </div>
           </div>
@@ -117,4 +118,4 @@ const ModalAddMaterial = () => {
   );
 };
 
-export default ModalAddMaterial;
+export default ModalEditActivity;

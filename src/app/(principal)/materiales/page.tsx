@@ -33,7 +33,6 @@ export default async function Materiales({ searchParams }: SearchParamProps) {
         <div className="flex gap-4">
           <div>
             <FilterDropdown />
-            {/* TODO: CHANGE TO DATE DROPDOWN */}
           </div>
           <div>
             <Link href="/materiales?show=true">
@@ -51,7 +50,6 @@ export default async function Materiales({ searchParams }: SearchParamProps) {
         <BaseTableCard>
           <TableMaterial materialData={materialData?.data} />
         </BaseTableCard>
-        {/* </CustomScrollbar> */}
       </div>
     </div>
   );

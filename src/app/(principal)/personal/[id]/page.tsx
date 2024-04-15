@@ -26,8 +26,6 @@ export default async function PerfilPersonal({
     return <div>Personal no encontrado</div>;
   }
 
-  console.log(personalData);
-
   return (
     <div>
       <div className="w-full mt-10 py-6 px-8 bg-white rounded-lg flex items-center">

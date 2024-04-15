@@ -16,6 +16,7 @@ const Modal = () => {
     phone: "",
     email: "",
     job: "",
+    password: "",
   });
 
   const token = localStorage.getItem("token");
@@ -132,6 +133,15 @@ const Modal = () => {
                 value={createUser.email}
               />
             </div>
+          </div>
+          <div>
+            <InputComponent
+              nameVizualization="Contraseña"
+              name="password"
+              placeholder="Contraseña"
+              onChange={handleInputChange}
+              value={createUser.password}
+            />
           </div>
           <div className="flex justify-end items-center gap-6 pt-5">
             <div className="flex justify-end mt-4">

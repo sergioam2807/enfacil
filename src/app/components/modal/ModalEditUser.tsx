@@ -5,14 +5,7 @@ import InputComponent from "../input/InputComponent";
 import BasicButtonComponent from "../buttons/BasicButtonComponent";
 import { editUserData } from "@/app/api/data";
 import { useRouter } from "next/navigation";
-
-type User = {
-  id: number | null;
-  name: string;
-  phone: number | null;
-  email: string;
-  password: string;
-};
+import { User } from "@/types/types";
 
 interface ModalEditUserProps {
   handleCloseEdit: () => void;

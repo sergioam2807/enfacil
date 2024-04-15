@@ -148,3 +148,31 @@ export async function getMaterialsData() {
     return [];
   }
 }
+
+//Action to get the data of the activities
+
+export async function getActivityData() {
+  const cookieStore = cookies();
+  const token = cookieStore.get("token")?.value;
+
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/ActivityApi/GetActivities`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
+  if (!res.ok) {
+    console.log("Failed to fetch data");
+  }
+
+  const contentType = res.headers.get("content-type");
+  if (contentType && contentType.includes("application/json")) {
+    return res.json();
+  } else {
+    console.log("No JSON content found in response");
+    return [];
+  }
+}

@@ -1,40 +1,22 @@
 import React from "react";
 import TableHead from "../../common/TableHead";
 import TableCell from "../../common/TableCell";
-import OptionMenuButton from "../../buttons/OptionMenuButton";
-
-interface Activity {
-  id: string;
-  activity: string;
-  workPrice: string;
-  materialPrice: string;
-}
+import OptionMenuMaterialsButton from "../../buttons/OptionMenuMaterialsButton";
+import { formatPrice } from "@/helpers/capitaliizeFirstLetter";
+import { Activity } from "@/types/types";
 
 interface activityProps {
   activityData: Activity[];
 }
 
-const ActividadesTable = () => {
-  const activityData: Activity[] = [
-    {
-      id: "1",
-      activity: "Actividad 1",
-      workPrice: "100",
-      materialPrice: "200",
-    },
-    {
-      id: "2",
-      activity: "Actividad 2",
-      workPrice: "300",
-      materialPrice: "400",
-    },
-    {
-      id: "3",
-      activity: "Actividad 3",
-      workPrice: "500",
-      materialPrice: "600",
-    },
-  ];
+const ActividadesTable = ({ activityData }: activityProps) => {
+  if (!activityData || activityData.length === 0) {
+    return (
+      <div className="w-full text-center py-10">
+        <p className="text-xl text-custom-blue">No hay datos disponibles</p>
+      </div>
+    );
+  }
 
   return (
     <table className="w-full table-auto">
@@ -52,13 +34,22 @@ const ActividadesTable = () => {
             className="text-[#797979] font-medium text-sm border-t border-[#EAEAEA]"
           >
             <td className="text-left text-base pl-10 py-2">
-              {row.activity ?? "-"}
+              {row.name ?? "-"}
             </td>
 
-            <TableCell>{row.workPrice ?? "-"}</TableCell>
-            <TableCell>{row.materialPrice ?? "-"}</TableCell>
+            <TableCell>
+              {formatPrice(Number(row.manPowerUnitPricing)) ?? "-"}
+            </TableCell>
+            <TableCell>
+              {formatPrice(Number(row.materialsUnitPricing)) ?? "-"}
+            </TableCell>
             <td className="text-left text-base">
-              <OptionMenuButton />
+              <OptionMenuMaterialsButton
+                id={row.id?.toString() ?? ""}
+                byIdURL={"/ActivityApi/GetActivities"}
+                deleteURL={"/ActivityApi/DeleteActivity"}
+                type="actividades"
+              />
             </td>
           </tr>
         ))}

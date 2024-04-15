@@ -3,16 +3,7 @@ import TableHead from "../../common/TableHead";
 import TableCell from "../../common/TableCell";
 import ChipStatus from "../../chip/ChipStatus";
 import AdvanceBar from "../table/AdvanceBar";
-
-interface Proyect {
-  id: string;
-  proyect: string;
-  type: string;
-  fIngreso: string;
-  fTermino: string;
-  state: string;
-  advance: string;
-}
+import { Proyect } from "@/types/types";
 
 interface proyectProps {
   proyectData: Proyect[];

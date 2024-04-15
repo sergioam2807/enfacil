@@ -6,17 +6,7 @@ import TableHead from "../../common/TableHead";
 import TableCell from "../../common/TableCell";
 import ChipStatus from "../../chip/ChipStatus";
 import Link from "next/link";
-
-interface Personal {
-  id: string;
-  name: string;
-  cargo: string;
-  specialty: string;
-  fIngreso: string;
-  state: string;
-  phone: string;
-  email: string;
-}
+import { Personal } from "@/types/types";
 
 interface userProps {
   personalData?: Personal[];
