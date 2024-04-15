@@ -27,6 +27,8 @@ const ModalEditPersonnel = ({
       taxId: 0,
       phone: 0,
       email: "",
+      fIngreso: "",
+      state: "",
     }
   );
 

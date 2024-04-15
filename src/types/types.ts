@@ -23,6 +23,8 @@ export type Personnel = {
   taxId: number;
   phone: number;
   email: string;
+  fIngreso: string;
+  state: string;
 };
 
 export type Material = {

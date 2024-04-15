@@ -10,6 +10,7 @@ import { Suspense } from "react";
 import SkeletonTable from "@/app/components/skeleton/SkeletonTable";
 
 import { getUserData } from "@/app/api/getUser";
+import { User } from "@/types/types";
 
 type SearchParamProps = {
   searchParams: Record<string, string> | null | undefined;

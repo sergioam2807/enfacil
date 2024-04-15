@@ -6,10 +6,10 @@ import TableHead from "../../common/TableHead";
 import TableCell from "../../common/TableCell";
 import ChipStatus from "../../chip/ChipStatus";
 import Link from "next/link";
-import { Personal } from "@/types/types";
+import { Personnel } from "@/types/types";
 
 interface userProps {
-  personalData?: Personal[];
+  personalData?: Personnel[];
 }
 
 interface personalDataProps {
@@ -45,7 +45,7 @@ const PersonalTable = ({ personalData }: userProps) => {
         </tr>
       </thead>
       <tbody>
-        {personalData?.map((row: Personal) => (
+        {personalData?.map((row: Personnel) => (
           <tr
             key={row.id}
             className="text-[#797979] font-medium text-sm border-t border-[#EAEAEA]"

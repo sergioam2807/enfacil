@@ -20,6 +20,7 @@ const ModalEditActivity = ({
 
   const [editActivity, setEditActivity] = useState<Activity>(
     activityData || {
+      id: null,
       name: "",
       metricUnit: "0",
       manPowerUnitPricing: "",
