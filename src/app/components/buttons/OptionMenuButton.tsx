@@ -11,7 +11,9 @@ const OptionMenuButton = () => {
 
   const handleClickOutside = (event: MouseEvent) => {
     if (ref.current && !ref.current.contains(event.target as Node)) {
-      setIsOpen(false);
+      if (event.target) {
+        setIsOpen(false);
+      }
     }
   };
 

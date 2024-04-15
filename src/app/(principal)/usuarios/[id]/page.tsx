@@ -22,8 +22,7 @@ export default async function PerfilUsuario({
   if (!user) {
     return <div>Usuario no encontrado</div>;
   }
-
-  console.log("params.id", params.id);
+  console.log(userProfile);
 
   return (
     <div>
@@ -71,7 +70,11 @@ export default async function PerfilUsuario({
         </div>
         <div className="w-1/5 flex flex-col gap-2 items-center">
           <div>
-            <ButtonEditProfile />
+            <ButtonEditProfile
+              type="user"
+              id={params.id}
+              byIdURL={"/UserApi/GetUsers"}
+            />
           </div>
           <div>
             <ButtonInactiveProfile />

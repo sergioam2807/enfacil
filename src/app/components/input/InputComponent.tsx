@@ -1,4 +1,4 @@
-import React, { ChangeEvent } from "react";
+import React, { ChangeEvent, FocusEvent } from "react";
 
 interface Props {
   name: string;
@@ -6,6 +6,7 @@ interface Props {
   placeholder: string;
   value: string;
   onChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  onBlur?: (event: FocusEvent<HTMLInputElement>) => void;
 }
 
 const InputComponent = ({
@@ -14,6 +15,7 @@ const InputComponent = ({
   placeholder,
   value,
   onChange,
+  onBlur,
 }: Props) => {
   return (
     <div className="flex flex-col mt-4">
@@ -25,6 +27,7 @@ const InputComponent = ({
         placeholder={placeholder}
         value={value}
         onChange={onChange}
+        onBlur={onBlur}
         className="w-full mt-1 py-3 pl-2 text-sm font-medium border rounded-md focus:outline-none focus:border-[#EFF4FC]"
       />
     </div>

@@ -1,7 +1,7 @@
 export type User = {
   id: number | null;
   name: string;
-  phone: number | null;
+  phone: number | string | null;
   email: string;
   password: string;
 };
@@ -38,9 +38,9 @@ export type Material = {
 export type Client = {
   name: string;
   email: string;
-  taxId: number | null;
+  taxId: number | string;
   phone: number | null;
-  adress: string;
+  address: string;
 };
 
 export type Proyect = {

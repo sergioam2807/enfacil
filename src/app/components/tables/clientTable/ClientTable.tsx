@@ -7,6 +7,7 @@ import TableCell from "../../common/TableCell";
 import ChipStatus from "../../chip/ChipStatus";
 import Link from "next/link";
 import ActionButtons from "../actionTable/ActionButtons";
+import { formatTaxId } from "@/helpers/capitaliizeFirstLetter";
 
 interface Client {
   id: string;
@@ -71,7 +72,7 @@ const ClientTable = ({ clientData }: clientProps) => {
                 </Link>
               </div>
             </TableCell>
-            <TableCell>{row.taxId}</TableCell>
+            <TableCell>{formatTaxId(row.taxId)}</TableCell>
             <TableCell>{row.fcreacion ?? "-"}</TableCell>
             <TableCell>
               <ChipStatus status={row.state ?? "Activo"}>

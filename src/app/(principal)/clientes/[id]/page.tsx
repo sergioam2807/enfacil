@@ -26,6 +26,8 @@ export default async function PerfilClient({
     return <div>Personal no encontrado</div>;
   }
 
+  console.log(clientProfile);
+
   return (
     <div>
       <Breadcrumbs nameMapping={{ [params.id]: `Detalle cliente` }} />
@@ -50,7 +52,7 @@ export default async function PerfilClient({
               {formatTaxId(clientProfile.taxId) ?? "-"}
             </span>
             <span className="text-base text-custon-gray">
-              {clientProfile.region ?? "-"}
+              {clientProfile.address ?? "-"}
             </span>
           </div>
         </div>
@@ -70,7 +72,12 @@ export default async function PerfilClient({
         </div>
         <div className="w-1/5 flex flex-col gap-2 items-center">
           <div>
-            <ButtonEditProfile />
+            <ButtonEditProfile
+              id={params.id}
+              byIdURL="/ClientApi/GetClients"
+              type="client"
+              hasIdentifier
+            />
           </div>
           <div>
             <ButtonInactiveProfile />

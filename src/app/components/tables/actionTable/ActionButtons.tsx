@@ -18,11 +18,6 @@ interface ActionButtonsProps {
   type: string;
 }
 
-interface ModalEditUserProps {
-  handleCloseEdit: () => void;
-  userData?: User;
-}
-
 const initialUserState: User | Personnel | Client | Material | null = null;
 const ActionButtons = ({
   id,

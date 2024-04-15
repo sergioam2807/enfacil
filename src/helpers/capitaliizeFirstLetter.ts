@@ -11,7 +11,7 @@ export function formatTaxId(taxId: number | string) {
   if (match) {
     return `${match[1]}.${match[2]}.${match[3]}-${match[4]}`;
   }
-  return null;
+  return taxId;
 }
 
 export function formatPrice(price: number) {

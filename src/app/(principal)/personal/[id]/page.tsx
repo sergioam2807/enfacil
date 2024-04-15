@@ -74,7 +74,12 @@ export default async function PerfilPersonal({
         </div>
         <div className="w-1/5 flex flex-col gap-2 items-center">
           <div>
-            <ButtonEditProfile />
+            <ButtonEditProfile
+              id={params.id}
+              type="personnel"
+              byIdURL={"/PersonnelApi/GetPersonnel"}
+              hasIdentifier
+            />
           </div>
           <div>
             <ButtonInactiveProfile />

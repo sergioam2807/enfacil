@@ -6,6 +6,7 @@ import BasicButtonComponent from "../buttons/BasicButtonComponent";
 import { editClientData } from "@/app/api/data";
 import { useRouter } from "next/navigation";
 import { Client } from "@/types/types";
+import { useInput } from "@/app/hooks/useEditInput";
 
 interface ModalEditClientProps {
   handleCloseEdit: () => void;
@@ -22,10 +23,26 @@ const ModalEditClient = ({
     userData || {
       name: "",
       email: "",
-      taxId: null,
+      taxId: "",
       phone: null,
-      adress: "",
+      address: "",
     }
+  );
+
+  const nameInput = useInput(editClient.name, (value) =>
+    setEditClient({ ...editClient, name: value })
+  );
+  const taxIdInput = useInput(editClient.taxId?.toString() ?? "", (value) =>
+    setEditClient({ ...editClient, taxId: value })
+  );
+  const phoneInput = useInput(editClient.phone?.toString() ?? "", (value) =>
+    setEditClient({ ...editClient, phone: parseInt(value) })
+  );
+  const emailInput = useInput(editClient.email ?? "", (value) =>
+    setEditClient({ ...editClient, email: value })
+  );
+  const addressInput = useInput(editClient.address ?? "", (value) =>
+    setEditClient({ ...editClient, address: value })
   );
 
   const token = localStorage.getItem("token");
@@ -33,13 +50,6 @@ const ModalEditClient = ({
   useEffect(() => {
     setEditClient(userData as Client);
   }, [userData]);
-
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setEditClient({
-      ...editClient,
-      [event.target.name]: event.target.value,
-    });
-  };
 
   const handleEditClient = async () => {
     try {
@@ -66,8 +76,9 @@ const ModalEditClient = ({
               nameVizualization="Nombre cliente"
               name="name"
               placeholder="Nombre de cliente"
-              onChange={handleInputChange}
-              value={editClient?.name ?? ""}
+              onChange={nameInput.onChange}
+              onBlur={nameInput.onBlur}
+              value={nameInput.value}
             />
           </div>
 
@@ -77,8 +88,9 @@ const ModalEditClient = ({
                 nameVizualization="Rut"
                 name="taxId"
                 placeholder="00.000.000-0"
-                onChange={handleInputChange}
-                value={editClient?.taxId?.toString() ?? ""}
+                onChange={taxIdInput.onChange}
+                onBlur={taxIdInput.onBlur}
+                value={taxIdInput.value}
               />
             </div>
 
@@ -87,8 +99,9 @@ const ModalEditClient = ({
                 nameVizualization="Teléfono"
                 name="phone"
                 placeholder="+569 87592653"
-                onChange={handleInputChange}
-                value={editClient?.phone?.toString() ?? ""}
+                onChange={phoneInput.onChange}
+                onBlur={phoneInput.onBlur}
+                value={phoneInput.value}
               />
             </div>
           </div>
@@ -98,17 +111,19 @@ const ModalEditClient = ({
                 nameVizualization="Correo"
                 name="email"
                 placeholder="email@ejemplo.cl"
-                onChange={handleInputChange}
-                value={editClient?.email}
+                onChange={emailInput.onChange}
+                onBlur={emailInput.onBlur}
+                value={emailInput.value}
               />
             </div>
             <div>
               <InputComponent
                 nameVizualization="Dirección"
-                name="adress"
+                name="address"
                 placeholder="Dirección cliente"
-                onChange={handleInputChange}
-                value={editClient?.adress ?? ""}
+                onChange={addressInput.onChange}
+                onBlur={addressInput.onBlur}
+                value={addressInput.value}
               />
             </div>
           </div>
