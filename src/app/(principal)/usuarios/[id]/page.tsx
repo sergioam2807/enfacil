@@ -27,7 +27,7 @@ export default async function PerfilUsuario({
 
   return (
     <div>
-      <Breadcrumbs nameMapping={{ [params.id]: `Perfil usuario` }} />
+      <Breadcrumbs nameMapping={{ [params.id]: `Detalle usuario` }} />
       <div className="w-full mt-10 py-6 px-8 bg-white rounded-lg flex items-center">
         <div className="w-1/5 flex flex-col">
           <div>

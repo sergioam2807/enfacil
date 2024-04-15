@@ -12,7 +12,7 @@ const Modal = () => {
     name: "",
     created: "2024-04-06T15:51:34.094Z",
     superAdmin: false,
-    vigency: false,
+    vigency: true,
     phone: "",
     email: "",
     job: "",
@@ -70,7 +70,7 @@ const Modal = () => {
               value={createUser.name}
             />
           </div>
-          <div className="flex items-center justify-between gap-5">
+          <div className="flex items-center  gap-2">
             {/* <div>
               <InputComponent name="Fecha ingreso" placeholder="Fecha" />
             </div> */}
@@ -83,15 +83,12 @@ const Modal = () => {
                 value={createUser.job}
               />
             </div>
-          </div>
-          <div className="flex items-center justify-between gap-5">
-            <div>
-              <div>
-                <div className="flex justify-start">
-                  <span className="text-sm text-[#000E41]">
-                    Tipo de Usuario
-                  </span>
-                </div>
+            <div className="flex flex-col mt-4 ml-3">
+              <div className="flex justify-start">
+                <span className="text-sm text-[#000E41]">Tipo de Usuario</span>
+              </div>
+              <div className="flex items-center gap-2  py-3 pl-2">
+                <p className="text-sm text-custom-blue">Administrador</p>
                 <input
                   type="checkbox"
                   name="superAdmin"
@@ -100,6 +97,9 @@ const Modal = () => {
                 />
               </div>
             </div>
+          </div>
+          {/*<div className="flex items-center justify-between gap-5">
+            <div></div>
             <div>
               <div className="flex justify-start">
                 <span className="text-sm text-[#000E41]">Estado</span>
@@ -113,7 +113,7 @@ const Modal = () => {
                 <option value="inactivo">Inactivo</option>
               </select>
             </div>
-          </div>
+          </div>*/}
           <div className="flex items-center justify-between gap-5">
             <div>
               <InputComponent
