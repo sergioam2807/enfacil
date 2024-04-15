@@ -7,6 +7,7 @@ import ModalCreateClient from "@/app/components/modal/ModalCreateClient";
 import SkeletonTable from "@/app/components/skeleton/SkeletonTable";
 import ClientTable from "@/app/components/tables/clientTable/ClientTable";
 import BaseTableCard from "@/app/components/tables/table/BaseTableCard";
+import { Client } from "@/types/types";
 
 import Link from "next/link";
 import { Suspense } from "react";
@@ -19,6 +20,16 @@ export default async function Clientes({ searchParams }: SearchParamProps) {
   const clientData = await getClientData();
 
   const show = searchParams?.show;
+  const search = searchParams?.search || "";
+
+  let filteredData;
+  if (search) {
+    filteredData = clientData?.data?.filter((user: Client) =>
+      user.name.toLowerCase().includes(search.toLowerCase())
+    );
+  } else {
+    filteredData = clientData;
+  }
   return (
     <div className="pr-5 pb-5">
       <div>
@@ -49,7 +60,7 @@ export default async function Clientes({ searchParams }: SearchParamProps) {
       <div className={`h-[600px] overflow-y-auto`}>
         <Suspense fallback={<SkeletonTable />}>
           <BaseTableCard>
-            <ClientTable clientData={clientData.data} />
+            <ClientTable clientData={filteredData} />
           </BaseTableCard>
         </Suspense>
       </div>

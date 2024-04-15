@@ -20,17 +20,19 @@ interface Client {
 }
 
 interface clientProps {
-  clientData: Client[];
+  clientData: { data: Client[] } | Client[];
 }
 
 const ClientTable = ({ clientData }: clientProps) => {
-  if (!clientData || clientData.length === 0) {
+  if (!clientData || (Array.isArray(clientData) && clientData.length === 0)) {
     return (
       <div className="w-full text-center py-10">
         <p className="text-xl text-custom-blue">No hay datos disponibles</p>
       </div>
     );
   }
+
+  const data = Array.isArray(clientData) ? clientData : clientData?.data || [];
 
   return (
     <table className="w-full table-auto">
@@ -46,7 +48,7 @@ const ClientTable = ({ clientData }: clientProps) => {
         </tr>
       </thead>
       <tbody>
-        {clientData.map((row: Client) => (
+        {data.map((row: Client) => (
           <tr
             key={row.id}
             className="text-[#797979] font-medium text-sm border-t border-[#EAEAEA]"

@@ -17,18 +17,25 @@ interface Material {
   providerName: string;
 }
 
-interface materialProps {
-  materialData: Material[];
-}
+type materialProps = {
+  materialData: { data: Material[] | Material[] };
+};
 
 const TableMaterial = ({ materialData }: materialProps) => {
-  if (!materialData || materialData.length === 0) {
+  if (
+    !materialData ||
+    (Array.isArray(materialData) && materialData.length === 0)
+  ) {
     return (
       <div className="w-full text-center py-10">
         <p className="text-xl text-custom-blue">No hay datos disponibles</p>
       </div>
     );
   }
+
+  const data = Array.isArray(materialData)
+    ? materialData
+    : materialData?.data || [];
   return (
     <table className="w-full table-auto">
       <thead>
@@ -44,7 +51,7 @@ const TableMaterial = ({ materialData }: materialProps) => {
         </tr>
       </thead>
       <tbody>
-        {materialData?.map((row: Material) => (
+        {data?.map((row: Material) => (
           <tr
             key={row?.id}
             className="text-[#797979] font-medium text-sm border-t border-[#EAEAEA]"

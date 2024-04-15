@@ -8,6 +8,7 @@ import ModalCreatePersonal from "@/app/components/modal/ModalCreatePersonal";
 import SkeletonTable from "@/app/components/skeleton/SkeletonTable";
 import PersonalTable from "@/app/components/tables/personalTable/PersonalTable";
 import BaseTableCard from "@/app/components/tables/table/BaseTableCard";
+import { Personnel } from "@/types/types";
 
 import Link from "next/link";
 import { Suspense } from "react";
@@ -20,6 +21,17 @@ export default async function Personal({ searchParams }: SearchParamProps) {
   const personalData = await getPersonalData();
 
   const show = searchParams?.show;
+  const search = searchParams?.search || "";
+
+  let filteredData;
+  if (search) {
+    filteredData = personalData?.data?.filter((user: Personnel) =>
+      user.name.toLowerCase().includes(search.toLowerCase())
+    );
+  } else {
+    filteredData = personalData;
+  }
+
   return (
     <div className="pr-5 pb-5">
       <div>
@@ -50,7 +62,7 @@ export default async function Personal({ searchParams }: SearchParamProps) {
       <div className={`h-[600px] overflow-y-auto`}>
         <Suspense fallback={<SkeletonTable />}>
           <BaseTableCard>
-            <PersonalTable personalData={personalData?.data} />
+            <PersonalTable personalData={filteredData} />
           </BaseTableCard>
         </Suspense>
       </div>

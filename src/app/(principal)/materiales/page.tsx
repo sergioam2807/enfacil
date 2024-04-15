@@ -7,6 +7,7 @@ import Modal from "@/app/components/modal/Modal";
 import ModalAddMaterial from "@/app/components/modal/ModalAddMaterial";
 import TableMaterial from "@/app/components/tables/materialTable/TableMaterial";
 import BaseTableCard from "@/app/components/tables/table/BaseTableCard";
+import { Material } from "@/types/types";
 
 import Link from "next/link";
 import { Suspense } from "react";
@@ -17,6 +18,17 @@ type SearchParamProps = {
 
 export default async function Materiales({ searchParams }: SearchParamProps) {
   const materialData = await getMaterialsData();
+
+  const search = searchParams?.search || "";
+
+  let filteredData;
+  if (search) {
+    filteredData = materialData.data.filter((user: Material) =>
+      user.name.toLowerCase().includes(search.toLowerCase())
+    );
+  } else {
+    filteredData = materialData;
+  }
 
   const show = searchParams?.show;
   return (
@@ -48,7 +60,7 @@ export default async function Materiales({ searchParams }: SearchParamProps) {
       </div>
       <div className={`h-[600px] overflow-y-auto`}>
         <BaseTableCard>
-          <TableMaterial materialData={materialData?.data} />
+          <TableMaterial materialData={filteredData} />
         </BaseTableCard>
       </div>
     </div>

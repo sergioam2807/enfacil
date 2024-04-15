@@ -6,17 +6,24 @@ import { formatPrice } from "@/helpers/capitaliizeFirstLetter";
 import { Activity } from "@/types/types";
 
 interface activityProps {
-  activityData: Activity[];
+  activityData: { data: Activity[] } | Activity[];
 }
 
 const ActividadesTable = ({ activityData }: activityProps) => {
-  if (!activityData || activityData.length === 0) {
+  if (
+    !activityData ||
+    (Array.isArray(activityData) && activityData.length === 0)
+  ) {
     return (
       <div className="w-full text-center py-10">
         <p className="text-xl text-custom-blue">No hay datos disponibles</p>
       </div>
     );
   }
+
+  const data = Array.isArray(activityData)
+    ? activityData
+    : activityData?.data || [];
 
   return (
     <table className="w-full table-auto">
@@ -28,7 +35,7 @@ const ActividadesTable = ({ activityData }: activityProps) => {
         </tr>
       </thead>
       <tbody>
-        {activityData.map((row: Activity) => (
+        {data.map((row: Activity) => (
           <tr
             key={row.id}
             className="text-[#797979] font-medium text-sm border-t border-[#EAEAEA]"

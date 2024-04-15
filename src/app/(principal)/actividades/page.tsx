@@ -5,6 +5,7 @@ import TitleComponent from "@/app/components/common/TitleComponent";
 import ModalCreateActivity from "@/app/components/modal/ModalCreateActivity";
 import ActividadesTable from "@/app/components/tables/actividadesTable/ActividadesTable";
 import BaseTableCard from "@/app/components/tables/table/BaseTableCard";
+import { Activity } from "@/types/types";
 import Link from "next/link";
 
 type SearchParamProps = {
@@ -14,7 +15,16 @@ type SearchParamProps = {
 export default async function Actividades({ searchParams }: SearchParamProps) {
   const activityData = await getActivityData();
   const show = searchParams?.show;
+  const search = searchParams?.search || "";
 
+  let filteredData;
+  if (search) {
+    filteredData = activityData?.data?.filter((user: Activity) =>
+      user.name.toLowerCase().includes(search.toLowerCase())
+    );
+  } else {
+    filteredData = activityData;
+  }
   return (
     <div className="pr-5 pb-5">
       <div>
@@ -39,7 +49,7 @@ export default async function Actividades({ searchParams }: SearchParamProps) {
       </div>
       <div className={`h-[600px] overflow-y-auto`}>
         <BaseTableCard>
-          <ActividadesTable activityData={activityData?.data} />
+          <ActividadesTable activityData={filteredData} />
         </BaseTableCard>
       </div>
     </div>

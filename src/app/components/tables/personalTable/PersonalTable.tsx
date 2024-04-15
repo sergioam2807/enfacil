@@ -8,28 +8,26 @@ import ChipStatus from "../../chip/ChipStatus";
 import Link from "next/link";
 import { Personnel } from "@/types/types";
 
-interface userProps {
-  personalData?: Personnel[];
-}
-
-interface personalDataProps {
-  name: string;
-  superAdmin: boolean;
-  fIngreso: string | null;
-  estado: string | null;
-  email: string;
-  phone: string;
-  id: number;
-}
+type userProps = {
+  personalData: { data: Personnel[] } | Personnel[];
+};
 
 const PersonalTable = ({ personalData }: userProps) => {
-  if (!personalData || personalData.length === 0) {
+  if (
+    !personalData ||
+    (Array.isArray(personalData) && personalData.length === 0)
+  ) {
     return (
       <div className="w-full text-center py-10">
         <p className="text-xl text-custom-blue">No hay datos disponibles</p>
       </div>
     );
   }
+
+  const data = Array.isArray(personalData)
+    ? personalData
+    : personalData?.data || [];
+
   return (
     <table className="w-full table-auto">
       <thead>
@@ -45,7 +43,7 @@ const PersonalTable = ({ personalData }: userProps) => {
         </tr>
       </thead>
       <tbody>
-        {personalData?.map((row: Personnel) => (
+        {data?.map((row: Personnel) => (
           <tr
             key={row.id}
             className="text-[#797979] font-medium text-sm border-t border-[#EAEAEA]"
