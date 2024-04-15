@@ -5,16 +5,7 @@ import InputComponent from "../input/InputComponent";
 import BasicButtonComponent from "../buttons/BasicButtonComponent";
 import { editPersonnelData } from "@/app/api/data";
 import { useRouter } from "next/navigation";
-
-export interface Personnel {
-  id: number;
-  name: string;
-  specialty: string;
-  pricePerWorkDay: number;
-  taxId: number;
-  phone: number;
-  email: string;
-}
+import { Personnel } from "@/types/types";
 
 interface ModalEditPersonnelProps {
   handleCloseEdit: () => void;
@@ -120,7 +111,7 @@ const ModalEditPersonnel = ({
                 name="pricePerWorkDay"
                 placeholder="Cargo"
                 onChange={handleInputChange}
-                value={editPersonnel?.pricePerWorkDay.toString()}
+                value={editPersonnel?.pricePerWorkDay?.toString() ?? "-"}
               />
             </div>
           </div>

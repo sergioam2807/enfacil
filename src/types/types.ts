@@ -15,14 +15,13 @@ export type Activity = {
   materialsRecipeIds: string;
 };
 
-export type Personal = {
-  id: string;
+export type Personnel = {
+  id: number;
   name: string;
-  cargo: string;
   specialty: string;
-  fIngreso: string;
-  state: string;
-  phone: string;
+  pricePerWorkDay: number | null;
+  taxId: number;
+  phone: number;
   email: string;
 };
 

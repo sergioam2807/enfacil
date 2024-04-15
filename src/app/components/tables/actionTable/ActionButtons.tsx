@@ -4,9 +4,11 @@ import React, { useState } from "react";
 import edit from "../../../../../public/images/edit.svg";
 import trash from "../../../../../public/images/trash.svg";
 import { useRouter } from "next/navigation";
-import ModalEditUser, { User } from "../../modal/ModalEditUser";
+import ModalEditUser from "../../modal/ModalEditUser";
 import ModalEditPersonnel from "../../modal/ModalEditPersonal";
 import ModalEditClient from "../../modal/ModalEditClient";
+import ModalEditMaterial from "../../modal/ModalEditMaterial";
+import { Client, Material, Personnel, User } from "@/types/types";
 
 interface ActionButtonsProps {
   id: number | string;
@@ -21,7 +23,7 @@ interface ModalEditUserProps {
   userData?: User;
 }
 
-const initialUserState: User | null = null;
+const initialUserState: User | Personnel | Client | Material | null = null;
 const ActionButtons = ({
   id,
   deleteURL,
@@ -30,7 +32,9 @@ const ActionButtons = ({
   type,
 }: ActionButtonsProps) => {
   const [showEditModal, setShowEditModal] = useState(false);
-  const [editUser, setEditUser] = useState<User | null>(initialUserState);
+  const [editUser, setEditUser] = useState<
+    User | Personnel | Client | Material | null
+  >(initialUserState);
   const [isUserDataLoaded, setIsUserDataLoaded] = useState(false);
   const router = useRouter();
 
@@ -100,28 +104,28 @@ const ActionButtons = ({
           <ModalEditUser
             handleCloseEdit={handleCloseEdit}
             userId={typeof id === "string" ? Number(id) : id}
-            userData={editUser as ModalEditUserProps["userData"]}
+            userData={editUser as User}
           />
         );
       case "personal":
         return (
           <ModalEditPersonnel
             handleCloseEdit={handleCloseEdit}
-            userData={editUser as ModalEditUserProps["personnelData"]}
+            userData={editUser as Personnel}
           />
         );
       case "clientes":
         return (
           <ModalEditClient
             handleCloseEdit={handleCloseEdit}
-            userData={editUser as ModalEditUserProps["clientesData"]}
+            userData={editUser as Client}
           />
         );
       case "materiales":
         return (
-          <ModalEditMateriales
+          <ModalEditMaterial
             handleCloseEdit={handleCloseEdit}
-            userData={editUser as ModalEditUserProps["materialesData"]}
+            materialData={editUser as Material}
           />
         );
       default:
