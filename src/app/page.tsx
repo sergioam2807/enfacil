@@ -6,16 +6,18 @@ import passwordIcon from "../../public/images/loginPassword.svg";
 import InputLogin from "./components/login/InputLogin";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import SpinnerLoad from "./components/common/SpinnerLoad";
 
 export default function Home() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  // admin@admin.cl
-  // admin1234
+  const [isLoading, setIsLoading] = useState(false);
+
   const router = useRouter();
 
   const handleLogin = async () => {
+    setIsLoading(true);
     const response = await fetch("/api/auth", {
       method: "POST",
       headers: {
@@ -31,6 +33,7 @@ export default function Home() {
       router.push("/inicio");
     } else {
       setError("*Usuario o contraseña incorrectos");
+      setIsLoading(false);
     }
   };
   return (
@@ -63,7 +66,7 @@ export default function Home() {
             onClick={handleLogin}
             className="bg-custom-blue text text-white font-bold text-center p-2 border rounded w-64 h-12"
           >
-            Entrar
+            {isLoading ? <SpinnerLoad /> : "Entrar"}
           </button>
           {error && <div className="text-red-500">{error}</div>}
         </div>
