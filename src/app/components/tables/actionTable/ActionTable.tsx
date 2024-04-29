@@ -7,13 +7,14 @@ import TableCell from "@/app/components/common/TableCell";
 import ChipStatus from "@/app/components/chip/ChipStatus";
 
 import Link from "next/link";
+import { formatDate } from "@/helpers/capitaliizeFirstLetter";
 
 interface User {
   id: string;
   name: string;
   job: string;
   superAdmin: string;
-  fIngreso: string;
+  created: string;
   state: string;
   phone: string;
   email: string;
@@ -81,7 +82,7 @@ const ActionTableComponent = async ({ searchData }: any) => {
             <TableCell>
               {row.superAdmin ? "Administrador" : "Usuario"}
             </TableCell>
-            <TableCell>{row.fIngreso ?? "-"}</TableCell>
+            <TableCell>{formatDate(row.created) ?? "-"}</TableCell>
             <TableCell>
               <ChipStatus status={row.state ?? "Activo"}>
                 {row.state ?? "Activo"}

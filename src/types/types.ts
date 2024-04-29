@@ -20,10 +20,10 @@ export type Personnel = {
   name: string;
   specialty: string;
   pricePerWorkDay: number | null;
-  taxId: number;
-  phone: number;
+  taxId: number | null;
+  phone: number | null;
   email: string;
-  fIngreso: string;
+  created: string;
   state: string;
 };
 

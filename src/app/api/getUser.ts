@@ -176,3 +176,83 @@ export async function getActivityData() {
     return [];
   }
 }
+
+//quote data
+
+export async function getQuoteEnclosureActivities() {
+  const cookieStore = cookies();
+  const token = cookieStore.get("token")?.value;
+
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/QuoteEnclosureActivityApi/GetQuoteEnclosureActivities`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
+  if (!res.ok) {
+    console.log("Failed to fetch data");
+  }
+
+  const contentType = res.headers.get("content-type");
+  if (contentType && contentType.includes("application/json")) {
+    return res.json();
+  } else {
+    console.log("No JSON content found in response");
+    return [];
+  }
+}
+
+export async function getQuotes() {
+  const cookieStore = cookies();
+  const token = cookieStore.get("token")?.value;
+
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/QuoteApi/GetQuotes`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
+  if (!res.ok) {
+    console.log("Failed to fetch data");
+  }
+
+  const contentType = res.headers.get("content-type");
+  if (contentType && contentType.includes("application/json")) {
+    return res.json();
+  } else {
+    console.log("No JSON content found in response");
+    return [];
+  }
+}
+
+export async function getEnclosure() {
+  const cookieStore = cookies();
+  const token = cookieStore.get("token")?.value;
+
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/EnclosureApi/GetEnclosures`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
+  if (!res.ok) {
+    console.log("Failed to fetch data");
+  }
+
+  const contentType = res.headers.get("content-type");
+  if (contentType && contentType.includes("application/json")) {
+    return res.json();
+  } else {
+    console.log("No JSON content found in response");
+    return [];
+  }
+}

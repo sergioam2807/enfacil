@@ -4,7 +4,7 @@ import logo from "../../public/images/login-logo.png";
 import user from "../../public/images/loginUser.svg";
 import passwordIcon from "../../public/images/loginPassword.svg";
 import InputLogin from "./components/login/InputLogin";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import SpinnerLoad from "./components/common/SpinnerLoad";
 
@@ -25,17 +25,26 @@ export default function Home() {
       },
       body: JSON.stringify({ email, password }),
     });
+
+    if (!response.ok) {
+      setError("*Usuario o contraseña incorrectos");
+      setIsLoading(false);
+      return;
+    }
+
     const data = await response.json();
     const token = data.token;
 
-    if (response.ok) {
-      localStorage.setItem("token", token);
-      router.push("/inicio");
-    } else {
-      setError("*Usuario o contraseña incorrectos");
+    localStorage.setItem("token", token);
+    router.push("/inicio");
+  };
+
+  useEffect(() => {
+    if (error) {
       setIsLoading(false);
     }
-  };
+  }, [error]);
+
   return (
     <div className="h-screen flex">
       <div className="bg-custom-blue w-1/2 flex-grow flex justify-center items-center">

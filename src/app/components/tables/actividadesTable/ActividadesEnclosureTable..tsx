@@ -9,7 +9,7 @@ interface activityProps {
   activityData: { data: Activity[] } | Activity[];
 }
 
-const ActividadesTable = ({ activityData }: activityProps) => {
+const ActividadesEnclosureTable = ({ activityData }: activityProps) => {
   if (
     !activityData ||
     (Array.isArray(activityData) && activityData.length === 0)
@@ -52,14 +52,14 @@ const ActividadesTable = ({ activityData }: activityProps) => {
               {formatPrice(Number(row.materialsUnitPricing)) ?? "-"}
             </TableCell>
             <TableCell>{row.metricUnit ?? "-"}</TableCell>
-            <td className="text-left text-base">
+            {/* <td className="text-left text-base">
               <OptionMenuMaterialsButton
                 id={row.id?.toString() ?? ""}
                 byIdURL={"/ActivityApi/GetActivities"}
                 deleteURL={"/ActivityApi/DeleteActivity"}
                 type="actividades"
               />
-            </td>
+            </td> */}
           </tr>
         ))}
       </tbody>
@@ -67,4 +67,4 @@ const ActividadesTable = ({ activityData }: activityProps) => {
   );
 };
 
-export default ActividadesTable;
+export default ActividadesEnclosureTable;

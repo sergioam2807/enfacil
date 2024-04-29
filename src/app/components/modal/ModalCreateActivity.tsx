@@ -10,10 +10,10 @@ const ModalCreateActivity = () => {
   const router = useRouter();
   const [createActivity, setCreateActivity] = useState({
     name: "",
-    metricUnit: "0",
+    metricUnit: "",
     manPowerUnitPricing: "",
     materialsUnitPricing: "",
-    materialsRecipeIds: "0",
+    materialsRecipeIds: "",
   });
   const token = localStorage.getItem("token");
 
@@ -70,6 +70,17 @@ const ModalCreateActivity = () => {
                 placeholder="$00.000"
                 onChange={handleInputChange}
                 value={createActivity?.materialsUnitPricing}
+              />
+            </div>
+          </div>
+          <div className="flex items-center justify-between gap-5">
+            <div>
+              <InputComponent
+                nameVizualization="Unidad de medida"
+                name="metricUnit"
+                placeholder="Kg"
+                onChange={handleInputChange}
+                value={createActivity?.metricUnit}
               />
             </div>
           </div>

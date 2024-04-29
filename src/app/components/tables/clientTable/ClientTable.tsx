@@ -7,16 +7,17 @@ import TableCell from "../../common/TableCell";
 import ChipStatus from "../../chip/ChipStatus";
 import Link from "next/link";
 import ActionButtons from "../actionTable/ActionButtons";
-import { formatTaxId } from "@/helpers/capitaliizeFirstLetter";
+import { formatDate, formatTaxId } from "@/helpers/capitaliizeFirstLetter";
 
 interface Client {
   id: string;
   name: string;
   address: string;
   taxId: string;
-  fcreacion: string;
+  created: string;
   state: string;
   phone: string;
+  totalProjects: number;
   email: string;
 }
 
@@ -45,6 +46,7 @@ const ClientTable = ({ clientData }: clientProps) => {
           <TableHead>F.Creación</TableHead>
           <TableHead>Estado</TableHead>
           <TableHead>Contacto</TableHead>
+          <TableHead>P.Totales</TableHead>
           <TableHead>Acciones</TableHead>
         </tr>
       </thead>
@@ -73,19 +75,19 @@ const ClientTable = ({ clientData }: clientProps) => {
               </div>
             </TableCell>
             <TableCell>{formatTaxId(row.taxId)}</TableCell>
-            <TableCell>{row.fcreacion ?? "-"}</TableCell>
+            <TableCell>{formatDate(row.created) ?? "-"}</TableCell>
             <TableCell>
               <ChipStatus status={row.state ?? "Activo"}>
                 {row.state ?? "Activo"}
               </ChipStatus>
             </TableCell>
-            {/* <TableCell>{row.specialty ?? "-"}</TableCell> */}
             <TableCell>
               <div>
                 <div>{row.email}</div>
                 <div>{row.phone}</div>
               </div>
             </TableCell>
+            <TableCell>{row.totalProjects ?? "0"}</TableCell>
             <td className="text-left text-base">
               <ActionButtons
                 id={row.id}

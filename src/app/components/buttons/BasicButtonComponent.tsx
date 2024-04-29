@@ -7,6 +7,7 @@ interface Props {
   textColor: string;
   text: string;
   onClick: () => void;
+  disabled?: boolean;
 }
 
 const BasicButtonComponent = ({
@@ -14,6 +15,7 @@ const BasicButtonComponent = ({
   borderColor,
   textColor,
   text,
+  disabled,
   onClick,
 }: Props) => {
   return (
@@ -25,6 +27,7 @@ const BasicButtonComponent = ({
         color: textColor,
       }}
       className="py-3 px-8 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-gray-300"
+      disabled={disabled}
     >
       {text}
     </button>

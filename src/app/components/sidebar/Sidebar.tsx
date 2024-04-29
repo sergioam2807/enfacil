@@ -45,6 +45,11 @@ const sidebarMenuItems = [
     icon: "actividades",
     title: "Actividades",
   },
+  {
+    path: "/recintos",
+    icon: "recintos",
+    title: "Recintos",
+  },
 ];
 
 export const Sidebar = () => {
@@ -70,7 +75,6 @@ export const Sidebar = () => {
         </Link>
       </div>
       <div className="mt-auto pl-4 pb-4">
-        {" "}
         <Image
           src="/images/logo-en-facil.png"
           alt="logo"

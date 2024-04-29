@@ -7,6 +7,7 @@ import TableCell from "../../common/TableCell";
 import ChipStatus from "../../chip/ChipStatus";
 import Link from "next/link";
 import { Personnel } from "@/types/types";
+import { formatDate } from "@/helpers/capitaliizeFirstLetter";
 
 type userProps = {
   personalData: { data: Personnel[] } | Personnel[];
@@ -63,7 +64,7 @@ const PersonalTable = ({ personalData }: userProps) => {
             </TableCell>
             <TableCell>No data</TableCell>
             <TableCell>{row.specialty ?? "-"}</TableCell>
-            <TableCell>{row.fIngreso ?? "-"}</TableCell>
+            <TableCell>{formatDate(row.created) ?? "-"}</TableCell>
             <TableCell>
               <ChipStatus status={row.state ?? "Activo"}>
                 {row.state ?? "Activo"}

@@ -11,7 +11,11 @@ export function formatTaxId(taxId: number | string) {
   if (match) {
     return `${match[1]}.${match[2]}.${match[3]}-${match[4]}`;
   }
-  return taxId;
+  return taxId.toString();
+}
+
+export function cleanTaxId(taxId: string) {
+  return taxId.replace(/\D/g, "");
 }
 
 export function formatPrice(price: number) {
@@ -19,4 +23,23 @@ export function formatPrice(price: number) {
     return "-";
   }
   return price.toLocaleString("es-CL", { style: "currency", currency: "CLP" });
+}
+
+//DATE FORMATER
+export function formatDate(dateString: string) {
+  if (!dateString) {
+    return "-";
+  }
+
+  const date = new Date(dateString);
+
+  if (isNaN(date.getTime())) {
+    return "-";
+  }
+
+  return date.toLocaleDateString("es-ES", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  });
 }

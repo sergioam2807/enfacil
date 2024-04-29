@@ -5,21 +5,34 @@ import InputComponent from "../input/InputComponent";
 import BasicButtonComponent from "../buttons/BasicButtonComponent";
 import { useRouter } from "next/navigation";
 import { createPersonalData } from "@/app/api/data";
+import { Personnel } from "@/types/types";
+import { cleanTaxId, formatTaxId } from "@/helpers/capitaliizeFirstLetter";
+
+export type CreatePersonnelData = {
+  email: string;
+  name: string;
+  specialty: string;
+  pricePerWorkDay: number | null;
+  taxId: number | null;
+  phone: number | null;
+};
 
 const ModalCreatePersonal = () => {
   const router = useRouter();
-  const [createPesonnel, setCreatePersonnel] = useState({
+  const [createPesonnel, setCreatePersonnel] = useState<CreatePersonnelData>({
     email: "",
     name: "",
     specialty: "",
-    pricePerWorkDay: 0,
-    taxId: 0,
-    phone: 0,
+    pricePerWorkDay: null,
+    taxId: null,
+    phone: null,
   });
 
   const token = localStorage.getItem("token");
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (event: {
+    target: { value: string; name: string };
+  }) => {
     setCreatePersonnel({
       ...createPesonnel,
       [event.target.name]: event.target.value,
@@ -34,6 +47,15 @@ const ModalCreatePersonal = () => {
     } catch (error) {
       console.error("Failed to create personnel", error);
     }
+  };
+
+  const allFieldsFilled = () => {
+    for (let key in createPesonnel) {
+      if (!createPesonnel[key as keyof CreatePersonnelData]) {
+        return false;
+      }
+    }
+    return true;
   };
 
   return (
@@ -61,8 +83,13 @@ const ModalCreatePersonal = () => {
                 nameVizualization="Rut"
                 name="taxId"
                 placeholder="00.000.000-0"
-                onChange={handleInputChange}
-                value={createPesonnel?.taxId?.toString()}
+                onChange={(e) => {
+                  const cleanedInput = cleanTaxId(e.target.value);
+                  handleInputChange({
+                    target: { value: cleanedInput, name: e.target.name },
+                  });
+                }}
+                value={formatTaxId(createPesonnel?.taxId?.toString() ?? "")}
               />
             </div>
 
@@ -72,7 +99,7 @@ const ModalCreatePersonal = () => {
                 name="phone"
                 placeholder="+569 87592653"
                 onChange={handleInputChange}
-                value={createPesonnel?.phone?.toString()}
+                value={createPesonnel?.phone?.toString() ?? ""}
               />
             </div>
           </div>
@@ -90,9 +117,9 @@ const ModalCreatePersonal = () => {
               <InputComponent
                 nameVizualization="Valor día"
                 name="pricePerWorkDay"
-                placeholder="Cargo"
+                placeholder="$00.000"
                 onChange={handleInputChange}
-                value={createPesonnel?.pricePerWorkDay?.toString()}
+                value={createPesonnel?.pricePerWorkDay?.toString() ?? ""}
               />
             </div>
           </div>
@@ -119,11 +146,12 @@ const ModalCreatePersonal = () => {
             </div>
             <div className="flex justify-end mt-4">
               <BasicButtonComponent
-                bgColor="#0E436B"
-                borderColor="#0E436B"
+                bgColor={allFieldsFilled() ? "#0E436B" : "#BDBDBD"}
+                borderColor={allFieldsFilled() ? "#0E436B" : "#BDBDBD"}
                 textColor="#FFFFFF"
                 text="Añadir"
                 onClick={handleCreatePesonnel}
+                disabled={!allFieldsFilled()}
               />
             </div>
           </div>
