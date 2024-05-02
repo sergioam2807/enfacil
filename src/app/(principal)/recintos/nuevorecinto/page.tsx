@@ -32,7 +32,7 @@ interface EnclosureData {
   data: Enclosure[];
 }
 
-export default function NuevoRecinto() {
+const AñadirRecinto = () => {
   const [activityData, setActivityData] = useState<Activity[]>([]);
   const [activitiesArray, setActivitiesArray] = useState<string[]>([]);
   const [enclosureData, setEnclosureData] = useState<EnclosureData | null>(
@@ -233,4 +233,6 @@ export default function NuevoRecinto() {
       </div>
     </div>
   );
-}
+};
+
+export default AñadirRecinto;
