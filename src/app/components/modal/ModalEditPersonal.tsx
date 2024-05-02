@@ -27,7 +27,7 @@ const ModalEditPersonnel = ({
       taxId: 0,
       phone: 0,
       email: "",
-      fIngreso: "",
+      created: "",
       state: "",
     }
   );
@@ -94,7 +94,7 @@ const ModalEditPersonnel = ({
               name="taxId"
               placeholder="Rut"
               onChange={handleInputChange}
-              value={editPersonnel?.taxId.toString()}
+              value={editPersonnel?.taxId?.toString() ?? "-"}
             />
           </div>
           <div className="flex items-center  gap-5">
@@ -125,7 +125,7 @@ const ModalEditPersonnel = ({
                 name="phone"
                 placeholder="+569 87592653"
                 onChange={handleInputChange}
-                value={editPersonnel?.phone.toString()}
+                value={editPersonnel?.phone?.toString() ?? "-"}
               />
             </div>
             <div>
