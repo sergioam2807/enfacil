@@ -76,7 +76,7 @@ export default async function Recintos() {
         </div>
         <div className="flex gap-4">
           <div>
-            <Link href="/recintos/nuevo-recinto">
+            <Link href="/recintos/nuevorecinto">
               <CreateButton
                 title="Crear recinto"
                 iconSize={14}
