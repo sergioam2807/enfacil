@@ -1,20 +1,89 @@
+"use client";
 import Search from "@/app/components/common/Search";
 import TitleComponent from "@/app/components/common/TitleComponent";
-import Image from "next/image";
-import Link from "next/link";
-import pencil from "@/../public/images/pencilIcon.svg";
-import download from "@/../public/images/dowload.svg";
 import BaseTableCard from "@/app/components/tables/table/BaseTableCard";
 import TableCotizacion from "@/app/components/tables/cotizacionTable/TableCotizacion";
 import TableCotizacionActual from "@/app/components/tables/cotizacionTable/TableCotizacionActual";
-import ModalCotizacion from "@/app/components/modal/ModalCotizacion";
-import { Suspense } from "react";
+import { Suspense, useEffect, useState } from "react";
+import { getActivityTokenData, getEnclosureData } from "@/app/api/data";
+import { formatPrice } from "@/helpers/capitaliizeFirstLetter";
 
-type SearchParamProps = {
-  searchParams: Record<string, string> | null | undefined;
-};
-export default function Cotizaciones({ searchParams }: SearchParamProps) {
-  const show = searchParams?.show;
+export default function Cotizaciones() {
+  const [enclosureData, setEnclosureData] = useState<any[]>([]);
+  const [enclosureAdded, setEnclosureAdded] = useState([]);
+  const [activityData, setActivityData] = useState<any[]>([]);
+  const [totals, setTotals] = useState<
+    { manPowerTotal: number; materialsTotal: number }[]
+  >([]);
+  const [quoteTotal, setQuoteTotal] = useState({
+    materials: 0,
+    manPower: 0,
+    generalExpenses: 0,
+    finalTotal: 0,
+  });
+  const token = localStorage.getItem("token");
+
+  const handleData = (data: any) => {
+    setEnclosureAdded(data);
+  };
+
+  const handleTotalChange = (totalsQuote: {
+    materials: number;
+    manPower: number;
+    generalExpenses: number;
+    finalTotal: number;
+  }) => {
+    setQuoteTotal(totalsQuote);
+  };
+
+  useEffect(() => {
+    getEnclosureData(token as string).then((data) => {
+      setEnclosureData(data?.data);
+    });
+  }, [token]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (token) {
+        const data = await getActivityTokenData(token);
+        setActivityData(data.data);
+      }
+    };
+
+    fetchData();
+  }, [token]);
+
+  useEffect(() => {
+    const newEnclosureData = enclosureData?.map((enclosure: any) => {
+      let manPowerTotal = 0;
+      let materialsTotal = 0;
+
+      const activityNames = enclosure.activitiesInEnclosure.split(", ");
+
+      activityNames.forEach((name: string) => {
+        const activity = activityData.find(
+          (activity) => activity.name.trim() === name.trim()
+        );
+        if (activity) {
+          manPowerTotal += activity.manPowerUnitPricing;
+          materialsTotal += activity.materialsUnitPricing;
+        }
+      });
+
+      return { ...enclosure, manPowerTotal, materialsTotal };
+    });
+
+    setTotals(newEnclosureData);
+  }, [activityData]);
+
+  const combinedData = enclosureAdded.map((enclosure: any) => {
+    const totalsForEnclosure = totals.find(
+      (total: any) => total.id === enclosure.id
+    );
+    return { ...enclosure, ...totalsForEnclosure };
+  });
+
+  console.log("quoteTotal", quoteTotal);
 
   return (
     <div className="pr-5 pb-5">
@@ -30,28 +99,11 @@ export default function Cotizaciones({ searchParams }: SearchParamProps) {
             <Search color="#FFFFFF" />
           </Suspense>
         </div>
-        <div className="flex gap-4">
-          {/* <div>
-            <Link
-              href="/cotizaciones?show=true"
-              className={`text-sm font-medium bg-[#868686] text-[#FFFFFF]  rounded-md px-3 py-3 mx-4 flex items-center flex-grow`}
-            >
-              <Image
-                src={pencil}
-                alt="edit"
-                width={23}
-                height={23}
-                className="mr-2"
-              />
-              Convertir a proyectos
-            </Link>
-            {show && <ModalCotizacion />}
-          </div> */}
-        </div>
+        <div className="flex gap-4"></div>
       </div>
       <div className={`h-[300px] overflow-y-auto`}>
         <BaseTableCard>
-          <TableCotizacion />
+          <TableCotizacion cotizacionData={enclosureData} onData={handleData} />
         </BaseTableCard>
       </div>
 
@@ -64,7 +116,10 @@ export default function Cotizaciones({ searchParams }: SearchParamProps) {
       </div>
       <div className={`h-[300px] overflow-y-auto`}>
         <BaseTableCard>
-          <TableCotizacionActual />
+          <TableCotizacionActual
+            cotizacionData={combinedData}
+            onTotalChange={handleTotalChange}
+          />
         </BaseTableCard>
       </div>
       <div>
@@ -78,25 +133,34 @@ export default function Cotizaciones({ searchParams }: SearchParamProps) {
             <span className="text-[#0E436B] font-semibold text-md ">
               Total materiales
             </span>
-            <span className="text-[#797979] font-semibold text-md ">$0</span>
+            <span className="text-[#797979] font-semibold text-md ">
+              {formatPrice(quoteTotal.materials)}
+            </span>
           </div>
           <div className="flex justify-between">
             <span className="text-[#0E436B] font-semibold text-md ">
               Total mano de obra
             </span>
-            <span className="text-[#797979] font-semibold text-md ">$0</span>
+            <span className="text-[#797979] font-semibold text-md ">
+              {" "}
+              {formatPrice(quoteTotal.manPower)}
+            </span>
           </div>
           <div className="flex justify-between">
             <span className="text-[#0E436B] font-semibold text-md ">
               Gastos generales
             </span>
-            <span className="text-[#797979] font-semibold text-md ">$0</span>
+            <span className="text-[#797979] font-semibold text-md ">
+              {formatPrice(quoteTotal.generalExpenses)}
+            </span>
           </div>
           <div className="flex justify-between">
             <span className="text-[#0E436B] font-semibold text-md ">
               Total Final
             </span>
-            <span className="text-[#797979] font-semibold text-md ">$0</span>
+            <span className="text-[#797979] font-semibold text-md ">
+              {formatPrice(quoteTotal.finalTotal)}
+            </span>
           </div>
         </div>
         <div className="w-full flex justify-end py-6">

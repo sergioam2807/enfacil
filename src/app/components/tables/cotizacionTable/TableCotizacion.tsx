@@ -1,13 +1,14 @@
-import React from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 import TableHead from "../../common/TableHead";
 import TableCell from "../../common/TableCell";
 import ciclebutton from "../../../../../public/images/circlebutton.svg";
-import Link from "next/link";
 import Image from "next/image";
 
-interface Cotizacion {
+interface Enclosure {
   id: string;
-  recinto: string;
+  title: string;
+  activitiesInEnclosure: string;
   activities: string;
   activityOne: number;
   activityTwo: string;
@@ -15,28 +16,34 @@ interface Cotizacion {
 }
 
 interface cotizacionProps {
-  materialData: Cotizacion[];
+  cotizacionData: Enclosure[];
+  onData: (data: any) => void;
 }
 
-const TableCotizacion = () => {
-  const cotizacionData: Cotizacion[] = [
-    {
-      id: "1",
-      recinto: "Recinto 1",
-      activities: "Actividad 1",
-      activityOne: 10,
-      activityTwo: "Actividad 2",
-      activityTree: 20,
-    },
-    {
-      id: "2",
-      recinto: "Recinto 2",
-      activities: "Actividad 3",
-      activityOne: 15,
-      activityTwo: "Actividad 4",
-      activityTree: 25,
-    },
-  ];
+const TableCotizacion = ({ cotizacionData, onData }: cotizacionProps) => {
+  const [selectedRow, setSelectedRow] = useState<cotizacionProps[]>([]);
+
+  let transformedData = cotizacionData?.map((enclosure: Enclosure) => {
+    let enclosureActivities = enclosure.activitiesInEnclosure
+      .split(",")
+      .map((activity) => activity.trim());
+
+    return {
+      id: enclosure.id,
+      title: enclosure.title,
+      activities: enclosureActivities.length,
+      activityOne: enclosureActivities[0] ?? "-",
+      activityTwo: enclosureActivities[1] ?? "-",
+      activityThree: enclosureActivities[2] ?? "-",
+    };
+  });
+
+  useEffect(() => {
+    onData(selectedRow);
+  }, [selectedRow, onData]);
+
+  console.log(selectedRow);
+
   return (
     <table className="w-full table-auto">
       <thead>
@@ -50,26 +57,22 @@ const TableCotizacion = () => {
         </tr>
       </thead>
       <tbody>
-        {cotizacionData?.map((row: Cotizacion) => (
+        {transformedData?.map((row: any) => (
           <tr
             key={row?.id}
             className="text-[#797979] font-medium text-sm border-t border-[#EAEAEA]"
           >
-            <td className="text-left pb-8 pt-5 pl-10">{row.recinto ?? "-"}</td>
+            <td className="text-left pb-8 pt-5 pl-10">{row.title ?? "-"}</td>
             <TableCell>{row.activities ?? "-"}</TableCell>
             <TableCell>{row.activityOne ?? "-"}</TableCell>
             <TableCell>{row.activityTwo ?? "-"}</TableCell>
-            <TableCell>{row.activityTree ?? "-"}</TableCell>
+            <TableCell>{row.activityThree ?? "-"}</TableCell>
             <td className="text-left text-base">
-              <Link href={"#"}>
-                <Image
-                  src={ciclebutton}
-                  alt="edit"
-                  width={23}
-                  height={23}
-                  className="mr-2"
-                />
-              </Link>
+              <button
+                onClick={() => setSelectedRow((prevRows) => [...prevRows, row])}
+              >
+                <Image src={ciclebutton} alt="edit" width={23} height={23} />
+              </button>
             </td>
           </tr>
         ))}

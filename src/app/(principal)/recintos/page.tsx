@@ -23,13 +23,10 @@ interface Activity {
   activityUnits: number;
   activityMPUnitPrice: number;
   activityMaterialsUnitPrice: number;
+  name?: string;
 }
 
-type SearchParamProps = {
-  searchParams: Record<string, string> | null | undefined;
-};
-
-export default async function Recintos({ searchParams }: SearchParamProps) {
+export default async function Recintos() {
   const enclosureActivityData = await getQuoteEnclosureActivities();
   const enclosureData = await getEnclosure();
   const activityData = await getActivityData();
@@ -40,8 +37,6 @@ export default async function Recintos({ searchParams }: SearchParamProps) {
   enclosureData?.data?.forEach((enclosure: Enclosure) => {
     enclosureMap[enclosure.id] = enclosure;
   });
-
-  console.log("enclosureData?.data", enclosureData?.data);
 
   let combinedData = enclosureData?.data?.map((enclosure: Enclosure) => {
     let enclosureActivities = enclosure.activitiesInEnclosure.split(",");

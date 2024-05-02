@@ -12,7 +12,7 @@ import ActividadesEnclosureTable from "@/app/components/tables/actividadesTable/
 import BaseTableCard from "@/app/components/tables/table/BaseTableCard";
 import { capitalizeFirstLetter } from "@/helpers/capitaliizeFirstLetter";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 interface Enclosure {
   activitiesInEnclosure: string;
@@ -20,7 +20,12 @@ interface Enclosure {
 }
 
 interface Activity {
+  id: number;
   name: string;
+  metricUnit: string;
+  manPowerUnitPricing: string;
+  materialsUnitPricing: string;
+  materialsRecipeIds: string;
 }
 
 interface EnclosureData {
@@ -51,7 +56,7 @@ export default function AñadirRecinto() {
     fetchData();
   }, [token]);
 
-  const fetchActivitysData = async () => {
+  const fetchActivitysData = useCallback(async () => {
     if (token) {
       const enclosureData = await getActivityEnclosure(token);
       setEnclosureData(enclosureData);
@@ -67,11 +72,11 @@ export default function AñadirRecinto() {
         setActivitiesArray(activitiesArray);
       }
     }
-  };
+  }, [token]);
 
   useEffect(() => {
     fetchActivitysData();
-  }, [token]);
+  }, [fetchActivitysData, token]);
 
   const handleActivityChange = (
     event: React.ChangeEvent<HTMLSelectElement>
@@ -219,7 +224,7 @@ export default function AñadirRecinto() {
               />
               <BaseTableCard>
                 <ActividadesEnclosureTable
-                  activityData={filteredActivityData}
+                  activityData={{ data: filteredActivityData }}
                 />
               </BaseTableCard>
             </div>
