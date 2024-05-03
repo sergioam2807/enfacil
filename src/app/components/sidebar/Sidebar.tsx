@@ -2,13 +2,11 @@
 import Image from "next/image";
 import { SidebarItem } from "./SidebarItem";
 import { CreateButton } from "../common/CreateButton";
-import Link from "next/link";
-import ModalActivity from "../modal/ModalActivity";
 import { useState } from "react";
 import ModalCreateQuote from "../modal/ModalCreateQuote";
 import { getClientResponseData } from "@/app/api/data";
 import { Client } from "@/types/types";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 const sidebarMenuItems = [
   {
