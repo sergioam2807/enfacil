@@ -85,15 +85,15 @@ const TableCotizacionActual = ({ cotizacionData, onTotalChange }: any) => {
       0
     );
     const generalExpenses = materialsTotal + manPowerTotal;
-    const finalTotal = enclosureData.reduce(
-      (total, item) =>
-        total +
-        (item.materialsTotal * item.unityCount +
-          item.manPowerTotal * item.unityCount) *
-          (1 + item.margin / 100),
-      0
-    );
-    // const finalTotal = materialsTotal + manPowerTotal + generalExpenses;
+    // const finalTotal = enclosureData.reduce(
+    //   (total, item) =>
+    //     total +
+    //     (item.materialsTotal * item.unityCount +
+    //       item.manPowerTotal * item.unityCount) *
+    //       (1 + item.margin / 100),
+    //   0
+    // );
+    const finalTotal = materialsTotal + manPowerTotal;
 
     return {
       materials: materialsTotal,
@@ -118,7 +118,7 @@ const TableCotizacionActual = ({ cotizacionData, onTotalChange }: any) => {
   }, [totals, onTotalChange]);
 
   return (
-    <table className="w-full table-auto">
+    <table className="w-full table-auto ">
       <thead>
         <tr className="text-[#0E436B] font-semibold text-sm">
           <th className="text-left pb-8 pt-5 pl-10">Recinto</th>

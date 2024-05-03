@@ -36,6 +36,7 @@ export type Material = {
 };
 
 export type Client = {
+  id: number | string | null;
   name: string;
   email: string;
   taxId: number | string;

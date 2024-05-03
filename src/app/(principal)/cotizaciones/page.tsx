@@ -1,5 +1,5 @@
 "use client";
-import Search from "@/app/components/common/Search";
+// import Search from "@/app/components/common/Search";
 import TitleComponent from "@/app/components/common/TitleComponent";
 import BaseTableCard from "@/app/components/tables/table/BaseTableCard";
 import TableCotizacion from "@/app/components/tables/cotizacionTable/TableCotizacion";
@@ -23,9 +23,8 @@ export default function Cotizaciones() {
     finalTotal: 0,
   });
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      setToken(token);
+    if (typeof window !== "undefined") {
+      setToken(localStorage.getItem("token"));
     }
   }, []);
 
@@ -43,22 +42,24 @@ export default function Cotizaciones() {
   };
 
   useEffect(() => {
-    getEnclosureData(token as string).then((data) => {
-      setEnclosureData(data?.data);
-    });
-  }, [token]);
+    if (typeof window !== "undefined") {
+      const token = localStorage.getItem("token");
+      setToken(token);
 
-  useEffect(() => {
-    console.log("token activity", token);
-    const fetchData = async () => {
       if (token) {
-        const data = await getActivityTokenData(token);
-        setActivityData(data.data);
-      }
-    };
+        getEnclosureData(token).then((data) => {
+          setEnclosureData(data?.data);
+        });
 
-    fetchData();
-  }, [token]);
+        const fetchData = async () => {
+          const data = await getActivityTokenData(token);
+          setActivityData(data.data);
+        };
+
+        fetchData();
+      }
+    }
+  }, []);
 
   useEffect(() => {
     const newEnclosureData = enclosureData?.map((enclosure: any) => {
@@ -84,7 +85,7 @@ export default function Cotizaciones() {
   }, [activityData]);
 
   const combinedData = enclosureAdded.map((enclosure: any) => {
-    const totalsForEnclosure = totals?.find(
+    const totalsForEnclosure = totals.find(
       (total: any) => total.id === enclosure.id
     );
     return { ...enclosure, ...totalsForEnclosure };
@@ -98,14 +99,14 @@ export default function Cotizaciones() {
           Cliente: Cliente Name
         </div>
       </div>
-      <div className="flex justify-between items-center pb-7">
+      {/* <div className="flex justify-between items-center pb-7">
         <div>
           <Suspense fallback={<div>Loading...</div>}>
             <Search color="#FFFFFF" />
           </Suspense>
         </div>
         <div className="flex gap-4"></div>
-      </div>
+      </div> */}
       <div className={`h-[300px] overflow-y-auto`}>
         <BaseTableCard>
           <TableCotizacion cotizacionData={enclosureData} onData={handleData} />
@@ -128,7 +129,7 @@ export default function Cotizaciones() {
         </BaseTableCard>
       </div>
       <div>
-        <div className="flex flex-col bg-[#FFFFFF] rounded-lg w-full h-fit py-8 px-6 gap-4">
+        <div className="flex flex-col bg-[#FFFFFF]  mt-8 rounded-lg w-full h-fit py-8 px-6 gap-4">
           <div>
             <span className="text-[#0E436B] font-semibold text-xl ">
               Resumen
@@ -151,14 +152,14 @@ export default function Cotizaciones() {
               {formatPrice(quoteTotal.manPower)}
             </span>
           </div>
-          <div className="flex justify-between">
+          {/*<div className="flex justify-between">
             <span className="text-[#0E436B] font-semibold text-md ">
               Gastos generales
             </span>
             <span className="text-[#797979] font-semibold text-md ">
               {formatPrice(quoteTotal.generalExpenses)}
             </span>
-          </div>
+  </div>*/}
           <div className="flex justify-between">
             <span className="text-[#0E436B] font-semibold text-md ">
               Total Final

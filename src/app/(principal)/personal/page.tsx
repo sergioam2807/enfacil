@@ -1,5 +1,4 @@
 import { getPersonalData } from "@/app/api/getUser";
-import { getUserDataPG } from "@/app/api/getUserDataPG";
 import { CreateButton } from "@/app/components/common/CreateButton";
 import Search from "@/app/components/common/Search";
 import TitleComponent from "@/app/components/common/TitleComponent";
@@ -9,7 +8,6 @@ import SkeletonTable from "@/app/components/skeleton/SkeletonTable";
 import PersonalTable from "@/app/components/tables/personalTable/PersonalTable";
 import BaseTableCard from "@/app/components/tables/table/BaseTableCard";
 import { Personnel } from "@/types/types";
-
 import Link from "next/link";
 import { Suspense } from "react";
 

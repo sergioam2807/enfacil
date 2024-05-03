@@ -1,8 +1,4 @@
-import {
-  getActivityData,
-  getEnclosure,
-  getQuoteEnclosureActivities,
-} from "@/app/api/getUser";
+import { getActivityData, getEnclosure } from "@/app/api/getUser";
 import { CreateButton } from "@/app/components/common/CreateButton";
 import Search from "@/app/components/common/Search";
 import TitleComponent from "@/app/components/common/TitleComponent";
@@ -27,7 +23,6 @@ interface Activity {
 }
 
 export default async function Recintos() {
-  const enclosureActivityData = await getQuoteEnclosureActivities();
   const enclosureData = await getEnclosure();
   const activityData = await getActivityData();
 
@@ -53,6 +48,7 @@ export default async function Recintos() {
     });
 
     return {
+      id: enclosure.id,
       title: enclosure.title,
       activitiesInEnclosure: enclosureActivities,
       activityUnits: enclosureActivities.length,

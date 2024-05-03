@@ -393,3 +393,50 @@ export async function getEnclosureData(token: string) {
     return [];
   }
 }
+
+export async function deleteEnclosureData(token: string, id: string) {
+  console.log("id", id);
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/EnclosureApi/DeleteEnclosure?id=${id}`,
+    {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  console.log("API response:", res);
+
+  if (!res.ok) {
+    throw new Error("Failed to enclosure ");
+  }
+
+  const data = await res.json();
+  return data;
+}
+
+//client
+
+export async function getClientResponseData(token: string) {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/ClientApi/GetClients?identifier=all&value=true`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
+  if (!res.ok) {
+    console.log("Failed to fetch data");
+  }
+
+  const contentType = res.headers.get("content-type");
+  if (contentType && contentType.includes("application/json")) {
+    return res.json();
+  } else {
+    console.log("No JSON content found in response");
+    return [];
+  }
+}

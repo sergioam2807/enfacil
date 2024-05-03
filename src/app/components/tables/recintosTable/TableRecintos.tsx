@@ -1,10 +1,15 @@
+"use client";
 import React from "react";
+import { useRouter } from "next/navigation";
 import TableHead from "../../common/TableHead";
 import TableCell from "../../common/TableCell";
 import {
   capitalizeFirstLetter,
   formatPrice,
 } from "@/helpers/capitaliizeFirstLetter";
+import { deleteEnclosureData } from "@/app/api/data";
+import Image from "next/image";
+import trash from "../../../../../public/images/trash.svg";
 
 interface Recinto {
   id: string;
@@ -21,6 +26,20 @@ type recintoProps = {
 };
 
 const TableRecinto = ({ recintoData: recintoData }: recintoProps) => {
+  const router = useRouter();
+  const handleDelete = async (id: string) => {
+    const token = localStorage.getItem("token");
+
+    if (token) {
+      try {
+        await deleteEnclosureData(token, id);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    router.refresh();
+  };
+
   if (
     !recintoData ||
     (Array.isArray(recintoData) && recintoData.length === 0)
@@ -68,7 +87,11 @@ const TableRecinto = ({ recintoData: recintoData }: recintoProps) => {
             <TableCell>
               {formatPrice(row.activityMaterialsUnitPrice) ?? "-"}
             </TableCell>
-            <td className="text-left text-base"></td>
+            <td className="text-left text-base">
+              <button onClick={() => handleDelete(row.id)}>
+                <Image src={trash} alt="Delete Icon" width={20} height={20} />
+              </button>
+            </td>
           </tr>
         ))}
       </tbody>
