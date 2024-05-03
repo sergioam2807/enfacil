@@ -21,6 +21,7 @@ const ModalEditClient = ({
 
   const [editClient, setEditClient] = useState<Client>(
     userData || {
+      id: "",
       name: "",
       email: "",
       taxId: "",
