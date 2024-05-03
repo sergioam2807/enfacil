@@ -25,8 +25,6 @@ export default async function PerfilClient({
     return <div>Personal no encontrado</div>;
   }
 
-  console.log(clientProfile);
-
   return (
     <div>
       <Breadcrumbs nameMapping={{ [params.id]: `Detalle cliente` }} />

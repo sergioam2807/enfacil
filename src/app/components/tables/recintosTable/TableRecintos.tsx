@@ -51,9 +51,9 @@ const TableRecinto = ({ recintoData: recintoData }: recintoProps) => {
         </tr>
       </thead>
       <tbody>
-        {data?.map((row: Recinto) => (
+        {data?.map((row: Recinto, index) => (
           <tr
-            key={row?.id}
+            key={row?.id ? row.id + index : index}
             className="text-[#797979] font-medium text-sm border-t border-[#EAEAEA]"
           >
             <td className="text-left pb-8 pt-5 pl-10">

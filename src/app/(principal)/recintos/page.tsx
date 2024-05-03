@@ -31,8 +31,6 @@ export default async function Recintos() {
   const enclosureData = await getEnclosure();
   const activityData = await getActivityData();
 
-  console.log(activityData?.data);
-
   const enclosureMap: Record<number, Enclosure> = {};
   enclosureData?.data?.forEach((enclosure: Enclosure) => {
     enclosureMap[enclosure.id] = enclosure;

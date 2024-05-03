@@ -22,7 +22,6 @@ export default async function PerfilUsuario({
   if (!user) {
     return <div>Usuario no encontrado</div>;
   }
-  console.log(userProfile);
 
   return (
     <div>

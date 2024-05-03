@@ -1,13 +1,13 @@
-import Search from "@/app/components/common/Search";
-import TitleComponent from "@/app/components/common/TitleComponent";
-import Image from "next/image";
-import Link from "next/link";
-import pencil from "@/../public/images/pencilIcon.svg";
-import download from "@/../public/images/dowload.svg";
-import BaseTableCard from "@/app/components/tables/table/BaseTableCard";
-import TableCotizacion from "@/app/components/tables/cotizacionTable/TableCotizacion";
-import TableCotizacionActual from "@/app/components/tables/cotizacionTable/TableCotizacionActual";
-import ModalCotizacion from "@/app/components/modal/ModalCotizacion";
+// import Search from "@/app/components/common/Search";
+// import TitleComponent from "@/app/components/common/TitleComponent";
+// import Image from "next/image";
+// import Link from "next/link";
+// import pencil from "@/../public/images/pencilIcon.svg";
+// import download from "@/../public/images/dowload.svg";
+// import BaseTableCard from "@/app/components/tables/table/BaseTableCard";
+// import TableCotizacion from "@/app/components/tables/cotizacionTable/TableCotizacion";
+// import TableCotizacionActual from "@/app/components/tables/cotizacionTable/TableCotizacionActual";
+// import ModalCotizacion from "@/app/components/modal/ModalCotizacion";
 
 type SearchParamProps = {
   searchParams: Record<string, string> | null | undefined;
@@ -17,7 +17,7 @@ export default function CotizacionDetalle({ searchParams }: SearchParamProps) {
 
   return (
     <div className="pr-5 pb-5">
-      <div>
+      {/* <div>
         <TitleComponent titleName={"Cotización"} />
         <div className="flex items-center justify-between">
           <div className="text-[#0E436B] font-semibold text-xl mb-7">
@@ -89,7 +89,7 @@ export default function CotizacionDetalle({ searchParams }: SearchParamProps) {
             Descargar PDF
           </button>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }

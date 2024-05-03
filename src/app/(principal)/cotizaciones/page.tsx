@@ -9,6 +9,7 @@ import { getActivityTokenData, getEnclosureData } from "@/app/api/data";
 import { formatPrice } from "@/helpers/capitaliizeFirstLetter";
 
 export default function Cotizaciones() {
+  const [token, setToken] = useState<string | null>(null);
   const [enclosureData, setEnclosureData] = useState<any[]>([]);
   const [enclosureAdded, setEnclosureAdded] = useState([]);
   const [activityData, setActivityData] = useState<any[]>([]);
@@ -21,7 +22,12 @@ export default function Cotizaciones() {
     generalExpenses: 0,
     finalTotal: 0,
   });
-  const token = localStorage.getItem("token");
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      setToken(token);
+    }
+  }, []);
 
   const handleData = (data: any) => {
     setEnclosureAdded(data);
@@ -43,6 +49,7 @@ export default function Cotizaciones() {
   }, [token]);
 
   useEffect(() => {
+    console.log("token activity", token);
     const fetchData = async () => {
       if (token) {
         const data = await getActivityTokenData(token);
@@ -77,13 +84,11 @@ export default function Cotizaciones() {
   }, [activityData]);
 
   const combinedData = enclosureAdded.map((enclosure: any) => {
-    const totalsForEnclosure = totals.find(
+    const totalsForEnclosure = totals?.find(
       (total: any) => total.id === enclosure.id
     );
     return { ...enclosure, ...totalsForEnclosure };
   });
-
-  console.log("quoteTotal", quoteTotal);
 
   return (
     <div className="pr-5 pb-5">

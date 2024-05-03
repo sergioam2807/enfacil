@@ -11,8 +11,8 @@ import InputComponent from "@/app/components/input/InputComponent";
 import ActividadesEnclosureTable from "@/app/components/tables/actividadesTable/ActividadesEnclosureTable.";
 import BaseTableCard from "@/app/components/tables/table/BaseTableCard";
 import { capitalizeFirstLetter } from "@/helpers/capitaliizeFirstLetter";
-import Link from "next/link";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
+import { useEffect } from "react";
 
 interface Enclosure {
   activitiesInEnclosure: string;
@@ -33,6 +33,7 @@ interface EnclosureData {
 }
 
 const AñadirRecinto = () => {
+  const [token, setToken] = useState<string | null>(null);
   const [activityData, setActivityData] = useState<Activity[]>([]);
   const [activitiesArray, setActivitiesArray] = useState<string[]>([]);
   const [enclosureData, setEnclosureData] = useState<EnclosureData | null>(
@@ -43,7 +44,13 @@ const AñadirRecinto = () => {
     activitiesInEnclosure: "",
     title: "",
   });
-  const token = localStorage.getItem("token");
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      setToken(token);
+    }
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -56,11 +63,12 @@ const AñadirRecinto = () => {
     fetchData();
   }, [token]);
 
+  console.log(activitiesArray);
+
   const fetchActivitysData = useCallback(async () => {
     if (token) {
       const enclosureData = await getActivityEnclosure(token);
       setEnclosureData(enclosureData);
-      console.log(enclosureData);
 
       if (
         enclosureData?.data &&
@@ -109,12 +117,12 @@ const AñadirRecinto = () => {
   const handlePostEnclosure = async () => {
     if (token) {
       const response = await postEnclosureData(token, enclosure);
-      console.log(response);
       fetchActivitysData();
       setEnclosure((prevForm) => ({
         ...prevForm,
         activitiesInEnclosure: "",
       }));
+      console.log(response);
     }
   };
 
