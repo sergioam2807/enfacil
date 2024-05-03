@@ -8,6 +8,7 @@ import { useState } from "react";
 import ModalCreateQuote from "../modal/ModalCreateQuote";
 import { getClientResponseData } from "@/app/api/data";
 import { Client } from "@/types/types";
+import { useRouter } from "next/router";
 
 const sidebarMenuItems = [
   {
@@ -60,6 +61,7 @@ const sidebarMenuItems = [
 export const Sidebar = () => {
   const [show, setShow] = useState(false);
   const [clientData, setClientData] = useState<Client[]>([]);
+  const router = useRouter();
 
   const handleClick = async () => {
     const token = localStorage.getItem("token");
@@ -72,6 +74,7 @@ export const Sidebar = () => {
         console.log(error);
       } finally {
         setShow(true);
+        router.push("/cotizaciones");
       }
     }
   };
