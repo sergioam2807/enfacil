@@ -10,7 +10,6 @@ import { formatPrice } from "@/helpers/capitaliizeFirstLetter";
 import { useRouter } from "next/navigation";
 
 export default function Cotizaciones() {
-  const [token, setToken] = useState<string | null>(null);
   const [enclosureData, setEnclosureData] = useState<any[]>([]);
   const [enclosureAdded, setEnclosureAdded] = useState([]);
   const [activityData, setActivityData] = useState<any[]>([]);
@@ -23,14 +22,9 @@ export default function Cotizaciones() {
     generalExpenses: 0,
     finalTotal: 0,
   });
+  const [clientName, setClientName] = useState("Nombre del cliente");
 
   const route = useRouter();
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      setToken(localStorage.getItem("token"));
-    }
-  }, []);
 
   const handleData = (data: any) => {
     setEnclosureAdded(data);
@@ -48,7 +42,6 @@ export default function Cotizaciones() {
   useEffect(() => {
     if (typeof window !== "undefined") {
       const token = localStorage.getItem("token");
-      setToken(token);
 
       if (token) {
         getEnclosureData(token).then((data) => {
@@ -62,6 +55,14 @@ export default function Cotizaciones() {
 
         fetchData();
       }
+    }
+  }, []);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const clientName =
+        localStorage.getItem("selectedClientName") || "Nombre del cliente";
+      setClientName(clientName);
     }
   }, []);
 
@@ -118,8 +119,7 @@ export default function Cotizaciones() {
       <div>
         <TitleComponent titleName={"Cotización"} />
         <div className="text-[#0E436B] font-semibold text-xl mb-7">
-          Cliente:{" "}
-          {localStorage.getItem("selectedClientName") || "Nombre del cliente"}
+          Cliente: {clientName}
         </div>
       </div>
       <div className={`h-[300px] overflow-y-auto`}>
