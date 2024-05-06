@@ -18,16 +18,6 @@ interface Cotizacion {
   totalActivity: number;
 }
 
-interface cotizacionProps {
-  materialData: Cotizacion[];
-  onTotalChange: (totals: {
-    materials: number;
-    manPower: number;
-    generalExpenses: number;
-    finalTotal: number;
-  }) => void;
-}
-
 const TableCotizacionActual = ({ cotizacionData, onTotalChange }: any) => {
   const [enclosureAdded, setEnclosureAdded] = useState<Cotizacion[]>(
     cotizacionData || []
@@ -113,17 +103,22 @@ const TableCotizacionActual = ({ cotizacionData, onTotalChange }: any) => {
   }, [totals, onTotalChange]);
 
   //save data quote
-  const selectedClientId = localStorage.getItem("selectedClientId");
-  const selectedClientName = localStorage.getItem("selectedClientName");
+  let selectedClientId;
+  let selectedClientName;
 
-  const combinedData = {
-    enclosures: enclosureAdded,
-    totals: totals,
-    clientId: selectedClientId,
-    clientName: selectedClientName,
-  };
+  if (typeof window !== "undefined") {
+    selectedClientId = localStorage.getItem("selectedClientId");
+    selectedClientName = localStorage.getItem("selectedClientName");
 
-  localStorage.setItem("quoteData", JSON.stringify(combinedData));
+    const combinedData = {
+      enclosures: enclosureAdded,
+      totals: totals,
+      clientId: selectedClientId,
+      clientName: selectedClientName,
+    };
+
+    localStorage.setItem("quoteData", JSON.stringify(combinedData));
+  }
 
   return (
     <table className="w-full table-auto ">

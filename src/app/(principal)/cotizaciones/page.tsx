@@ -1,10 +1,10 @@
 "use client";
-// import Search from "@/app/components/common/Search";
+
 import TitleComponent from "@/app/components/common/TitleComponent";
 import BaseTableCard from "@/app/components/tables/table/BaseTableCard";
 import TableCotizacion from "@/app/components/tables/cotizacionTable/TableCotizacion";
 import TableCotizacionActual from "@/app/components/tables/cotizacionTable/TableCotizacionActual";
-import { Suspense, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { getActivityTokenData, getEnclosureData } from "@/app/api/data";
 import { formatPrice } from "@/helpers/capitaliizeFirstLetter";
 import { useRouter } from "next/navigation";

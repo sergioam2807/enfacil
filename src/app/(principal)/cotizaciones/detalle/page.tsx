@@ -49,8 +49,6 @@ export default function CotizacionDetalle() {
     }
   }, []);
 
-  console.log("quoteFinalData", quoteFinalData);
-
   return (
     <div className="pr-5 pb-5">
       <div>
