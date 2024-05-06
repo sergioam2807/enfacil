@@ -7,6 +7,7 @@ import TableCotizacionActual from "@/app/components/tables/cotizacionTable/Table
 import { Suspense, useEffect, useState } from "react";
 import { getActivityTokenData, getEnclosureData } from "@/app/api/data";
 import { formatPrice } from "@/helpers/capitaliizeFirstLetter";
+import { useRouter } from "next/navigation";
 
 export default function Cotizaciones() {
   const [token, setToken] = useState<string | null>(null);
@@ -22,6 +23,9 @@ export default function Cotizaciones() {
     generalExpenses: 0,
     finalTotal: 0,
   });
+
+  const route = useRouter();
+
   useEffect(() => {
     if (typeof window !== "undefined") {
       setToken(localStorage.getItem("token"));
@@ -91,22 +95,33 @@ export default function Cotizaciones() {
     return { ...enclosure, ...totalsForEnclosure };
   });
 
+  //TODO: Refactor this
+
+  // useEffect(() => {
+  //   const handleUnload = () => {
+  //     localStorage.removeItem("quoteData");
+  //   };
+
+  //   window.addEventListener("beforeunload", handleUnload);
+
+  //   return () => {
+  //     window.removeEventListener("beforeunload", handleUnload);
+  //   };
+  // }, []);
+
+  const handleFinishQuote = () => {
+    route.push("cotizaciones/detalle");
+  };
+
   return (
     <div className="pr-5 pb-5">
       <div>
         <TitleComponent titleName={"Cotización"} />
         <div className="text-[#0E436B] font-semibold text-xl mb-7">
-          Cliente: Cliente Name
+          Cliente:{" "}
+          {localStorage.getItem("selectedClientName") || "Nombre del cliente"}
         </div>
       </div>
-      {/* <div className="flex justify-between items-center pb-7">
-        <div>
-          <Suspense fallback={<div>Loading...</div>}>
-            <Search color="#FFFFFF" />
-          </Suspense>
-        </div>
-        <div className="flex gap-4"></div>
-      </div> */}
       <div className={`h-[300px] overflow-y-auto`}>
         <BaseTableCard>
           <TableCotizacion cotizacionData={enclosureData} onData={handleData} />
@@ -148,7 +163,6 @@ export default function Cotizaciones() {
               Total mano de obra
             </span>
             <span className="text-[#797979] font-semibold text-md ">
-              {" "}
               {formatPrice(quoteTotal.manPower)}
             </span>
           </div>
@@ -170,7 +184,10 @@ export default function Cotizaciones() {
           </div>
         </div>
         <div className="w-full flex justify-end py-6">
-          <button className="bg-custom-blue p-3 flex rounded-md text-white h-fit">
+          <button
+            onClick={handleFinishQuote}
+            className="bg-custom-blue p-3 flex rounded-md text-white h-fit"
+          >
             Finalizar cotización
           </button>
         </div>

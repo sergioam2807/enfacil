@@ -1,27 +1,63 @@
-// import Search from "@/app/components/common/Search";
-// import TitleComponent from "@/app/components/common/TitleComponent";
-// import Image from "next/image";
-// import Link from "next/link";
-// import pencil from "@/../public/images/pencilIcon.svg";
-// import download from "@/../public/images/dowload.svg";
-// import BaseTableCard from "@/app/components/tables/table/BaseTableCard";
-// import TableCotizacion from "@/app/components/tables/cotizacionTable/TableCotizacion";
-// import TableCotizacionActual from "@/app/components/tables/cotizacionTable/TableCotizacionActual";
-// import ModalCotizacion from "@/app/components/modal/ModalCotizacion";
+"use client";
+import TitleComponent from "@/app/components/common/TitleComponent";
+import Image from "next/image";
+import Link from "next/link";
+import pencil from "@/../public/images/pencilIcon.svg";
+import download from "@/../public/images/dowload.svg";
+import BaseTableCard from "@/app/components/tables/table/BaseTableCard";
+import TableCotizacionDetalle from "@/app/components/tables/cotizacionTable/TableCotizacionDetalle";
+import { useEffect, useState } from "react";
+import { formatPrice } from "@/helpers/capitaliizeFirstLetter";
 
-type SearchParamProps = {
-  searchParams: Record<string, string> | null | undefined;
-};
-export default function CotizacionDetalle({ searchParams }: SearchParamProps) {
-  const show = searchParams?.show;
+export interface Enclosure {
+  id: number;
+  title: string;
+  activities: number;
+  activityOne: string;
+  activityTwo: string;
+  activityThree: string;
+  activitiesInEnclosure: string;
+  manPowerTotal: number;
+  materialsTotal: number;
+  unityCount: number;
+  workUnit: string;
+  margin: number;
+}
+
+interface Totals {
+  materials: number;
+  manPower: number;
+  generalExpenses: number;
+  finalTotal: number;
+}
+
+interface QuoteData {
+  enclosures: Enclosure[];
+  totals: Totals;
+  clientId: string;
+  clientName: string;
+}
+
+export default function CotizacionDetalle() {
+  const [quoteFinalData, setQuoteFinalData] = useState<QuoteData | null>(null);
+
+  useEffect(() => {
+    const quoteData = localStorage.getItem("quoteData");
+    if (quoteData) {
+      const parsedData = JSON.parse(quoteData);
+      setQuoteFinalData(parsedData);
+    }
+  }, []);
+
+  console.log("quoteFinalData", quoteFinalData);
 
   return (
     <div className="pr-5 pb-5">
-      {/* <div>
+      <div>
         <TitleComponent titleName={"Cotización"} />
         <div className="flex items-center justify-between">
           <div className="text-[#0E436B] font-semibold text-xl mb-7">
-            Cliente: Cliente Name
+            Cliente: {quoteFinalData?.clientName}
           </div>
           <div className="flex justify-between items-center pb-7">
             <div className="flex gap-4">
@@ -39,16 +75,15 @@ export default function CotizacionDetalle({ searchParams }: SearchParamProps) {
                   />
                   Convertir a proyecto
                 </Link>
-                {show && <ModalCotizacion />}
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      <div className={`h-[600px] overflow-y-auto`}>
+      <div className={`h-[400px] overflow-y-auto`}>
         <BaseTableCard>
-          <TableCotizacionActual />
+          <TableCotizacionDetalle quoteFinalData={quoteFinalData?.enclosures} />
         </BaseTableCard>
       </div>
       <div>
@@ -62,25 +97,31 @@ export default function CotizacionDetalle({ searchParams }: SearchParamProps) {
             <span className="text-[#0E436B] font-semibold text-md ">
               Total materiales
             </span>
-            <span className="text-[#797979] font-semibold text-md ">$0</span>
+            <span className="text-[#797979] font-semibold text-md ">
+              {formatPrice(quoteFinalData?.totals?.materials ?? 0)}
+            </span>
           </div>
           <div className="flex justify-between">
             <span className="text-[#0E436B] font-semibold text-md ">
               Total mano de obra
             </span>
-            <span className="text-[#797979] font-semibold text-md ">$0</span>
+            <span className="text-[#797979] font-semibold text-md ">
+              {formatPrice(quoteFinalData?.totals?.manPower ?? 0)}
+            </span>
           </div>
-          <div className="flex justify-between">
+          {/* <div className="flex justify-between">
             <span className="text-[#0E436B] font-semibold text-md ">
               Gastos generales
             </span>
             <span className="text-[#797979] font-semibold text-md ">$0</span>
-          </div>
+          </div> */}
           <div className="flex justify-between">
             <span className="text-[#0E436B] font-semibold text-md ">
               Total Final
             </span>
-            <span className="text-[#797979] font-semibold text-md ">$0</span>
+            <span className="text-[#797979] font-semibold text-md ">
+              {formatPrice(quoteFinalData?.totals?.finalTotal ?? 0)}
+            </span>
           </div>
         </div>
         <div className="w-full flex justify-end py-6">
@@ -89,7 +130,7 @@ export default function CotizacionDetalle({ searchParams }: SearchParamProps) {
             Descargar PDF
           </button>
         </div>
-      </div> */}
+      </div>
     </div>
   );
 }

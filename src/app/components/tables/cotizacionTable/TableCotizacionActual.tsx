@@ -32,21 +32,16 @@ const TableCotizacionActual = ({ cotizacionData, onTotalChange }: any) => {
   const [enclosureAdded, setEnclosureAdded] = useState<Cotizacion[]>(
     cotizacionData || []
   );
-  const [quoteTotal, setQuoteTotal] = useState({
-    materials: 0,
-    manPower: 0,
-    generalExpenses: 0,
-    finalTotal: 0,
-  });
 
   useEffect(() => {
     setEnclosureAdded((prevState) => {
-      const newItems = cotizacionData.filter(
-        (dataItem: Cotizacion) =>
-          !prevState.some(
-            (prevStateItem: Cotizacion) => prevStateItem.id === dataItem.id
-          )
-      );
+      const newItems =
+        cotizacionData?.filter(
+          (dataItem: Cotizacion) =>
+            !prevState.some(
+              (prevStateItem: Cotizacion) => prevStateItem?.id === dataItem?.id
+            )
+        ) || [];
       return [...prevState, ...newItems];
     });
   }, [cotizacionData]);
@@ -58,7 +53,7 @@ const TableCotizacionActual = ({ cotizacionData, onTotalChange }: any) => {
     const newValue = Number(event.target.value);
     setEnclosureAdded((prevState) =>
       prevState.map((item) =>
-        item.id === id ? { ...item, unityCount: newValue } : item
+        item?.id === id ? { ...item, unityCount: newValue } : item
       )
     );
   };
@@ -116,6 +111,19 @@ const TableCotizacionActual = ({ cotizacionData, onTotalChange }: any) => {
       prevTotalsRef.current = totals;
     }
   }, [totals, onTotalChange]);
+
+  //save data quote
+  const selectedClientId = localStorage.getItem("selectedClientId");
+  const selectedClientName = localStorage.getItem("selectedClientName");
+
+  const combinedData = {
+    enclosures: enclosureAdded,
+    totals: totals,
+    clientId: selectedClientId,
+    clientName: selectedClientName,
+  };
+
+  localStorage.setItem("quoteData", JSON.stringify(combinedData));
 
   return (
     <table className="w-full table-auto ">
