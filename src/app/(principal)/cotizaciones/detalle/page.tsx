@@ -8,6 +8,7 @@ import BaseTableCard from "@/app/components/tables/table/BaseTableCard";
 import TableCotizacionDetalle from "@/app/components/tables/cotizacionTable/TableCotizacionDetalle";
 import { useEffect, useState } from "react";
 import { formatPrice } from "@/helpers/capitaliizeFirstLetter";
+import ModalCotizacion from "@/app/components/modal/ModalCotizacion";
 
 export interface Enclosure {
   id: number;
@@ -31,7 +32,7 @@ interface Totals {
   finalTotal: number;
 }
 
-interface QuoteData {
+export interface QuoteData {
   enclosures: Enclosure[];
   totals: Totals;
   clientId: string;
@@ -40,6 +41,15 @@ interface QuoteData {
 
 export default function CotizacionDetalle() {
   const [quoteFinalData, setQuoteFinalData] = useState<QuoteData | null>(null);
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const openModal = () => {
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+  };
 
   useEffect(() => {
     const quoteData = localStorage.getItem("quoteData");
@@ -60,8 +70,8 @@ export default function CotizacionDetalle() {
           <div className="flex justify-between items-center pb-7">
             <div className="flex gap-4">
               <div>
-                <Link
-                  href="/cotizaciones/detalle?show=true"
+                <button
+                  onClick={openModal}
                   className={`text-sm font-medium bg-custom-blue text-[#FFFFFF]  rounded-md px-3 py-3 mx-4 flex items-center flex-grow`}
                 >
                   <Image
@@ -72,7 +82,13 @@ export default function CotizacionDetalle() {
                     className="mr-2"
                   />
                   Convertir a proyecto
-                </Link>
+                </button>
+                {modalOpen && (
+                  <ModalCotizacion
+                    quoteFinalData={quoteFinalData}
+                    closeModal={closeModal}
+                  />
+                )}
               </div>
             </div>
           </div>

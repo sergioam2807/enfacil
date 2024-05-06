@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { getActivityTokenData, getEnclosureData } from "@/app/api/data";
 import { formatPrice } from "@/helpers/capitaliizeFirstLetter";
 import { useRouter } from "next/navigation";
+import { CreateButton } from "@/app/components/common/CreateButton";
 
 export default function Cotizaciones() {
   const [enclosureData, setEnclosureData] = useState<any[]>([]);
@@ -117,7 +118,14 @@ export default function Cotizaciones() {
   return (
     <div className="pr-5 pb-5">
       <div>
-        <TitleComponent titleName={"Cotización"} />
+        <div>
+          <div className="flex justify-between items-center">
+            <TitleComponent titleName={"Cotización"} />
+            <div>
+              <CreateButton title="Crear cotización" bgcolor="#0E436B" />
+            </div>
+          </div>
+        </div>
         <div className="text-[#0E436B] font-semibold text-xl mb-7">
           Cliente: {clientName}
         </div>
