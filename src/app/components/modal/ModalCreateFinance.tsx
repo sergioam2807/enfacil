@@ -5,6 +5,7 @@ import Image from "next/image";
 import ingresos from "../../../../public/images/ingresos.svg";
 import check from "../../../../public/images/bluecheck.svg";
 import nonchecked from "../../../../public/images/nonchecked.svg";
+import Datepicker from "../common/Datepicker";
 // import { Client } from "@/types/types";
 // import { postQuoteData } from "@/app/api/data";
 
@@ -98,6 +99,7 @@ const ModalCreateFinance = ({ onClose }: ModalCreaFinanceProps) => {
             </button>
           </div>
         </div>
+
         <div className="flex pb-3 px-3 justify-between">
           <button
             onClick={onClose}
