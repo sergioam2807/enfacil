@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import TitleComponent from "../common/TitleComponent";
 import { Client } from "@/types/types";
+import { postQuoteData } from "@/app/api/data";
 
 interface Props {
   onClose: () => void;
@@ -18,14 +19,31 @@ const ModalCreateQuote = ({ onClose, clientData }: Props) => {
     setSelectedClient(client || null);
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (selectedClient) {
       localStorage.setItem("selectedClientId", String(selectedClient.id));
       localStorage.setItem("selectedClientName", selectedClient.name);
+
+      const token = localStorage.getItem("token");
+      if (token) {
+        const quote = {
+          clientId: selectedClient.id,
+          title: selectedClient.name,
+        };
+
+        try {
+          const response = await postQuoteData(token, quote);
+          console.log(response);
+        } catch (error) {
+          console.log(error);
+        }
+      }
     }
 
     onClose();
   };
+
+  console.log("clientData", clientData);
 
   return (
     <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center">
@@ -42,6 +60,9 @@ const ModalCreateQuote = ({ onClose, clientData }: Props) => {
               onChange={handleClientChange}
               className="px-4 py-2 border rounded-md text-gray-700 bg-white shadow"
             >
+              <option value="" disabled selected>
+                Selecciona un cliente
+              </option>
               {clientData.map((client, index) => (
                 <option key={index} value={client.id as string}>
                   {client.name}

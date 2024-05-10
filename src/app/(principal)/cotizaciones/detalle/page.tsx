@@ -138,12 +138,12 @@ export default function CotizacionDetalle() {
             </span>
           </div>
         </div>
-        <div className="w-full flex justify-end py-6">
+        {/* <div className="w-full flex justify-end py-6">
           <button className="bg-custom-blue p-3 flex rounded-md text-white h-fit gap-1">
             <Image src={download} alt="edit" width={23} height={23} />
             Descargar PDF
           </button>
-        </div>
+        </div> */}
       </div>
     </div>
   );

@@ -59,12 +59,27 @@ export default function Cotizaciones() {
     }
   }, []);
 
+  // useEffect(() => {
+  //   if (typeof window !== "undefined") {
+  //     const clientName =
+  //       localStorage.getItem("selectedClientName") || "Nombre del cliente";
+  //     console.log("clientName", clientName);
+  //     setClientName(clientName);
+  //   }
+  // }, []);
+
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const clientName =
-        localStorage.getItem("selectedClientName") || "Nombre del cliente";
-      setClientName(clientName);
-    }
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key === "selectedClientName") {
+        setClientName(e.newValue || "Nombre del cliente");
+      }
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+    };
   }, []);
 
   useEffect(() => {

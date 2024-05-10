@@ -440,3 +440,26 @@ export async function getClientResponseData(token: string) {
     return [];
   }
 }
+
+//QUOTE
+export const postQuoteData = async (token: string, quote: any) => {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/QuoteApi/InsertQuote`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(quote),
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+
+  const data = await response.json();
+
+  return data;
+};
