@@ -120,7 +120,7 @@ const AñadirRecinto = () => {
       fetchActivitysData();
       setEnclosure((prevForm) => ({
         ...prevForm,
-        activitiesInEnclosure: "",
+        activitiesInProjectEnclosure: "",
       }));
       console.log(response);
     }

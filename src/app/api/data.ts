@@ -351,6 +351,7 @@ export async function getActivityEnclosure(token: string) {
 }
 
 export const postEnclosureData = async (token: string, enclosure: any) => {
+  console.log("enclosure", enclosure);
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/EnclosureApi/InsertEnclosure`,
     {
@@ -364,6 +365,8 @@ export const postEnclosureData = async (token: string, enclosure: any) => {
   );
 
   if (!response.ok) {
+    console.log("Response headers:", response.headers);
+    console.log("Response body:", await response.text());
     throw new Error(`HTTP error! status: ${response.status}`);
   }
 

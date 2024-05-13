@@ -40,6 +40,11 @@ const sidebarMenuItems = [
     title: "Cotizaciones",
   },
   {
+    path: "/finanzas",
+    icon: "cotizaciones",
+    title: "Finanzas",
+  },
+  {
     path: "/materiales",
     icon: "materiales",
     title: "Materiales",

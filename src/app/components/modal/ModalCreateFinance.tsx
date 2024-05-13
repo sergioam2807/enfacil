@@ -5,9 +5,8 @@ import Image from "next/image";
 import ingresos from "../../../../public/images/ingresos.svg";
 import check from "../../../../public/images/bluecheck.svg";
 import nonchecked from "../../../../public/images/nonchecked.svg";
-import Datepicker from "../common/Datepicker";
-// import { Client } from "@/types/types";
-// import { postQuoteData } from "@/app/api/data";
+import ModalCreateFinanceIngresos from "./ModalCreateFinanceIngresos";
+import ModalCreateGastos from "./ModalCreateGastos";
 
 interface ModalCreaFinanceProps {
   onClose: () => void;
@@ -15,6 +14,8 @@ interface ModalCreaFinanceProps {
 
 const ModalCreateFinance = ({ onClose }: ModalCreaFinanceProps) => {
   const [selectedButton, setSelectedButton] = useState<string | null>(null);
+  const [showIngresosModal, setShowIngresosModal] = useState(false);
+  const [showGastosModal, setShowGastosModal] = useState(false);
   // const [selectedClient, setSelectedClient] = useState<Client | null>(null);
 
   const INGRESOS = "ingresos";
@@ -25,24 +26,11 @@ const ModalCreateFinance = ({ onClose }: ModalCreaFinanceProps) => {
   };
 
   const handleSave = async () => {
-    // if (selectedClient) {
-    //   localStorage.setItem("selectedClientId", String(selectedClient.id));
-    //   localStorage.setItem("selectedClientName", selectedClient.name);
-    //   const token = localStorage.getItem("token");
-    //   if (token) {
-    //     const quote = {
-    //       clientId: selectedClient.id,
-    //       title: selectedClient.name,
-    //     };
-    //     try {
-    //       const response = await postQuoteData(token, quote);
-    //       console.log(response);
-    //     } catch (error) {
-    //       console.log(error);
-    //     }
-    //   }
-    // }
-    // onClose();
+    if (selectedButton === INGRESOS) {
+      setShowIngresosModal(true);
+    } else if (selectedButton === GASTOS) {
+      setShowGastosModal(true);
+    }
   };
 
   return (
@@ -115,6 +103,15 @@ const ModalCreateFinance = ({ onClose }: ModalCreaFinanceProps) => {
           >
             Aceptar
           </button>
+          {/* Modales */}
+          {showIngresosModal && (
+            <ModalCreateFinanceIngresos
+              onClose={() => setShowIngresosModal(false)}
+            />
+          )}
+          {showGastosModal && (
+            <ModalCreateGastos onClose={() => setShowGastosModal(false)} />
+          )}
         </div>
       </div>
     </div>
