@@ -19,6 +19,7 @@ type SearchParamProps = {
 export default async function Materiales({ searchParams }: SearchParamProps) {
   const materialData = await getMaterialsData();
 
+  console.log("materialData", materialData);
   const search = searchParams?.search || "";
 
   let filteredData;

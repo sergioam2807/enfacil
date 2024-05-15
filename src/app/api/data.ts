@@ -353,7 +353,7 @@ export async function getActivityEnclosure(token: string) {
 export const postEnclosureData = async (token: string, enclosure: any) => {
   console.log("enclosure", enclosure);
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/EnclosureApi/InsertEnclosure`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/ProjectEnclosureApi/InsertProjectEnclosure`,
     {
       method: "POST",
       headers: {
@@ -376,7 +376,7 @@ export const postEnclosureData = async (token: string, enclosure: any) => {
 
 export async function getEnclosureData(token: string) {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/EnclosureApi/GetEnclosures`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/ProjectEnclosureApi/GetProjectEnclosures`,
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -385,7 +385,7 @@ export async function getEnclosureData(token: string) {
   );
 
   if (!res.ok) {
-    console.log("Failed to fetch data");
+    console.log("Failed to fetch data enclosure");
   }
 
   const contentType = res.headers.get("content-type");

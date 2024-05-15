@@ -87,9 +87,9 @@ export default function Cotizaciones() {
       let manPowerTotal = 0;
       let materialsTotal = 0;
 
-      const activityNames = enclosure.activitiesInEnclosure.split(", ");
+      const activityNames = enclosure?.activitiesInEnclosure?.split(", ");
 
-      activityNames.forEach((name: string) => {
+      activityNames?.forEach((name: string) => {
         const activity = activityData.find(
           (activity) => activity.name.trim() === name.trim()
         );

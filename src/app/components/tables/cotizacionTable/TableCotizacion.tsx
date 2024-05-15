@@ -25,8 +25,10 @@ const TableCotizacion = ({ cotizacionData, onData }: cotizacionProps) => {
 
   let transformedData = cotizacionData?.map((enclosure: Enclosure) => {
     let enclosureActivities = enclosure.activitiesInEnclosure
-      .split(",")
-      .map((activity) => activity.trim());
+      ? enclosure.activitiesInEnclosure
+          .split(",")
+          .map((activity) => activity.trim())
+      : [];
 
     return {
       id: enclosure.id,
