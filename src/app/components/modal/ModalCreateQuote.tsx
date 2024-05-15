@@ -43,8 +43,6 @@ const ModalCreateQuote = ({ onClose, clientData }: Props) => {
     onClose();
   };
 
-  console.log("clientData", clientData);
-
   return (
     <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center">
       <div className="border w-96 shadow-lg rounded-2xl bg-white  flex flex-col">

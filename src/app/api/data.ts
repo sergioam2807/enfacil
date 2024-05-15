@@ -144,7 +144,6 @@ export async function editPersonnelData(data: any, token: string) {
 
 //CLIENT FETCH
 export async function createClientData(data: any, token: string) {
-  console.log(data);
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/ClientApi/InsertClient`,
     {
@@ -351,7 +350,6 @@ export async function getActivityEnclosure(token: string) {
 }
 
 export const postEnclosureData = async (token: string, enclosure: any) => {
-  console.log("enclosure", enclosure);
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/ProjectEnclosureApi/InsertProjectEnclosure`,
     {
@@ -398,7 +396,6 @@ export async function getEnclosureData(token: string) {
 }
 
 export async function deleteEnclosureData(token: string, id: string) {
-  console.log("id", id);
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/EnclosureApi/DeleteEnclosure?id=${id}`,
     {

@@ -44,8 +44,6 @@ const TableCotizacion = ({ cotizacionData, onData }: cotizacionProps) => {
     onData(selectedRow);
   }, [selectedRow, onData]);
 
-  console.log(selectedRow);
-
   return (
     <table className="w-full table-auto">
       <thead>

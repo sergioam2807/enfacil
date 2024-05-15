@@ -9,7 +9,6 @@ export async function getUserDataPG() {
     await client.connect();
     const result = await client.query('SELECT * FROM "Personnel"');
     const data = result.rows;
-    console.log(data);
     await client.end();
     return data;
   } catch (error) {

@@ -63,8 +63,6 @@ const AñadirRecinto = () => {
     fetchData();
   }, [token]);
 
-  console.log(activitiesArray);
-
   const fetchActivitysData = useCallback(async () => {
     if (token) {
       const enclosureData = await getActivityEnclosure(token);
