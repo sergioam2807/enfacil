@@ -9,6 +9,7 @@ import { getActivityTokenData, getEnclosureData } from "@/app/api/data";
 import { formatPrice } from "@/helpers/capitaliizeFirstLetter";
 import { useRouter } from "next/navigation";
 import { CreateButton } from "@/app/components/common/CreateButton";
+import { useClientQuoteStore } from "@/store/store";
 
 export default function Cotizaciones() {
   const [enclosureData, setEnclosureData] = useState<any[]>([]);
@@ -23,7 +24,8 @@ export default function Cotizaciones() {
     generalExpenses: 0,
     finalTotal: 0,
   });
-  const [clientName, setClientName] = useState("Nombre del cliente");
+  // const [clientName, setClientName] = useState("Nombre del cliente");
+  const { clientId, title } = useClientQuoteStore();
 
   const route = useRouter();
 
@@ -68,19 +70,19 @@ export default function Cotizaciones() {
   //   }
   // }, []);
 
-  useEffect(() => {
-    const handleStorageChange = (e: StorageEvent) => {
-      if (e.key === "selectedClientName") {
-        setClientName(e.newValue || "Nombre del cliente");
-      }
-    };
+  // useEffect(() => {
+  //   const handleStorageChange = (e: StorageEvent) => {
+  //     if (e.key === "selectedClientName") {
+  //       setClientName(e.newValue || "Nombre del cliente");
+  //     }
+  //   };
 
-    window.addEventListener("storage", handleStorageChange);
+  //   window.addEventListener("storage", handleStorageChange);
 
-    return () => {
-      window.removeEventListener("storage", handleStorageChange);
-    };
-  }, []);
+  //   return () => {
+  //     window.removeEventListener("storage", handleStorageChange);
+  //   };
+  // }, []);
 
   useEffect(() => {
     const newEnclosureData = enclosureData?.map((enclosure: any) => {
@@ -142,7 +144,7 @@ export default function Cotizaciones() {
           </div>
         </div>
         <div className="text-[#0E436B] font-semibold text-xl mb-7">
-          Cliente: {clientName}
+          Cliente: {title}
         </div>
       </div>
       <div className={`h-[300px] overflow-y-auto`}>

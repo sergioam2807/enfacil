@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import TitleComponent from "../common/TitleComponent";
 import { Client } from "@/types/types";
 import { postQuoteData } from "@/app/api/data";
+import { useClientQuoteStore } from "@/store/store";
 
 interface Props {
   onClose: () => void;
@@ -10,6 +11,8 @@ interface Props {
 }
 const ModalCreateQuote = ({ onClose, clientData }: Props) => {
   const [selectedClient, setSelectedClient] = useState<Client | null>(null);
+  const setClientId = useClientQuoteStore((state) => state.setClientId);
+  const setTitle = useClientQuoteStore((state) => state.setTitle);
 
   const handleClientChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const client = clientData.find(
@@ -23,6 +26,11 @@ const ModalCreateQuote = ({ onClose, clientData }: Props) => {
     if (selectedClient) {
       localStorage.setItem("selectedClientId", String(selectedClient.id));
       localStorage.setItem("selectedClientName", selectedClient.name);
+
+      if (typeof selectedClient.id === "number") {
+        setClientId(selectedClient.id);
+        setTitle(selectedClient.name);
+      }
 
       const token = localStorage.getItem("token");
       if (token) {
