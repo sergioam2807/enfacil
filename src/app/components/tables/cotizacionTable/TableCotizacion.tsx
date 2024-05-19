@@ -7,7 +7,7 @@ import Image from "next/image";
 
 interface Enclosure {
   id: string;
-  title: string;
+  name: string;
   activitiesInEnclosure: string;
   activities: string;
   activityOne: number;
@@ -32,7 +32,7 @@ const TableCotizacion = ({ cotizacionData, onData }: cotizacionProps) => {
 
     return {
       id: enclosure.id,
-      title: enclosure.title,
+      title: enclosure.name,
       activities: enclosureActivities.length,
       activityOne: enclosureActivities[0] ?? "-",
       activityTwo: enclosureActivities[1] ?? "-",

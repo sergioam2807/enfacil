@@ -10,7 +10,7 @@ import { Suspense } from "react";
 interface Enclosure {
   id: number;
   activitiesInEnclosure: string;
-  title: string;
+  name: string;
 }
 
 interface Activity {
@@ -49,7 +49,7 @@ export default async function Recintos() {
 
     return {
       id: enclosure.id,
-      title: enclosure.title,
+      title: enclosure.name,
       activitiesInEnclosure: enclosureActivities,
       activityUnits: enclosureActivities.length,
       activityMPUnitPrice,

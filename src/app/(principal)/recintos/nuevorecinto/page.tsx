@@ -16,7 +16,7 @@ import { useEffect } from "react";
 
 interface Enclosure {
   activitiesInEnclosure: string;
-  title: string;
+  name: string;
 }
 
 interface Activity {
@@ -42,7 +42,7 @@ const AñadirRecinto = () => {
   const [selectedActivity, setSelectedActivity] = useState("");
   const [enclosure, setEnclosure] = useState({
     activitiesInEnclosure: "",
-    title: "",
+    name: "",
   });
 
   useEffect(() => {
@@ -108,7 +108,7 @@ const AñadirRecinto = () => {
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEnclosure((prevForm) => ({
       ...prevForm,
-      title: event.target.value,
+      name: event.target.value,
     }));
   };
 
@@ -118,7 +118,7 @@ const AñadirRecinto = () => {
       fetchActivitysData();
       setEnclosure((prevForm) => ({
         ...prevForm,
-        activitiesInProjectEnclosure: "",
+        activitiesInEnclosure: "",
       }));
       console.log(response);
     }
@@ -150,7 +150,7 @@ const AñadirRecinto = () => {
           <div>
             <InputComponent
               name="enclosure"
-              value={enclosure.title}
+              value={enclosure.name}
               onChange={handleTitleChange}
               placeholder="Nombre Recinto"
             />
@@ -226,7 +226,7 @@ const AñadirRecinto = () => {
           return (
             <div key={index}>
               <TitleComponent
-                titleName={capitalizeFirstLetter(enclosure.title)}
+                titleName={capitalizeFirstLetter(enclosure.name)}
               />
               <BaseTableCard>
                 <ActividadesEnclosureTable

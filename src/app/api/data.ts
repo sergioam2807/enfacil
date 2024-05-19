@@ -350,8 +350,9 @@ export async function getActivityEnclosure(token: string) {
 }
 
 export const postEnclosureData = async (token: string, enclosure: any) => {
+  console.log(enclosure, "enclosure");
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/ProjectEnclosureApi/InsertProjectEnclosure`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/EnclosureApi/InsertEnclosure`,
     {
       method: "POST",
       headers: {
@@ -374,7 +375,7 @@ export const postEnclosureData = async (token: string, enclosure: any) => {
 
 export async function getEnclosureData(token: string) {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/ProjectEnclosureApi/GetProjectEnclosures`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/EnclosureApi/GetEnclosures`,
     {
       headers: {
         Authorization: `Bearer ${token}`,
