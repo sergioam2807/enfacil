@@ -4,19 +4,12 @@ import { getClientResponseData, getQuoteData } from "@/app/api/data";
 import { CreateButton } from "@/app/components/common/CreateButton";
 import Search from "@/app/components/common/Search";
 import TitleComponent from "@/app/components/common/TitleComponent";
-import ModalCotizacion from "@/app/components/modal/ModalCotizacion";
 import ModalCreateQuote from "@/app/components/modal/ModalCreateQuote";
-import ActividadesTable from "@/app/components/tables/actividadesTable/ActividadesTable";
 import QuoteTable from "@/app/components/tables/quoteTable/QuoteTable";
 import BaseTableCard from "@/app/components/tables/table/BaseTableCard";
-import { Activity, Client, Quote } from "@/types/types";
-import Link from "next/link";
+import { Client, Quote } from "@/types/types";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-
-type SearchParamProps = {
-  searchParams: Record<string, string> | null | undefined;
-};
 
 export default function ListadoCotizaciones() {
   const [quoteData, setQuoteData] = useState<Quote[]>([]);
