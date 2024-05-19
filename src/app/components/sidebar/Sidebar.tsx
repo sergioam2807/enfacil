@@ -35,7 +35,7 @@ const sidebarMenuItems = [
     title: "Proyectos",
   },
   {
-    path: "/cotizaciones",
+    path: "/listado-cotizaciones",
     icon: "cotizaciones",
     title: "Cotizaciones",
   },

@@ -15,6 +15,18 @@ export type Activity = {
   materialsRecipeIds: string;
 };
 
+export type Quote = {
+  id: number | null;
+  projectName: string;
+  clientName: string;
+  quote_date: string;
+  totalManPowerUnitPricing: number;
+  totalMaterialsPricing: number;
+  finalPrice: number;
+  title: string;
+  client: Client;
+};
+
 export type Personnel = {
   id: number;
   name: string;
@@ -42,6 +54,7 @@ export type Client = {
   taxId: number | string;
   phone: number | null;
   address: string;
+  created?: string;
 };
 
 export type Proyect = {

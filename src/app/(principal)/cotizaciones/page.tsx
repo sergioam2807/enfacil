@@ -138,9 +138,6 @@ export default function Cotizaciones() {
         <div>
           <div className="flex justify-between items-center">
             <TitleComponent titleName={"Cotización"} />
-            <div>
-              <CreateButton title="Crear cotización" bgcolor="#0E436B" />
-            </div>
           </div>
         </div>
         <div className="text-[#0E436B] font-semibold text-xl mb-7">
