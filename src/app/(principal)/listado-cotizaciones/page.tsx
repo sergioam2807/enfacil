@@ -9,7 +9,7 @@ import QuoteTable from "@/app/components/tables/quoteTable/QuoteTable";
 import BaseTableCard from "@/app/components/tables/table/BaseTableCard";
 import { Client, Quote } from "@/types/types";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 
 export default function ListadoCotizaciones() {
   const [quoteData, setQuoteData] = useState<Quote[]>([]);
@@ -55,9 +55,9 @@ export default function ListadoCotizaciones() {
         <TitleComponent titleName={"Últimas Cotizaciones"} />
       </div>
       <div className="flex justify-between items-center pb-7">
-        <div>
+        <Suspense fallback={<div>Loading...</div>}>
           <Search color="#FFFFFF" />
-        </div>
+        </Suspense>
         <div className="flex gap-4">
           <div>
             <CreateButton
