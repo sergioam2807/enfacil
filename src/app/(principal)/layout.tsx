@@ -10,9 +10,10 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
 
       <div className="flex flex-col flex-grow">
         <div className="w-full p-4 bg-[#FAFCFE] h-fit flex justify-between items-center pr-32 pl-12">
-          <Suspense fallback={<div>Loading...</div>}>
+          {/* <Suspense fallback={<div>Loading...</div>}>
             <Search color="#FFFFFF" />
-          </Suspense>
+          </Suspense> */}
+          <div />
           <div className="flex gap-2 items-center">
             <div className="flex justify-center">
               <span className="font-medium">Henry |</span>

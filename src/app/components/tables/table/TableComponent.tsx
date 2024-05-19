@@ -7,21 +7,7 @@ const TableHead = ({ children }: { children: React.ReactNode }) => (
   <th className="w-1/5 text-left pl-12 pb-8 pt-5">{children}</th>
 );
 const TableCell = ({ children }: { children: React.ReactNode }) => (
-  <td className="w-1/5 p-4 pl-12 text-base">
-    {Array.isArray(children)
-      ? children.map((item: any, index: number) => (
-          <div key={index}>
-            {Object.entries(item)
-              .filter(([key]) => key !== "id")
-              .map(([key, value]) => (
-                <div key={key} className="font-normal line pb-1">
-                  {String(value)}
-                </div>
-              ))}
-          </div>
-        ))
-      : children}
-  </td>
+  <td className="w-1/5 p-4 pl-12 text-base">{children}</td>
 );
 
 const TableComponent = () => {
@@ -140,11 +126,12 @@ const TableComponent = () => {
             key={index}
             className="text-[#797979] font-medium text-sm border-t border-[#EAEAEA]"
           >
-            {/* FIX THE RENDER PROPS */}
             <TableCell>
               {row.proyecto.map((proyecto) => (
                 <div key={proyecto.id}>
-                  {proyecto.proyectName} - {proyecto.region} - {proyecto.codigo}
+                  <div>{proyecto.proyectName}</div>
+                  <div>{proyecto.region}</div>
+                  <div>{proyecto.codigo}</div>
                 </div>
               ))}
             </TableCell>
