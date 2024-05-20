@@ -4,18 +4,12 @@ import BaseTableCard from "@/app/components/tables/table/BaseTableCard";
 import Image from "next/image";
 import user from "../../../../../public/images/user.svg";
 import view from "../../../../../public/images/view.svg";
-
 import React from "react";
 import ProyectDetailsTable from "@/app/components/tables/proyectMainTable/ProyectDetailsTable";
-import ModalActivity from "@/app/components/modal/ModalActivity";
 import Link from "next/link";
+import Breadcrumbs from "@/app/components/common/Breadcrumbs";
 
-type SearchParamProps = {
-  searchParams: Record<string, string> | null | undefined;
-};
-export default function ProyectDetails({ searchParams }: SearchParamProps) {
-  const show = searchParams?.show;
-
+export default function ProyectDetails({ params }: { params: { id: string } }) {
   const proyectDetail = {
     state: "Activo",
     name: "Proyecto 1",
@@ -47,6 +41,7 @@ export default function ProyectDetails({ searchParams }: SearchParamProps) {
 
   return (
     <div>
+      <Breadcrumbs nameMapping={{ [params.id]: `Detalle proyecto` }} />
       <div className="w-full mt-10 py-6 px-8 bg-white rounded-lg flex items-center">
         <div className="w-1/5 flex flex-col">
           <div>
@@ -90,7 +85,7 @@ export default function ProyectDetails({ searchParams }: SearchParamProps) {
               <ButtonEditProfile text="Actividades" icon={view} />
             </Link>
           </div>
-          {show && <ModalActivity />}
+          {/* {show && <ModalActivity />} */}
         </div>
         <div className="w-1/5 flex flex-col gap-2 items-center"></div>
       </div>

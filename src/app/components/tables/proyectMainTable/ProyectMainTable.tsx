@@ -4,6 +4,7 @@ import TableCell from "../../common/TableCell";
 import ChipStatus from "../../chip/ChipStatus";
 
 import OptionMenuButton from "../../buttons/OptionMenuButton";
+import Link from "next/link";
 
 interface Proyect {
   id: string;
@@ -40,7 +41,7 @@ const ProyectMainTable = () => {
           <TableHead>F.contractual inicio</TableHead>
           <TableHead>F.contractual término</TableHead>
           <TableHead>Estado</TableHead>
-          <TableHead>Acciones</TableHead>
+          <TableHead>Avance</TableHead>
           <th>&nbsp;</th>
         </tr>
       </thead>
@@ -50,9 +51,11 @@ const ProyectMainTable = () => {
             key={row?.id}
             className="text-[#797979] font-medium text-sm border-t border-[#EAEAEA]"
           >
-            <td className="text-left pb-8 pt-5 pl-10">Proyecto</td>
-
-            <TableCell>{row.proyect ?? "-"}</TableCell>
+            <TableCell clickable>
+              <Link className="ml-10" href={`/proyectos/${row?.id}`}>
+                {row.proyect ?? "-"}
+              </Link>
+            </TableCell>
             <TableCell>{row.client ?? "-"}</TableCell>
             <TableCell>{row.startDate ?? "-"}</TableCell>
             <TableCell>{row.finishDate ?? "-"}</TableCell>
