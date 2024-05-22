@@ -6,6 +6,8 @@ import BasicButtonComponent from "../buttons/BasicButtonComponent";
 import { editMaterialData } from "@/app/api/data";
 import { useRouter } from "next/navigation";
 import { Material } from "@/types/types";
+import { SelectComponent } from "../common/SelectComponent";
+import { measurementUnits } from "@/constants/measurementunits";
 
 interface ModalEditMaterialProps {
   handleCloseEdit: () => void;
@@ -34,7 +36,9 @@ const ModalEditMaterial = ({
     setEditMaterial(materialData as Material);
   }, [materialData]);
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (
+    event: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>
+  ) => {
     setEditMaterial({
       ...editMaterial,
       [event.target.name]: event.target.value,
@@ -72,12 +76,11 @@ const ModalEditMaterial = ({
           </div>
 
           <div>
-            <InputComponent
-              nameVizualization="Unidad de medida"
+            <SelectComponent
               name="metricUnit"
-              placeholder="Ej: Kg"
+              value={editMaterial?.metricUnit}
               onChange={handleInputChange}
-              value={editMaterial?.metricUnit ?? ""}
+              options={measurementUnits}
             />
           </div>
           <div className="flex items-center justify-between gap-5">

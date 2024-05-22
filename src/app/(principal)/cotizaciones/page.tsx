@@ -172,8 +172,8 @@ export default function Cotizaciones() {
               .map((activity) => {
                 if (enclosure[activity.name] !== "-") {
                   return {
-                    quoteEnclosureId: enclosure.id,
-                    activityId: activity.id,
+                    quoteEnclosureId: 0,
+                    activityId: 0,
                     activityMPUnitPrice: enclosure.manPowerTotal,
                     activityMaterialsUnitPrice: enclosure.materialsTotal,
                     activityUnits: enclosure.unityCount,

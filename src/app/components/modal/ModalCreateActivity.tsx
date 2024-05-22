@@ -5,6 +5,8 @@ import InputComponent from "../input/InputComponent";
 import BasicButtonComponent from "../buttons/BasicButtonComponent";
 import { useRouter } from "next/navigation";
 import { createActivityData } from "@/app/api/data";
+import { SelectComponent } from "../common/SelectComponent";
+import { measurementUnits } from "@/constants/measurementunits";
 
 const ModalCreateActivity = () => {
   const router = useRouter();
@@ -17,7 +19,9 @@ const ModalCreateActivity = () => {
   });
   const token = localStorage.getItem("token");
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (
+    event: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>
+  ) => {
     setCreateActivity({
       ...createActivity,
       [event.target.name]: event.target.value,
@@ -75,12 +79,11 @@ const ModalCreateActivity = () => {
           </div>
           <div className="flex items-center justify-between gap-5">
             <div>
-              <InputComponent
-                nameVizualization="Unidad de medida"
+              <SelectComponent
                 name="metricUnit"
-                placeholder="Kg"
-                onChange={handleInputChange}
                 value={createActivity?.metricUnit}
+                onChange={handleInputChange}
+                options={measurementUnits}
               />
             </div>
           </div>

@@ -43,3 +43,12 @@ export function formatDate(dateString: string) {
     year: "numeric",
   });
 }
+
+export const formatRUT = (rut: string) => {
+  const cleaned = ("" + rut).replace(/\D/g, "");
+  const match = cleaned.match(/^(\d{1,2})(\d{3})(\d{3})(\w{1})$/);
+  if (match) {
+    return match[1] + "." + match[2] + "." + match[3] + "-" + match[4];
+  }
+  return rut;
+};

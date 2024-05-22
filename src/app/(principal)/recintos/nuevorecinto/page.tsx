@@ -11,6 +11,7 @@ import InputComponent from "@/app/components/input/InputComponent";
 import ActividadesEnclosureTable from "@/app/components/tables/actividadesTable/ActividadesEnclosureTable.";
 import BaseTableCard from "@/app/components/tables/table/BaseTableCard";
 import { capitalizeFirstLetter } from "@/helpers/capitaliizeFirstLetter";
+// import { useRouter } from "next/navigation";
 import { useCallback, useState } from "react";
 import { useEffect } from "react";
 
@@ -44,6 +45,7 @@ const AñadirRecinto = () => {
     activitiesInEnclosure: "",
     name: "",
   });
+  // const navigation = useRouter();
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -122,6 +124,7 @@ const AñadirRecinto = () => {
       }));
       console.log(response);
     }
+    // navigation.push("/recintos");
   };
 
   const handleRemoveActivity = (activityToRemove: string) => {
@@ -213,29 +216,32 @@ const AñadirRecinto = () => {
           return null;
         })}
       </div>
-
       <div className={`h-[600px] overflow-y-auto`}>
-        {enclosureData?.data?.map((enclosure: Enclosure, index: number) => {
-          let activitiesArray = enclosure.activitiesInEnclosure
-            .split(",")
-            .map((activity) => activity.trim());
-          let filteredActivityData = activityData.filter((activity: Activity) =>
-            activitiesArray.includes(activity.name)
-          );
+        {enclosure
+          ? (() => {
+              let activitiesArray = enclosure.activitiesInEnclosure
+                ? enclosure.activitiesInEnclosure
+                    .split(",")
+                    .map((activity) => activity.trim())
+                : [];
+              let filteredActivityData = activityData.filter(
+                (activity: Activity) => activitiesArray.includes(activity.name)
+              );
 
-          return (
-            <div key={index}>
-              <TitleComponent
-                titleName={capitalizeFirstLetter(enclosure.name)}
-              />
-              <BaseTableCard>
-                <ActividadesEnclosureTable
-                  activityData={{ data: filteredActivityData }}
-                />
-              </BaseTableCard>
-            </div>
-          );
-        })}
+              return (
+                <div>
+                  <TitleComponent
+                    titleName={capitalizeFirstLetter(enclosure.name)}
+                  />
+                  <BaseTableCard>
+                    <ActividadesEnclosureTable
+                      activityData={{ data: filteredActivityData }}
+                    />
+                  </BaseTableCard>
+                </div>
+              );
+            })()
+          : null}
       </div>
     </div>
   );

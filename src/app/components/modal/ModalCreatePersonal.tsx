@@ -6,14 +6,18 @@ import BasicButtonComponent from "../buttons/BasicButtonComponent";
 import { useRouter } from "next/navigation";
 import { createPersonalData } from "@/app/api/data";
 import { Personnel } from "@/types/types";
-import { cleanTaxId, formatTaxId } from "@/helpers/capitaliizeFirstLetter";
+import {
+  cleanTaxId,
+  formatRUT,
+  formatTaxId,
+} from "@/helpers/capitaliizeFirstLetter";
 
 export type CreatePersonnelData = {
   email: string;
   name: string;
   specialty: string;
   pricePerWorkDay: number | null;
-  taxId: number | null;
+  taxId: string | null;
   phone: number | null;
 };
 
@@ -30,18 +34,30 @@ const ModalCreatePersonal = () => {
 
   const token = localStorage.getItem("token");
 
-  const handleInputChange = (event: {
-    target: { value: string; name: string };
-  }) => {
-    setCreatePersonnel({
-      ...createPesonnel,
-      [event.target.name]: event.target.value,
-    });
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    if (name === "taxId") {
+      setCreatePersonnel((prevState) => ({
+        ...prevState,
+        [name]: formatRUT(value),
+      }));
+    } else {
+      setCreatePersonnel((prevState) => ({
+        ...prevState,
+        [name]: value,
+      }));
+    }
   };
 
   const handleCreatePesonnel = async () => {
     try {
-      await createPersonalData(createPesonnel, token || "");
+      const personnelData = {
+        ...createPesonnel,
+        taxId: createPesonnel.taxId
+          ? Number(createPesonnel.taxId.replace(/\D/g, ""))
+          : null,
+      };
+      await createPersonalData(personnelData, token || "");
       router.push("/personal");
       router.refresh();
     } catch (error) {

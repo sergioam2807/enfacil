@@ -5,11 +5,12 @@ import InputComponent from "../input/InputComponent";
 import BasicButtonComponent from "../buttons/BasicButtonComponent";
 import { useRouter } from "next/navigation";
 import { createClientData } from "@/app/api/data";
+import { formatRUT } from "@/helpers/capitaliizeFirstLetter";
 
 type Client = {
   name: string;
   email: string;
-  taxId: number | null;
+  taxId: string | null;
   phone: number | null;
   adress: string;
 };
@@ -27,10 +28,18 @@ const ModalCreateClient = () => {
   const token = localStorage.getItem("token");
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setCreateClient({
-      ...createClient,
-      [event.target.name]: event.target.value,
-    });
+    const { name, value } = event.target;
+    if (name === "taxId") {
+      setCreateClient((prevState) => ({
+        ...prevState,
+        [name]: formatRUT(value),
+      }));
+    } else {
+      setCreateClient((prevState) => ({
+        ...prevState,
+        [name]: value,
+      }));
+    }
   };
 
   const handleCreateClient = async () => {

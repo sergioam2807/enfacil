@@ -5,6 +5,8 @@ import InputComponent from "../input/InputComponent";
 import BasicButtonComponent from "../buttons/BasicButtonComponent";
 import { useRouter } from "next/navigation";
 import { createMaterialData } from "@/app/api/data";
+import { SelectComponent } from "../common/SelectComponent";
+import { measurementUnits } from "@/constants/measurementunits";
 
 const ModalAddMaterial = () => {
   const router = useRouter();
@@ -17,7 +19,9 @@ const ModalAddMaterial = () => {
   });
   const token = localStorage.getItem("token");
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (
+    event: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>
+  ) => {
     setCreateMaterial({
       ...createMaterial,
       [event.target.name]: event.target.value,
@@ -54,12 +58,11 @@ const ModalAddMaterial = () => {
           </div>
 
           <div>
-            <InputComponent
-              nameVizualization="Unidad de medida"
+            <SelectComponent
               name="metricUnit"
-              placeholder="Ej: Kg"
-              onChange={handleInputChange}
               value={createMaterial?.metricUnit}
+              onChange={handleInputChange}
+              options={measurementUnits}
             />
           </div>
           <div className="flex items-center justify-between gap-5">
