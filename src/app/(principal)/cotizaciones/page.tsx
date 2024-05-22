@@ -16,6 +16,7 @@ import { useRouter } from "next/navigation";
 // import { CreateButton } from "@/app/components/common/CreateButton";
 import { useClientQuoteStore } from "@/store/store";
 import { Enclosure } from "./detalle/page";
+import Search from "@/app/components/common/Search";
 
 export default function Cotizaciones() {
   const [enclosureData, setEnclosureData] = useState<any[]>([]);
@@ -30,12 +31,20 @@ export default function Cotizaciones() {
     generalExpenses: 0,
     finalTotal: 0,
   });
+  const [searchTerm, setSearchTerm] = useState("");
+  const [allEnclosureData, setAllEnclosureData] = useState(enclosureData);
+  const [filteredEnclosureData, setFilteredEnclosureData] =
+    useState(enclosureData);
   const { clientId, title, quoteId } = useClientQuoteStore();
 
   const route = useRouter();
 
   const handleData = (data: any) => {
     setEnclosureAdded(data);
+  };
+
+  const handleSearchChange = (searchTerm: string) => {
+    setSearchTerm(searchTerm);
   };
 
   const handleTotalChange = (totalsQuote: {
@@ -54,6 +63,8 @@ export default function Cotizaciones() {
       if (token) {
         getEnclosureData(token).then((data) => {
           setEnclosureData(data?.data);
+          setAllEnclosureData(data?.data);
+          setFilteredEnclosureData(data?.data);
         });
 
         const fetchData = async () => {
@@ -65,6 +76,17 @@ export default function Cotizaciones() {
       }
     }
   }, []);
+
+  console.log("typeof", typeof allEnclosureData);
+
+  useEffect(() => {
+    //Seach data into enclosureData
+    const results = allEnclosureData.filter((enclosure) =>
+      enclosure.name.toLowerCase().includes(searchTerm)
+    );
+
+    setFilteredEnclosureData(results);
+  }, [searchTerm]);
 
   // useEffect(() => {
   //   if (typeof window !== "undefined") {
@@ -167,7 +189,7 @@ export default function Cotizaciones() {
         console.log(data);
 
         const quoteEnclosuresActivitys = quoteData.enclosures.flatMap(
-          (enclosure: any, index: number) => {
+          (enclosure: any) => {
             return activityData
               .map((activity) => {
                 if (enclosure[activity.name] !== "-") {
@@ -215,13 +237,23 @@ export default function Cotizaciones() {
             <TitleComponent titleName={"Cotización"} />
           </div>
         </div>
-        <div className="text-[#0E436B] font-semibold text-xl mb-7">
+        <div className="text-[#0E436B] font-semibold text-xl mb-4">
           Cliente: {title}
+        </div>
+        <div className="bg-white mb-7  w-2/3">
+          <Search
+            placeholder="Buscar Recinto"
+            color="white"
+            onSearchChange={handleSearchChange}
+          />
         </div>
       </div>
       <div className={`h-[300px] overflow-y-auto`}>
         <BaseTableCard>
-          <TableCotizacion cotizacionData={enclosureData} onData={handleData} />
+          <TableCotizacion
+            cotizacionData={filteredEnclosureData}
+            onData={handleData}
+          />
         </BaseTableCard>
       </div>
 

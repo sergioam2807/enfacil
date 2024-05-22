@@ -5,9 +5,15 @@ import React from "react";
 
 interface Props {
   color?: string;
+  onSearchChange?: (searchTerm: string) => void;
+  placeholder?: string;
 }
 
-const Search = ({ color = "#EFF4FC" }) => {
+const Search = ({
+  color = "#EFF4FC",
+  onSearchChange,
+  placeholder = "Buscar...",
+}: Props) => {
   const searchParams = useSearchParams();
   const { replace } = useRouter();
   const pathname = usePathname();
@@ -21,6 +27,10 @@ const Search = ({ color = "#EFF4FC" }) => {
       params.delete("search");
     }
     replace(`${pathname}?${params}`);
+
+    if (onSearchChange) {
+      onSearchChange(event.target.value);
+    }
   };
 
   return (
@@ -36,7 +46,7 @@ const Search = ({ color = "#EFF4FC" }) => {
       </div>
       <input
         type="text"
-        placeholder="Buscar..."
+        placeholder={placeholder}
         onChange={handleSearchChange}
         style={{ backgroundColor: `${color}`, borderColor: `${color}` }}
         className={`w-full px-3 py-2 pl-10 border rounded-md  focus:outline-none focus:border-[#EFF4FC]`}
