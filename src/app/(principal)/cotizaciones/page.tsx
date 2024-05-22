@@ -4,7 +4,7 @@ import TitleComponent from "@/app/components/common/TitleComponent";
 import BaseTableCard from "@/app/components/tables/table/BaseTableCard";
 import TableCotizacion from "@/app/components/tables/cotizacionTable/TableCotizacion";
 import TableCotizacionActual from "@/app/components/tables/cotizacionTable/TableCotizacionActual";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import {
   getActivityTokenData,
   getEnclosureData,
@@ -241,11 +241,13 @@ export default function Cotizaciones() {
           Cliente: {title}
         </div>
         <div className="bg-white mb-7  w-2/3">
-          <Search
-            placeholder="Buscar Recinto"
-            color="white"
-            onSearchChange={handleSearchChange}
-          />
+          <Suspense fallback={<span>Cargando...</span>}>
+            <Search
+              placeholder="Buscar Recinto"
+              color="white"
+              onSearchChange={handleSearchChange}
+            />
+          </Suspense>
         </div>
       </div>
       <div className={`h-[300px] overflow-y-auto`}>
