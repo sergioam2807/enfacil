@@ -487,3 +487,53 @@ export async function getQuoteData(token: string) {
     return [];
   }
 }
+
+export const postQuoteWhitEnclosureData = async (
+  token: string,
+  quoteWithEnclosure: any
+) => {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/QuoteApi/InsertQuoteWithEnclosures`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(quoteWithEnclosure),
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+
+  const data = await response.json();
+
+  return data;
+};
+
+export const postQuoteEnclosuresMultipleActivities = async (
+  token: string,
+  QuoteEnclosuresMultiple: any
+) => {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/QuoteEnclosureApi/InsertQuoteEnclosuresMultipleActivities`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(QuoteEnclosuresMultiple),
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+
+  const data = await response.json();
+
+  return data;
+};

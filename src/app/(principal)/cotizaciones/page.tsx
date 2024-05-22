@@ -5,15 +5,21 @@ import BaseTableCard from "@/app/components/tables/table/BaseTableCard";
 import TableCotizacion from "@/app/components/tables/cotizacionTable/TableCotizacion";
 import TableCotizacionActual from "@/app/components/tables/cotizacionTable/TableCotizacionActual";
 import { useEffect, useState } from "react";
-import { getActivityTokenData, getEnclosureData } from "@/app/api/data";
+import {
+  getActivityTokenData,
+  getEnclosureData,
+  postQuoteEnclosuresMultipleActivities,
+  postQuoteWhitEnclosureData,
+} from "@/app/api/data";
 import { formatPrice } from "@/helpers/capitaliizeFirstLetter";
 import { useRouter } from "next/navigation";
-import { CreateButton } from "@/app/components/common/CreateButton";
+// import { CreateButton } from "@/app/components/common/CreateButton";
 import { useClientQuoteStore } from "@/store/store";
+import { Enclosure } from "./detalle/page";
 
 export default function Cotizaciones() {
   const [enclosureData, setEnclosureData] = useState<any[]>([]);
-  const [enclosureAdded, setEnclosureAdded] = useState([]);
+  const [enclosureAdded, setEnclosureAdded] = useState<any[]>([]);
   const [activityData, setActivityData] = useState<any[]>([]);
   const [totals, setTotals] = useState<
     { manPowerTotal: number; materialsTotal: number }[]
@@ -24,8 +30,7 @@ export default function Cotizaciones() {
     generalExpenses: 0,
     finalTotal: 0,
   });
-  // const [clientName, setClientName] = useState("Nombre del cliente");
-  const { clientId, title } = useClientQuoteStore();
+  const { clientId, title, quoteId } = useClientQuoteStore();
 
   const route = useRouter();
 
@@ -128,8 +133,78 @@ export default function Cotizaciones() {
   //   };
   // }, []);
 
-  const handleFinishQuote = () => {
-    route.push("cotizaciones/detalle");
+  console.log("enclosureAdded", enclosureAdded);
+  console.log("activityData", activityData);
+  console.log("combinedData", combinedData);
+
+  const handleFinishQuote = async () => {
+    const token = localStorage.getItem("token");
+    const quoteDataItem = localStorage.getItem("quoteData");
+
+    if (!quoteDataItem) {
+      console.error("quoteData not found in localStorage");
+      return;
+    }
+
+    const quoteData = JSON.parse(quoteDataItem);
+    if (token && quoteData) {
+      const quoteWithEnclosure = {
+        quote: {
+          title: title,
+          clientId: clientId,
+        },
+        quoteEnclosures: enclosureAdded.map((enclosure: Enclosure) => ({
+          quoteId: quoteId,
+          enclosureID: enclosure.id,
+        })),
+      };
+      console.log("quoteWithEnclosure", quoteWithEnclosure);
+      try {
+        const data = await postQuoteWhitEnclosureData(
+          token,
+          quoteWithEnclosure
+        );
+        console.log(data);
+
+        const quoteEnclosuresActivitys = quoteData.enclosures.flatMap(
+          (enclosure: any, index: number) => {
+            return activityData
+              .map((activity) => {
+                if (enclosure[activity.name] !== "-") {
+                  return {
+                    quoteEnclosureId: enclosure.id,
+                    activityId: activity.id,
+                    activityMPUnitPrice: enclosure.manPowerTotal,
+                    activityMaterialsUnitPrice: enclosure.materialsTotal,
+                    activityUnits: enclosure.unityCount,
+                    activityMarginPercentage: enclosure.margin,
+                    activityAdvancementPercentage: 0,
+                  };
+                }
+              })
+              .filter(Boolean);
+          }
+        );
+
+        const quoteEnclosureData = {
+          quoteEnclosure: {
+            quoteId: quoteId,
+            enclosureId: enclosureAdded[0]?.id,
+          },
+          quoteEnclosuresActivitys,
+        };
+
+        const data2 = await postQuoteEnclosuresMultipleActivities(
+          token,
+          quoteEnclosureData
+        );
+        console.log(data2);
+
+        route.push("cotizaciones/detalle");
+      } catch (error) {
+        console.error(error);
+      }
+    }
   };
 
   return (
@@ -152,10 +227,10 @@ export default function Cotizaciones() {
 
       <div className="flex justify-between items-center">
         <TitleComponent titleName={"Cotización actual"} />
-        <div className="flex text-[#797979] bg-white px-4 py-2 font-semibold items-center text-md gap-2">
+        {/* <div className="flex text-[#797979] bg-white px-4 py-2 font-semibold items-center text-md gap-2">
           <input type="checkbox" className="border-[#49454F]" />
           Aplicar a todos
-        </div>
+        </div> */}
       </div>
       <div className={`h-[300px] overflow-y-auto`}>
         <BaseTableCard>

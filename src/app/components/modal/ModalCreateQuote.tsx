@@ -4,6 +4,7 @@ import TitleComponent from "../common/TitleComponent";
 import { Client } from "@/types/types";
 import { postQuoteData } from "@/app/api/data";
 import { useClientQuoteStore } from "@/store/store";
+import InputComponent from "../input/InputComponent";
 
 interface Props {
   onClose: () => void;
@@ -11,8 +12,10 @@ interface Props {
 }
 const ModalCreateQuote = ({ onClose, clientData }: Props) => {
   const [selectedClient, setSelectedClient] = useState<Client | null>(null);
+  const [quoteName, setQuoteName] = useState<string>("");
   const setClientId = useClientQuoteStore((state) => state.setClientId);
   const setTitle = useClientQuoteStore((state) => state.setTitle);
+  const setQuoteId = useClientQuoteStore((state) => state.setQuoteId);
 
   const handleClientChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const client = clientData.find(
@@ -22,26 +25,33 @@ const ModalCreateQuote = ({ onClose, clientData }: Props) => {
     setSelectedClient(client || null);
   };
 
+  const handleQuoteNameChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setQuoteName(event.target.value);
+  };
+
   const handleSave = async () => {
     if (selectedClient) {
       localStorage.setItem("selectedClientId", String(selectedClient.id));
-      localStorage.setItem("selectedClientName", selectedClient.name);
+      localStorage.setItem("selectedClientName", quoteName);
 
       if (typeof selectedClient.id === "number") {
         setClientId(selectedClient.id);
-        setTitle(selectedClient.name);
+        setTitle(quoteName);
       }
 
       const token = localStorage.getItem("token");
       if (token) {
         const quote = {
           clientId: selectedClient.id,
-          title: selectedClient.name,
+          title: quoteName,
         };
 
         try {
           const response = await postQuoteData(token, quote);
-          console.log(response);
+          console.log(response.data);
+          setQuoteId(response.data);
         } catch (error) {
           console.log(error);
         }
@@ -75,6 +85,13 @@ const ModalCreateQuote = ({ onClose, clientData }: Props) => {
                 </option>
               ))}
             </select>
+            <InputComponent
+              nameVizualization="Nombre Cotizacion"
+              name="quoteName"
+              placeholder="Ej: Cotizacion 1"
+              onChange={handleQuoteNameChange}
+              value={quoteName}
+            />
           </div>
         </div>
         <div className="flex pb-3 px-3 justify-between">

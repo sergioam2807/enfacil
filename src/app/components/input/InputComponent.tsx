@@ -28,7 +28,7 @@ const InputComponent = ({
         value={value}
         onChange={onChange}
         onBlur={onBlur}
-        className="w-full mt-1 py-3 pl-2 text-sm font-medium border rounded-md focus:outline-none focus:border-[#EFF4FC]"
+        className="w-full mt-1 py-3 pl-2 text-sm font-medium border rounded-md focus:outline-none focus:border-[#EFF4FC] text-custom-blue"
       />
     </div>
   );
