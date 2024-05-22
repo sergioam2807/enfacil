@@ -100,10 +100,8 @@ const ModalCreatePersonal = () => {
                 name="taxId"
                 placeholder="00.000.000-0"
                 onChange={(e) => {
-                  const cleanedInput = cleanTaxId(e.target.value);
-                  handleInputChange({
-                    target: { value: cleanedInput, name: e.target.name },
-                  });
+                  e.target.value = cleanTaxId(e.target.value);
+                  handleInputChange(e);
                 }}
                 value={formatTaxId(createPesonnel?.taxId?.toString() ?? "")}
               />
