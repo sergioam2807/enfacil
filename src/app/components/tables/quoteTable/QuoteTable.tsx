@@ -14,9 +14,9 @@ export type MappedQuote = {
   projectName: string;
   clientName: string;
   quote_date: string | undefined;
-  totalManPowerUnitPricing: string;
-  totalMaterialsPricing: string;
-  finalPrice: string;
+  totalManPowerUnitPricing: number | string;
+  totalMaterialsPricing: number | string;
+  finalPrice: number | string;
 };
 
 const QuoteTable = ({ quoteData }: quoteProps) => {
@@ -30,15 +30,19 @@ const QuoteTable = ({ quoteData }: quoteProps) => {
 
   const data = Array.isArray(quoteData) ? quoteData : quoteData?.data || [];
 
+  console.log("data whit totals", data);
+
   const mappedData = data.map((item) => ({
     id: item.id,
     projectName: item.title,
     clientName: item.client?.name,
     quote_date: item.client?.created,
-    totalManPowerUnitPricing: "",
-    totalMaterialsPricing: "",
-    finalPrice: "",
+    totalManPowerUnitPricing: item.totalMPUnitPrice,
+    totalMaterialsPricing: item.totalMaterialsUnitPrice,
+    finalPrice: item.totalMargin,
   }));
+
+  console.log("mappedData", mappedData);
 
   return (
     <table className="w-full table-auto">

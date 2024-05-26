@@ -20,9 +20,9 @@ export type Quote = {
   projectName: string;
   clientName: string;
   quote_date: string;
-  totalManPowerUnitPricing: number;
-  totalMaterialsPricing: number;
-  finalPrice: number;
+  totalMPUnitPrice: number;
+  totalMaterialsUnitPrice: number;
+  totalMargin: number;
   title: string;
   client: Client;
 };

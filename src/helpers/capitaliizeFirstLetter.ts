@@ -22,6 +22,9 @@ export function formatPrice(price: number) {
   if (isNaN(price)) {
     return "-";
   }
+  if (price === 0) {
+    return "$0";
+  }
   return price.toLocaleString("es-CL", { style: "currency", currency: "CLP" });
 }
 
