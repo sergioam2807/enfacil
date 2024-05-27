@@ -17,6 +17,8 @@ export default function ListadoCotizaciones() {
   const [clientData, setClientData] = useState<Client[]>([]);
   const router = useRouter();
 
+  console.log("quoteData", quoteData);
+
   useEffect(() => {
     if (typeof window !== "undefined") {
       const token = localStorage.getItem("token");

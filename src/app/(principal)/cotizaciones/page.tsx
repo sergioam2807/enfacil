@@ -8,6 +8,7 @@ import { Suspense, useEffect, useState } from "react";
 import {
   getActivityTokenData,
   getEnclosureData,
+  postQuoteEnclosure,
   postQuoteEnclosuresMultipleActivities,
   postQuoteWhitEnclosureData,
 } from "@/app/api/data";
@@ -35,7 +36,7 @@ export default function Cotizaciones() {
   const [allEnclosureData, setAllEnclosureData] = useState(enclosureData);
   const [filteredEnclosureData, setFilteredEnclosureData] =
     useState(enclosureData);
-  const { clientId, title, quoteId } = useClientQuoteStore();
+  const { clientId, title, quoteId, clientName } = useClientQuoteStore();
 
   const route = useRouter();
 
@@ -168,6 +169,8 @@ export default function Cotizaciones() {
       return;
     }
 
+    console.log("activityData", activityData);
+
     const quoteData = JSON.parse(quoteDataItem);
     if (token && quoteData) {
       const quoteWithEnclosure = {
@@ -182,11 +185,19 @@ export default function Cotizaciones() {
       };
       console.log("quoteWithEnclosure", quoteWithEnclosure);
       try {
-        const data = await postQuoteWhitEnclosureData(
+        // const data = await postQuoteWhitEnclosureData(
+        //   token,
+        //   quoteWithEnclosure
+        // );
+        // console.log(data);
+        let enclosureId = enclosureAdded[0]?.id;
+        const quoteEnclosureResponseData = await postQuoteEnclosure(
           token,
-          quoteWithEnclosure
+          quoteId,
+          enclosureId
         );
-        console.log(data);
+
+        console.log("quoteEnclosureResponseData", quoteEnclosureResponseData);
 
         const quoteEnclosuresActivitys = quoteData.enclosures.flatMap(
           (enclosure: any) => {
@@ -194,8 +205,8 @@ export default function Cotizaciones() {
               .map((activity) => {
                 if (enclosure[activity.name] !== "-") {
                   return {
-                    quoteEnclosureId: 0,
-                    activityId: 0,
+                    quoteEnclosureId: 2,
+                    activityId: activity.id,
                     activityMPUnitPrice: enclosure.manPowerTotal,
                     activityMaterialsUnitPrice: enclosure.materialsTotal,
                     activityUnits: enclosure.unityCount,
@@ -221,10 +232,10 @@ export default function Cotizaciones() {
           quoteEnclosureData
         );
         console.log(data2);
-
-        route.push("cotizaciones/detalle");
       } catch (error) {
         console.error(error);
+      } finally {
+        route.push("cotizaciones/detalle");
       }
     }
   };
@@ -237,8 +248,9 @@ export default function Cotizaciones() {
             <TitleComponent titleName={"Cotización"} />
           </div>
         </div>
+        <div className="text-[#0E436B] font-semibold text-xl mb-4">{title}</div>
         <div className="text-[#0E436B] font-semibold text-xl mb-4">
-          Cliente: {title}
+          Cliente: {clientName}
         </div>
         <div className="bg-white mb-7  w-2/3">
           <Suspense fallback={<span>Cargando...</span>}>

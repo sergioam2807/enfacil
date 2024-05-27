@@ -16,6 +16,7 @@ const ModalCreateQuote = ({ onClose, clientData }: Props) => {
   const setClientId = useClientQuoteStore((state) => state.setClientId);
   const setTitle = useClientQuoteStore((state) => state.setTitle);
   const setQuoteId = useClientQuoteStore((state) => state.setQuoteId);
+  const setClientName = useClientQuoteStore((state) => state.setClientName);
 
   const handleClientChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const client = clientData.find(
@@ -39,6 +40,7 @@ const ModalCreateQuote = ({ onClose, clientData }: Props) => {
       if (typeof selectedClient.id === "number") {
         setClientId(selectedClient.id);
         setTitle(quoteName);
+        setClientName(selectedClient.name);
       }
 
       const token = localStorage.getItem("token");

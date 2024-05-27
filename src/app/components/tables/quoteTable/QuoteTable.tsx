@@ -33,13 +33,13 @@ const QuoteTable = ({ quoteData }: quoteProps) => {
   console.log("data whit totals", data);
 
   const mappedData = data.map((item) => ({
-    id: item.id,
+    id: item?.id,
     projectName: item.title,
     clientName: item.client?.name,
     quote_date: item.client?.created,
-    totalManPowerUnitPricing: item.totalMPUnitPrice,
-    totalMaterialsPricing: item.totalMaterialsUnitPrice,
-    finalPrice: item.totalMargin,
+    totalManPowerUnitPricing: item?.totalMPUnitPrice,
+    totalMaterialsPricing: item?.totalMaterialsUnitPrice,
+    finalPrice: item?.totalMargin,
   }));
 
   console.log("mappedData", mappedData);
@@ -59,24 +59,24 @@ const QuoteTable = ({ quoteData }: quoteProps) => {
       <tbody>
         {mappedData.map((row: MappedQuote) => (
           <tr
-            key={row.id}
+            key={row?.id}
             className="text-[#797979] font-medium text-sm border-t border-[#EAEAEA]"
           >
             <td className="text-left text-base pl-10 py-2">
-              {row.projectName ?? "-"}
+              {row?.projectName ?? "-"}
             </td>
             <td className="text-left text-base pl-10 py-2">
-              {row.clientName ?? "-"}
+              {row?.clientName ?? "-"}
             </td>
-            <TableCell>{formatDate(row.quote_date ?? "") ?? "-"}</TableCell>
+            <TableCell>{formatDate(row?.quote_date ?? "") ?? "-"}</TableCell>
 
             <TableCell>
-              {formatPrice(Number(row.totalManPowerUnitPricing)) ?? "-"}
+              {formatPrice(Number(row?.totalManPowerUnitPricing)) ?? "-"}
             </TableCell>
             <TableCell>
-              {formatPrice(Number(row.totalMaterialsPricing)) ?? "-"}
+              {formatPrice(Number(row?.totalMaterialsPricing)) ?? "-"}
             </TableCell>
-            <TableCell>{formatPrice(Number(row.finalPrice)) ?? "-"}</TableCell>
+            <TableCell>{formatPrice(Number(row?.finalPrice)) ?? "-"}</TableCell>
             <td className="text-left text-base">
               {/* <OptionMenuMaterialsButton
                 id={row.id?.toString() ?? ""}
