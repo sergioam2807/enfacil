@@ -13,10 +13,8 @@ interface Props {
 const ModalCreateQuote = ({ onClose, clientData }: Props) => {
   const [selectedClient, setSelectedClient] = useState<Client | null>(null);
   const [quoteName, setQuoteName] = useState<string>("");
-  const setClientId = useClientQuoteStore((state) => state.setClientId);
-  const setTitle = useClientQuoteStore((state) => state.setTitle);
-  const setQuoteId = useClientQuoteStore((state) => state.setQuoteId);
-  const setClientName = useClientQuoteStore((state) => state.setClientName);
+  const { setClientId, setTitle, setQuoteId, setClientName } =
+    useClientQuoteStore();
 
   const handleClientChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const client = clientData.find(

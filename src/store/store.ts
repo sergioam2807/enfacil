@@ -8,6 +8,7 @@ interface Store {
   setClientId: (id: number) => void;
   setTitle: (title: string) => void;
   setQuoteId: (quoteId: number) => void;
+  setClientName: (clientName: string) => void;
 }
 
 type QuoteStore = {
@@ -28,8 +29,8 @@ export const useClientQuoteStore = create<Store>((set) => ({
   clientName: "",
   quoteId: 0,
   setTitle: (title: string) => set({ title }),
-  setClientId: (clientId: number) => set({ clientId }),
   setClientName: (clientName: string) => set({ clientName }),
+  setClientId: (clientId: number) => set({ clientId }),
   setQuoteId: (quoteId: number) => set({ quoteId }),
 }));
 
