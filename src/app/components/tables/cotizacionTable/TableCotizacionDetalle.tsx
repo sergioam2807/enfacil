@@ -3,7 +3,7 @@ import React from "react";
 import TableHead from "../../common/TableHead";
 import TableCell from "../../common/TableCell";
 import { formatPrice } from "@/helpers/capitaliizeFirstLetter";
-import { Enclosure } from "@/app/(principal)/cotizaciones/detalle/page";
+import { Enclosure } from "@/app/(principal)/cotizaciones/[id]/page";
 
 interface TableCotizacionDetalleProps {
   quoteFinalData?: Enclosure[];

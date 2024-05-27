@@ -1,7 +1,6 @@
 "use client";
 import TitleComponent from "@/app/components/common/TitleComponent";
 import Image from "next/image";
-import Link from "next/link";
 import pencil from "@/../public/images/pencilIcon.svg";
 import download from "@/../public/images/dowload.svg";
 import BaseTableCard from "@/app/components/tables/table/BaseTableCard";
@@ -9,6 +8,7 @@ import TableCotizacionDetalle from "@/app/components/tables/cotizacionTable/Tabl
 import { useEffect, useState } from "react";
 import { formatPrice } from "@/helpers/capitaliizeFirstLetter";
 import ModalCotizacion from "@/app/components/modal/ModalCotizacion";
+import { useQuoteStore } from "@/store/store";
 
 export interface Enclosure {
   id: number;
@@ -37,11 +37,20 @@ export interface QuoteData {
   totals: Totals;
   clientId: string;
   clientName: string;
+  data: any;
 }
 
-export default function CotizacionDetalle() {
+export default function CotizacionDetalle({
+  params,
+}: {
+  params: { id: string };
+}) {
   const [quoteFinalData, setQuoteFinalData] = useState<QuoteData | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
+  const [quoteId, setQuoteId] = useState(null);
+  const [quoteData, setQuoteData] = useState<QuoteData | null>(null);
+  const [loading, setLoading] = useState(true);
+  const { quote } = useQuoteStore();
 
   const openModal = () => {
     setModalOpen(true);
@@ -52,20 +61,62 @@ export default function CotizacionDetalle() {
   };
 
   useEffect(() => {
-    const quoteData = localStorage.getItem("quoteData");
+    const quoteData = localStorage?.getItem("quoteData");
     if (quoteData) {
       const parsedData = JSON.parse(quoteData);
       setQuoteFinalData(parsedData);
     }
   }, []);
 
+  console.log("params.id", params.id);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/QuoteApi/GetFullQuotes?id=${params.id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    )
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.text();
+      })
+      .then((data) => {
+        if (data) {
+          const jsonData = JSON.parse(data);
+          console.log(jsonData);
+          setQuoteData(jsonData);
+        }
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        setLoading(false);
+      });
+  }, [params.id]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  console.log("quoteData", quoteData?.data[0].client?.name);
+
   return (
     <div className="pr-5 pb-5">
       <div>
         <TitleComponent titleName={"Cotización"} />
+        <div className="text-[#0E436B] font-semibold text-xl mb-7">
+          {quote.projectName ?? ""}
+        </div>
         <div className="flex items-center justify-between">
           <div className="text-[#0E436B] font-semibold text-xl mb-7">
-            Cliente: {quoteFinalData?.clientName}
+            Cliente:{" "}
+            {quoteFinalData?.clientName || quoteData?.data[0]?.client?.name}
           </div>
           <div className="flex justify-between items-center pb-7">
             <div className="flex gap-4">
@@ -112,7 +163,11 @@ export default function CotizacionDetalle() {
               Total materiales
             </span>
             <span className="text-[#797979] font-semibold text-md ">
-              {formatPrice(quoteFinalData?.totals?.materials ?? 0)}
+              {formatPrice(
+                (quoteFinalData?.totals?.materials ||
+                  quote.totalMaterialsPricing) ??
+                  0
+              )}
             </span>
           </div>
           <div className="flex justify-between">
@@ -120,7 +175,11 @@ export default function CotizacionDetalle() {
               Total mano de obra
             </span>
             <span className="text-[#797979] font-semibold text-md ">
-              {formatPrice(quoteFinalData?.totals?.manPower ?? 0)}
+              {formatPrice(
+                (quoteFinalData?.totals?.manPower ||
+                  quote.totalManPowerUnitPricing) ??
+                  0
+              )}
             </span>
           </div>
           {/* <div className="flex justify-between">
@@ -134,7 +193,9 @@ export default function CotizacionDetalle() {
               Total Final
             </span>
             <span className="text-[#797979] font-semibold text-md ">
-              {formatPrice(quoteFinalData?.totals?.finalTotal ?? 0)}
+              {formatPrice(
+                (quoteFinalData?.totals?.finalTotal || quote.finalPrice) ?? 0
+              )}
             </span>
           </div>
         </div>

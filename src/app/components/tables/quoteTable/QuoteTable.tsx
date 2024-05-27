@@ -3,7 +3,9 @@ import TableHead from "../../common/TableHead";
 import TableCell from "../../common/TableCell";
 import OptionMenuMaterialsButton from "../../buttons/OptionMenuMaterialsButton";
 import { formatDate, formatPrice } from "@/helpers/capitaliizeFirstLetter";
-import { Activity, Quote } from "@/types/types";
+import { Quote } from "@/types/types";
+import Link from "next/link";
+import { useQuoteStore } from "@/store/store";
 
 interface quoteProps {
   quoteData: { data: Quote[] } | Quote[];
@@ -20,6 +22,8 @@ export type MappedQuote = {
 };
 
 const QuoteTable = ({ quoteData }: quoteProps) => {
+  const { setQuote } = useQuoteStore();
+
   if (!quoteData || (Array.isArray(quoteData) && quoteData.length === 0)) {
     return (
       <div className="w-full text-center py-10">
@@ -62,9 +66,26 @@ const QuoteTable = ({ quoteData }: quoteProps) => {
             key={row?.id}
             className="text-[#797979] font-medium text-sm border-t border-[#EAEAEA]"
           >
-            <td className="text-left text-base pl-10 py-2">
-              {row?.projectName ?? "-"}
-            </td>
+            <TableCell clickable={true}>
+              <Link
+                href={`/cotizaciones/${row?.id}`}
+                className="text-left text-base pl-10 py-2"
+                onClick={() =>
+                  setQuote({
+                    id: row?.id?.toString() ?? "",
+                    projectName: row?.projectName,
+                    quote_date: formatDate(row?.quote_date ?? ""),
+                    totalManPowerUnitPricing: Number(
+                      row?.totalManPowerUnitPricing
+                    ),
+                    totalMaterialsPricing: Number(row?.totalMaterialsPricing),
+                    finalPrice: Number(row?.finalPrice),
+                  })
+                }
+              >
+                {row?.projectName ?? "-"}
+              </Link>
+            </TableCell>
             <td className="text-left text-base pl-10 py-2">
               {row?.clientName ?? "-"}
             </td>

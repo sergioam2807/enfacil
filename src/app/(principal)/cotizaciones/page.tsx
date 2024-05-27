@@ -16,7 +16,7 @@ import { formatPrice } from "@/helpers/capitaliizeFirstLetter";
 import { useRouter } from "next/navigation";
 // import { CreateButton } from "@/app/components/common/CreateButton";
 import { useClientQuoteStore } from "@/store/store";
-import { Enclosure } from "./detalle/page";
+import { Enclosure } from "./[id]/page";
 import Search from "@/app/components/common/Search";
 
 export default function Cotizaciones() {

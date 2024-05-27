@@ -10,6 +10,18 @@ interface Store {
   setQuoteId: (quoteId: number) => void;
 }
 
+type QuoteStore = {
+  quote: {
+    id: string;
+    projectName: string;
+    quote_date: string;
+    totalManPowerUnitPricing: number;
+    totalMaterialsPricing: number;
+    finalPrice: number;
+  };
+  setQuote: (quote: QuoteStore["quote"]) => void;
+};
+
 export const useClientQuoteStore = create<Store>((set) => ({
   clientId: 0,
   title: "",
@@ -19,4 +31,16 @@ export const useClientQuoteStore = create<Store>((set) => ({
   setClientId: (clientId: number) => set({ clientId }),
   setClientName: (clientName: string) => set({ clientName }),
   setQuoteId: (quoteId: number) => set({ quoteId }),
+}));
+
+export const useQuoteStore = create<QuoteStore>((set) => ({
+  quote: {
+    id: "",
+    projectName: "",
+    quote_date: "",
+    totalManPowerUnitPricing: 0,
+    totalMaterialsPricing: 0,
+    finalPrice: 0,
+  },
+  setQuote: (quote) => set({ quote }),
 }));
