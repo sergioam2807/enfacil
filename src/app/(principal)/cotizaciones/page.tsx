@@ -159,6 +159,7 @@ export default function Cotizaciones() {
   console.log("enclosureAdded", enclosureAdded);
   console.log("activityData", activityData);
   console.log("combinedData", combinedData);
+  console.log("enclosureData", enclosureData);
 
   const handleFinishQuote = async () => {
     const token = localStorage.getItem("token");
@@ -168,8 +169,6 @@ export default function Cotizaciones() {
       console.error("quoteData not found in localStorage");
       return;
     }
-
-    console.log("activityData", activityData);
 
     const quoteData = JSON.parse(quoteDataItem);
     if (token && quoteData) {
@@ -183,7 +182,7 @@ export default function Cotizaciones() {
           enclosureID: enclosure.id,
         })),
       };
-      console.log("quoteWithEnclosure", quoteWithEnclosure);
+
       try {
         // const data = await postQuoteWhitEnclosureData(
         //   token,
@@ -197,27 +196,49 @@ export default function Cotizaciones() {
           enclosureId
         );
 
-        console.log("quoteEnclosureResponseData", quoteEnclosureResponseData);
+        const quoteEnclosuresActivitys = enclosureAdded
+          .map((added) => {
+            let matchingEnclosures = enclosureData.filter(
+              (enclosure) => enclosure.id === added.id
+            );
 
-        const quoteEnclosuresActivitys = quoteData.enclosures.flatMap(
-          (enclosure: any) => {
-            return activityData
-              .map((activity) => {
-                if (enclosure[activity.name] !== "-") {
-                  return {
-                    quoteEnclosureId: 2,
-                    activityId: activity.id,
-                    activityMPUnitPrice: enclosure.manPowerTotal,
-                    activityMaterialsUnitPrice: enclosure.materialsTotal,
+            let activitiesToSend: {
+              quoteEnclosureId: number;
+              activityId: number;
+              activityMPUnitPrice: number;
+              activityMaterialsUnitPrice: number;
+              activityUnits: number;
+              activityMarginPercentage: number;
+              activityAdvancementPercentage: number;
+            }[] = [];
+
+            matchingEnclosures.forEach((enclosure: any) => {
+              let activitiesInEnclosure =
+                enclosure.activitiesInEnclosure.split(", ");
+
+              activitiesInEnclosure.forEach((activityName: any) => {
+                let matchingActivity = activityData.find(
+                  (activity) => activity.name === activityName
+                );
+
+                if (matchingActivity) {
+                  activitiesToSend.push({
+                    quoteEnclosureId: added.id,
+                    activityId: matchingActivity.id,
+                    activityMPUnitPrice: matchingActivity.manPowerUnitPricing,
+                    activityMaterialsUnitPrice:
+                      matchingActivity.materialsUnitPricing,
                     activityUnits: enclosure.unityCount,
                     activityMarginPercentage: enclosure.margin,
                     activityAdvancementPercentage: 0,
-                  };
+                  });
                 }
-              })
-              .filter(Boolean);
-          }
-        );
+              });
+            });
+
+            return activitiesToSend;
+          })
+          .flat();
 
         const quoteEnclosureData = {
           quoteEnclosure: {

@@ -34,8 +34,6 @@ const QuoteTable = ({ quoteData }: quoteProps) => {
 
   const data = Array.isArray(quoteData) ? quoteData : quoteData?.data || [];
 
-  console.log("data whit totals", data);
-
   const mappedData = data.map((item) => ({
     id: item?.id,
     projectName: item.title,
@@ -45,8 +43,6 @@ const QuoteTable = ({ quoteData }: quoteProps) => {
     totalMaterialsPricing: item?.totalMaterialsUnitPrice,
     finalPrice: item?.totalMargin,
   }));
-
-  console.log("mappedData", mappedData);
 
   return (
     <table className="w-full table-auto">
