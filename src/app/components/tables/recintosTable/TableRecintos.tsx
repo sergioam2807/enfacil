@@ -13,7 +13,7 @@ import trash from "../../../../../public/images/trash.svg";
 import ShowEnclosures from "../../modal/ShowEnclosures";
 import { Activity } from "@/types/types";
 
-interface Recinto {
+export interface Recinto {
   id: string;
   title: string;
   activityMPUnitPrice: number;
@@ -131,8 +131,8 @@ const TableRecinto = ({ recintoData, activitys }: recintoProps) => {
         <ShowEnclosures
           data={filteredActivities.map((activity: any) => ({
             actividad: activity.name,
-            avance: "50%", // Reemplaza esto con los datos reales
-            encargado: "Encargado 1", // Reemplaza esto con los datos reales
+            avance: "50%", // reemplzar con advance
+            encargado: "Encargado 1", // Reemplazar con encargado
             totalActividad:
               activity.manPowerUnitPricing + activity.materialsUnitPricing,
           }))}

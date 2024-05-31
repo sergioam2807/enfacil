@@ -1,15 +1,37 @@
+"use client";
 import ButtonEditProfile from "@/app/components/buttons/ButtonEditProfile";
 import ChipStatus from "@/app/components/chip/ChipStatus";
 import BaseTableCard from "@/app/components/tables/table/BaseTableCard";
 import Image from "next/image";
 import user from "../../../../../public/images/user.svg";
 import view from "../../../../../public/images/view.svg";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ProyectDetailsTable from "@/app/components/tables/proyectMainTable/ProyectDetailsTable";
 import Link from "next/link";
 import Breadcrumbs from "@/app/components/common/Breadcrumbs";
+import ShowEnclosures from "@/app/components/modal/ShowEnclosures";
+import { Recinto } from "@/app/components/tables/recintosTable/TableRecintos";
 
 export default function ProyectDetails({ params }: { params: { id: string } }) {
+  const [showModal, setShowModal] = useState(false);
+  const [selectedRecinto, setSelectedRecinto] = React.useState<Recinto | null>(
+    null
+  );
+
+  const handleOpenModal = () => {
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+
+  useEffect(() => {
+    if (selectedRecinto) {
+      handleOpenModal();
+    }
+  }, [selectedRecinto]);
+
   const proyectDetail = {
     state: "Activo",
     name: "Proyecto 1",
@@ -81,11 +103,35 @@ export default function ProyectDetails({ params }: { params: { id: string } }) {
         </div>
         <div className="w-1/5 flex flex-col gap-2 items-center">
           <div>
-            <Link href="/proyectos/detalles?show=true">
-              <ButtonEditProfile text="Actividades" icon={view} />
-            </Link>
+            <button
+              onClick={handleOpenModal}
+              className=" rounded-lg py-2 px-8 bg-[#0051CC] flex justify-around items-center"
+            >
+              <Image
+                src={view}
+                width={25}
+                height={20}
+                alt="edit"
+                color="white"
+              />
+              <span className="text-white text-sm font-semibold pl-2">
+                Actividad
+              </span>
+            </button>
           </div>
-          {/* {show && <ModalActivity />} */}
+          {showModal && (
+            <ShowEnclosures
+              data={[
+                {
+                  actividad: "Actividad 1", // Reemplazar con actividad
+                  avance: "50%", // reemplzar con advance
+                  encargado: "Encargado 1", // Reemplazar con encargado
+                  totalActividad: 1000,
+                },
+              ]}
+              onClose={handleCloseModal}
+            />
+          )}
         </div>
         <div className="w-1/5 flex flex-col gap-2 items-center"></div>
       </div>
