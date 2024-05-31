@@ -100,7 +100,7 @@ const ModalCreateQuote = ({ onClose, clientData }: Props) => {
             style={{ borderColor: "#0E436B", color: "#0E436B" }}
             className="py-3 px-8 rounded-lg text-custom-blue text-sm font-semibold shadow-sm shadow-custom-blue border-custom-blue focus:outline-none focus:ring-2 focus:ring-gray-300"
           >
-            Close
+            Cerrar
           </button>
           <button
             onClick={handleSave}

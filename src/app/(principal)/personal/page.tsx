@@ -24,7 +24,7 @@ export default async function Personal({ searchParams }: SearchParamProps) {
   let filteredData;
   if (search) {
     filteredData = personalData?.data?.filter((user: Personnel) =>
-      user.name.toLowerCase().includes(search.toLowerCase())
+      user?.name?.toLowerCase()?.includes(search?.toLowerCase())
     );
   } else {
     filteredData = personalData;

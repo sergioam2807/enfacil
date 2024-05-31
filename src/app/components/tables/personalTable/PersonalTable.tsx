@@ -46,7 +46,7 @@ const PersonalTable = ({ personalData }: userProps) => {
       <tbody>
         {data?.map((row: Personnel) => (
           <tr
-            key={row.id}
+            key={row?.id}
             className="text-[#797979] font-medium text-sm border-t border-[#EAEAEA]"
           >
             <td className="text-left text-base pl-10 py-2">
@@ -60,25 +60,25 @@ const PersonalTable = ({ personalData }: userProps) => {
               </div>
             </td>
             <TableCell clickable={true}>
-              <Link href={`/personal/${row.id}`}>{row.name ?? "-"}</Link>
+              <Link href={`/personal/${row?.id}`}>{row?.name ?? "-"}</Link>
             </TableCell>
             <TableCell>No data</TableCell>
-            <TableCell>{row.specialty ?? "-"}</TableCell>
-            <TableCell>{formatDate(row.created) ?? "-"}</TableCell>
+            <TableCell>{row?.specialty ?? "-"}</TableCell>
+            <TableCell>{formatDate(row?.created) ?? "-"}</TableCell>
             <TableCell>
-              <ChipStatus status={row.state ?? "Activo"}>
-                {row.state ?? "Activo"}
+              <ChipStatus status={row?.state ?? "Activo"}>
+                {row?.state ?? "Activo"}
               </ChipStatus>
             </TableCell>
             <TableCell>
               <div>
-                <div>{row.email}</div>
-                <div>{row.phone}</div>
+                <div>{row?.email}</div>
+                <div>{row?.phone}</div>
               </div>
             </TableCell>
             <td className="text-left text-base">
               <ActionButtons
-                id={row.id}
+                id={row?.id}
                 byIdURL={"/PersonnelApi/GetPersonnel"}
                 deleteURL={"/PersonnelApi/DeletePersonnel"}
                 type="personal"

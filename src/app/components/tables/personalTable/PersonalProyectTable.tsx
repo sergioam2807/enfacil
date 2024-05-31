@@ -49,12 +49,12 @@ const PersonalProyectTable = async ({ proyectData }: proyectProps) => {
                 />
               </div>
             </td>
-            <TableCell>{row.proyect ?? "-"}</TableCell>
-            <TableCell>{row.fIngreso ?? "-"}</TableCell>
-            <TableCell>{row.fTermino ?? "-"}</TableCell>
+            <TableCell>{row?.proyect ?? "-"}</TableCell>
+            <TableCell>{row?.fIngreso ?? "-"}</TableCell>
+            <TableCell>{row?.fTermino ?? "-"}</TableCell>
             <TableCell>
-              <ChipStatus status={row.state ?? "Activo"}>
-                {row.state ?? "Activo"}
+              <ChipStatus status={row?.state ?? "Activo"}>
+                {row?.state ?? "Activo"}
               </ChipStatus>
             </TableCell>
             <td className="text-left text-base">

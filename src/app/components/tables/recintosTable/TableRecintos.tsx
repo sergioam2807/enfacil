@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import TableHead from "../../common/TableHead";
 import TableCell from "../../common/TableCell";
@@ -10,6 +10,7 @@ import {
 import { deleteEnclosureData } from "@/app/api/data";
 import Image from "next/image";
 import trash from "../../../../../public/images/trash.svg";
+import ShowEnclosures from "../../modal/ShowEnclosures";
 
 interface Recinto {
   id: string;
@@ -26,7 +27,17 @@ type recintoProps = {
 };
 
 const TableRecinto = ({ recintoData: recintoData }: recintoProps) => {
+  const [showModal, setShowModal] = useState(false);
   const router = useRouter();
+
+  const handleOpenModal = () => {
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+
   const handleDelete = async (id: string) => {
     const token = localStorage.getItem("token");
 
@@ -75,7 +86,10 @@ const TableRecinto = ({ recintoData: recintoData }: recintoProps) => {
             key={row?.id ? row.id + index : index}
             className="text-[#797979] font-medium text-sm border-t border-[#EAEAEA]"
           >
-            <td className="text-left pb-8 pt-5 pl-10">
+            <td
+              className="text-left pb-8 pt-5 pl-10 text-custom-blue font-semibold cursor-pointer"
+              onClick={handleOpenModal}
+            >
               {capitalizeFirstLetter(row.title) ?? "-"}
             </td>
 
@@ -95,6 +109,32 @@ const TableRecinto = ({ recintoData: recintoData }: recintoProps) => {
           </tr>
         ))}
       </tbody>
+      {showModal && (
+        <ShowEnclosures
+          data={[
+            {
+              actividad: "Actividad 1",
+              avance: "50%",
+              encargado: "Encargado 1",
+              totalActividad: 1000,
+            },
+            {
+              actividad: "Actividad 2",
+              avance: "75%",
+              encargado: "Encargado 2",
+              totalActividad: 2000,
+            },
+            {
+              actividad: "Actividad 3",
+              avance: "25%",
+              encargado: "Encargado 3",
+              totalActividad: 1500,
+            },
+            // Agrega más objetos aquí para más filas en la tabla
+          ]}
+          onClose={handleCloseModal}
+        />
+      )}
     </table>
   );
 };
