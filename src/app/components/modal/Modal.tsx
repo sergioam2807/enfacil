@@ -139,6 +139,7 @@ const Modal = () => {
               nameVizualization="Contraseña"
               name="password"
               placeholder="Contraseña"
+              isPassword
               onChange={handleInputChange}
               value={createUser.password}
             />

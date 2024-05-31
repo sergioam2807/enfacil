@@ -7,6 +7,7 @@ interface Props {
   value: string;
   onChange: (event: ChangeEvent<HTMLInputElement>) => void;
   onBlur?: (event: FocusEvent<HTMLInputElement>) => void;
+  isPassword?: boolean;
 }
 
 const InputComponent = ({
@@ -16,6 +17,7 @@ const InputComponent = ({
   value,
   onChange,
   onBlur,
+  isPassword = false,
 }: Props) => {
   return (
     <div className="flex flex-col mt-4">
@@ -29,6 +31,7 @@ const InputComponent = ({
         onChange={onChange}
         onBlur={onBlur}
         className="w-full mt-1 py-3 pl-2 text-sm font-medium border rounded-md focus:outline-none focus:border-[#EFF4FC] text-custom-blue"
+        type={isPassword ? "password" : "text"}
       />
     </div>
   );
