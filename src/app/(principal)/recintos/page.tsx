@@ -82,7 +82,7 @@ export default async function Recintos() {
       </div>
       <div className={`h-[600px] overflow-y-auto`}>
         <BaseTableCard>
-          <TableRecinto recintoData={combinedData} />
+          <TableRecinto recintoData={combinedData} activitys={activityData} />
         </BaseTableCard>
       </div>
     </div>

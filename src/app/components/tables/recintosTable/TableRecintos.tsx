@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import TableHead from "../../common/TableHead";
 import TableCell from "../../common/TableCell";
@@ -11,6 +11,7 @@ import { deleteEnclosureData } from "@/app/api/data";
 import Image from "next/image";
 import trash from "../../../../../public/images/trash.svg";
 import ShowEnclosures from "../../modal/ShowEnclosures";
+import { Activity } from "@/types/types";
 
 interface Recinto {
   id: string;
@@ -24,12 +25,15 @@ interface Recinto {
 
 type recintoProps = {
   recintoData: { data: Recinto[] | Recinto[] };
+  activitys: Activity[];
 };
 
-const TableRecinto = ({ recintoData: recintoData }: recintoProps) => {
+const TableRecinto = ({ recintoData, activitys }: recintoProps) => {
   const [showModal, setShowModal] = useState(false);
+  const [selectedRecinto, setSelectedRecinto] = React.useState<Recinto | null>(
+    null
+  );
   const router = useRouter();
-
   const handleOpenModal = () => {
     setShowModal(true);
   };
@@ -37,6 +41,12 @@ const TableRecinto = ({ recintoData: recintoData }: recintoProps) => {
   const handleCloseModal = () => {
     setShowModal(false);
   };
+
+  useEffect(() => {
+    if (selectedRecinto) {
+      handleOpenModal();
+    }
+  }, [selectedRecinto]);
 
   const handleDelete = async (id: string) => {
     const token = localStorage.getItem("token");
@@ -66,6 +76,13 @@ const TableRecinto = ({ recintoData: recintoData }: recintoProps) => {
     ? recintoData
     : recintoData?.data || [];
 
+  const filteredActivities = (activitys as any)?.data?.filter((activity: any) =>
+    (selectedRecinto as any)?.activitiesInEnclosure
+      ?.map((a: any) => a.trim())
+      .includes(activity.name)
+  );
+
+  console.log("filteredActivities", filteredActivities);
   return (
     <table className="w-full table-auto">
       <thead>
@@ -88,7 +105,7 @@ const TableRecinto = ({ recintoData: recintoData }: recintoProps) => {
           >
             <td
               className="text-left pb-8 pt-5 pl-10 text-custom-blue font-semibold cursor-pointer"
-              onClick={handleOpenModal}
+              onClick={() => setSelectedRecinto(row)}
             >
               {capitalizeFirstLetter(row.title) ?? "-"}
             </td>
@@ -109,29 +126,16 @@ const TableRecinto = ({ recintoData: recintoData }: recintoProps) => {
           </tr>
         ))}
       </tbody>
+
       {showModal && (
         <ShowEnclosures
-          data={[
-            {
-              actividad: "Actividad 1",
-              avance: "50%",
-              encargado: "Encargado 1",
-              totalActividad: 1000,
-            },
-            {
-              actividad: "Actividad 2",
-              avance: "75%",
-              encargado: "Encargado 2",
-              totalActividad: 2000,
-            },
-            {
-              actividad: "Actividad 3",
-              avance: "25%",
-              encargado: "Encargado 3",
-              totalActividad: 1500,
-            },
-            // Agrega más objetos aquí para más filas en la tabla
-          ]}
+          data={filteredActivities.map((activity: any) => ({
+            actividad: activity.name,
+            avance: "50%", // Reemplaza esto con los datos reales
+            encargado: "Encargado 1", // Reemplaza esto con los datos reales
+            totalActividad:
+              activity.manPowerUnitPricing + activity.materialsUnitPricing,
+          }))}
           onClose={handleCloseModal}
         />
       )}
