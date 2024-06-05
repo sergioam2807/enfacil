@@ -5,7 +5,7 @@ import { formatPrice } from "@/helpers/capitaliizeFirstLetter";
 type EnclosureData = {
   actividad: string;
   avance: string;
-  encargado: string;
+  // encargado: string;
   totalActividad: number;
 };
 
@@ -22,7 +22,7 @@ const ShowEnclosures: React.FC<ShowEnclosuresProps> = ({ onClose, data }) => {
             <tr className="text-[#0E436B] font-semibold text-sm">
               <th className="text-left pb-8 pt-5 pr-4">Actividad</th>
               <th className="text-left pb-8 pt-5 pr-4">Avance</th>
-              <th className="text-left pb-8 pt-5 pr-4">Encargado</th>
+              {/* <th className="text-left pb-8 pt-5 pr-4">Encargado</th> */}
               <th className="text-left pb-8 pt-5 pr-4">Total Actividad</th>
             </tr>
           </thead>
@@ -36,8 +36,12 @@ const ShowEnclosures: React.FC<ShowEnclosuresProps> = ({ onClose, data }) => {
                   {row.actividad ?? "-"}
                 </td>
 
-                <td className="pr-4">{row.avance ?? "-"}</td>
-                <td className="pr-4">{row.encargado ?? "-"}</td>
+                <td className="pr-4">
+                  {row.avance !== null && row.avance !== undefined
+                    ? `${row.avance}%`
+                    : "-"}
+                </td>
+                {/* <td className="pr-4">{row.encargado ?? "-"}</td> */}
                 <td className="pr-4 text-center">
                   {formatPrice(row.totalActividad) ?? "-"}
                 </td>

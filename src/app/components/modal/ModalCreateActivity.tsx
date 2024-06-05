@@ -15,7 +15,8 @@ const ModalCreateActivity = () => {
     metricUnit: "",
     manPowerUnitPricing: "",
     materialsUnitPricing: "",
-    materialsRecipeIds: "",
+    materialsRecipeIds: "1",
+    averageTime: 0,
   });
   const token = localStorage.getItem("token");
 

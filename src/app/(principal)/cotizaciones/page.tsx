@@ -184,11 +184,11 @@ export default function Cotizaciones() {
       };
 
       try {
-        // const data = await postQuoteWhitEnclosureData(
-        //   token,
-        //   quoteWithEnclosure
-        // );
-        // console.log(data);
+        const data = await postQuoteWhitEnclosureData(
+          token,
+          quoteWithEnclosure
+        );
+        console.log(data);
         let enclosureId = enclosureAdded[0]?.id;
         const quoteEnclosureResponseData = await postQuoteEnclosure(
           token,
