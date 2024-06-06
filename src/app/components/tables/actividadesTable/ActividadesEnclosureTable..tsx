@@ -21,6 +21,7 @@ const ActividadesEnclosureTable = ({ activityData }: activityProps) => {
           <th className="text-left text-base pl-10 py-2">Actividad</th>
           <TableHead>Precio Mano obra Unitario</TableHead>
           <TableHead>Precio Material Unitario</TableHead>
+          <TableHead>Tiempo promedio</TableHead>
           <TableHead>Unidad de medida</TableHead>
         </tr>
       </thead>
@@ -41,6 +42,7 @@ const ActividadesEnclosureTable = ({ activityData }: activityProps) => {
               <TableCell>
                 {formatPrice(Number(row.materialsUnitPricing)) ?? "-"}
               </TableCell>
+              <TableCell>{row.averageTime ?? "-"}</TableCell>
               <TableCell>{row.metricUnit ?? "-"}</TableCell>
             </tr>
           ))

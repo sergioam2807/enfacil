@@ -9,6 +9,7 @@ export type User = {
 export type Activity = {
   id: number | null;
   name: string;
+  averageTime: number | string;
   metricUnit: string;
   manPowerUnitPricing: string;
   materialsUnitPricing: string;
