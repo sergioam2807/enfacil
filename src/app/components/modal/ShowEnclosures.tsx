@@ -5,7 +5,7 @@ import { formatPrice } from "@/helpers/capitaliizeFirstLetter";
 type EnclosureData = {
   actividad: string;
   avance: string;
-  // encargado: string;
+  encargado: string;
   totalActividad: number;
 };
 
