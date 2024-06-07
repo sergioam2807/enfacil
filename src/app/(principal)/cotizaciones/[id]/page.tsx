@@ -52,6 +52,8 @@ export default function CotizacionDetalle({
   const [loading, setLoading] = useState(true);
   const { quote } = useQuoteStore();
 
+  console.log("quote", quote);
+
   const openModal = () => {
     setModalOpen(true);
   };

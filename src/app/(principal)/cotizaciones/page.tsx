@@ -189,70 +189,70 @@ export default function Cotizaciones() {
           quoteWithEnclosure
         );
         console.log(data);
-        let enclosureId = enclosureAdded[0]?.id;
-        const quoteEnclosureResponseData = await postQuoteEnclosure(
-          token,
-          quoteId,
-          enclosureId
-        );
+        // let enclosureId = enclosureAdded[0]?.id;
+        // const quoteEnclosureResponseData = await postQuoteEnclosure(
+        //   token,
+        //   quoteId,
+        //   enclosureId
+        // );
 
-        const quoteEnclosuresActivitys = enclosureAdded
-          .map((added) => {
-            let matchingEnclosures = enclosureData.filter(
-              (enclosure) => enclosure.id === added.id
-            );
+        // const quoteEnclosuresActivitys = enclosureAdded
+        //   .map((added) => {
+        //     let matchingEnclosures = enclosureData.filter(
+        //       (enclosure) => enclosure.id === added.id
+        //     );
 
-            let activitiesToSend: {
-              quoteEnclosureId: number;
-              activityId: number;
-              activityMPUnitPrice: number;
-              activityMaterialsUnitPrice: number;
-              activityUnits: number;
-              activityMarginPercentage: number;
-              activityAdvancementPercentage: number;
-            }[] = [];
+        //     let activitiesToSend: {
+        //       quoteEnclosureId: number;
+        //       activityId: number;
+        //       activityMPUnitPrice: number;
+        //       activityMaterialsUnitPrice: number;
+        //       activityUnits: number;
+        //       activityMarginPercentage: number;
+        //       activityAdvancementPercentage: number;
+        //     }[] = [];
 
-            matchingEnclosures.forEach((enclosure: any) => {
-              let activitiesInEnclosure =
-                enclosure.activitiesInEnclosure.split(", ");
+        //     matchingEnclosures.forEach((enclosure: any) => {
+        //       let activitiesInEnclosure =
+        //         enclosure.activitiesInEnclosure.split(", ");
 
-              activitiesInEnclosure.forEach((activityName: any) => {
-                let matchingActivity = activityData.find(
-                  (activity) => activity.name === activityName
-                );
+        //       activitiesInEnclosure.forEach((activityName: any) => {
+        //         let matchingActivity = activityData.find(
+        //           (activity) => activity.name === activityName
+        //         );
 
-                if (matchingActivity) {
-                  activitiesToSend.push({
-                    quoteEnclosureId: added.id,
-                    activityId: matchingActivity.id,
-                    activityMPUnitPrice: matchingActivity.manPowerUnitPricing,
-                    activityMaterialsUnitPrice:
-                      matchingActivity.materialsUnitPricing,
-                    activityUnits: enclosure.unityCount,
-                    activityMarginPercentage: enclosure.margin,
-                    activityAdvancementPercentage: 0,
-                  });
-                }
-              });
-            });
+        //         if (matchingActivity) {
+        //           activitiesToSend.push({
+        //             quoteEnclosureId: added.id,
+        //             activityId: matchingActivity.id,
+        //             activityMPUnitPrice: matchingActivity.manPowerUnitPricing,
+        //             activityMaterialsUnitPrice:
+        //               matchingActivity.materialsUnitPricing,
+        //             activityUnits: enclosure.unityCount,
+        //             activityMarginPercentage: enclosure.margin,
+        //             activityAdvancementPercentage: 0,
+        //           });
+        //         }
+        //       });
+        //     });
 
-            return activitiesToSend;
-          })
-          .flat();
+        //     return activitiesToSend;
+        //   })
+        //   .flat();
 
-        const quoteEnclosureData = {
-          quoteEnclosure: {
-            quoteId: quoteId,
-            enclosureId: enclosureAdded[0]?.id,
-          },
-          quoteEnclosuresActivitys,
-        };
+        // const quoteEnclosureData = {
+        //   quoteEnclosure: {
+        //     quoteId: quoteId,
+        //     enclosureId: enclosureAdded[0]?.id,
+        //   },
+        //   quoteEnclosuresActivitys,
+        // };
 
-        const data2 = await postQuoteEnclosuresMultipleActivities(
-          token,
-          quoteEnclosureData
-        );
-        console.log(data2);
+        // const data2 = await postQuoteEnclosuresMultipleActivities(
+        //   token,
+        //   quoteEnclosureData
+        // );
+        // console.log(data2);
       } catch (error) {
         console.error(error);
       } finally {

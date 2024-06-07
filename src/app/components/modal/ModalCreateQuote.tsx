@@ -41,21 +41,21 @@ const ModalCreateQuote = ({ onClose, clientData }: Props) => {
         setClientName(selectedClient.name);
       }
 
-      const token = localStorage.getItem("token");
-      if (token) {
-        const quote = {
-          clientId: selectedClient.id,
-          title: quoteName,
-        };
+      // const token = localStorage.getItem("token");
+      // if (token) {
+      //   const quote = {
+      //     clientId: selectedClient.id,
+      //     title: quoteName,
+      //   };
 
-        try {
-          const response = await postQuoteData(token, quote);
-          console.log(response.data);
-          setQuoteId(response.data);
-        } catch (error) {
-          console.log(error);
-        }
-      }
+      //   try {
+      //     const response = await postQuoteData(token, quote);
+      //     console.log(response.data);
+      //     setQuoteId(response.data);
+      //   } catch (error) {
+      //     console.log(error);
+      //   }
+      // }
     }
 
     onClose();

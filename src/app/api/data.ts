@@ -468,6 +468,31 @@ export const postQuoteData = async (token: string, quote: any) => {
 export async function getQuoteData(token: string) {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/QuoteApi/GetQuotes`,
+
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
+  if (!res.ok) {
+    console.log("Failed to fetch data quote");
+  }
+
+  const contentType = res.headers.get("content-type");
+  if (contentType && contentType.includes("application/json")) {
+    return res.json();
+  } else {
+    console.log("No JSON content found in response");
+    return [];
+  }
+}
+
+export async function getFullQuoteData(token: string) {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/QuoteApi/GetFullQuotes`,
+
     {
       headers: {
         Authorization: `Bearer ${token}`,

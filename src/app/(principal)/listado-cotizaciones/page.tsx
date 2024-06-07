@@ -29,6 +29,8 @@ export default function ListadoCotizaciones() {
     }
   }, []);
 
+  console.log("quoteData desde listado cotizaciones", quoteData);
+
   const handleClick = async () => {
     const token = localStorage.getItem("token");
 
