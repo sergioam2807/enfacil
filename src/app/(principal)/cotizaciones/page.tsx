@@ -157,10 +157,13 @@ export default function Cotizaciones() {
   //   };
   // }, []);
 
+  console.log("quoteData", enclosureAdded);
   console.log("activityData", activityData);
-  console.log("enclosureAdded", enclosureAdded);
-  console.log("enclosureData", enclosureData);
-  console.log("enclosureQuotePost", enclosureQuotePost);
+
+  const activityMapping = activityData.reduce((map, activity) => {
+    map[activity.name] = activity;
+    return map;
+  }, {});
 
   const handleFinishQuote = async () => {
     const token = localStorage.getItem("token");
@@ -185,18 +188,27 @@ export default function Cotizaciones() {
             (data: any) => data.id === enclosure.id
           );
 
+          // Map the activities of the enclosure
+          const activities = ["activityOne", "activityTwo", "activityThree"]
+            .filter((activityName) => (enclosure as any)[activityName] !== "-")
+            .map((activityName) => {
+              const activity =
+                activityMapping[(enclosure as any)[activityName]];
+              return {
+                quoteEnclosureId: 0,
+                activityId: activity.id,
+                activityMPUnitPrice: activity.manPowerUnitPricing,
+                activityMaterialsUnitPrice: activity.materialsUnitPricing,
+                activityUnits: correspondingEnclosure?.unityCount,
+                activityMarginPercentage: correspondingEnclosure?.margin,
+                activityAdvancementPercentage: 10,
+              };
+            });
+
           return {
             quoteId: quoteId,
             enclosureID: enclosure.id,
-            quoteEnclosureActivities: activityData.map((activity: any) => ({
-              quoteEnclosureId: 0,
-              activityId: activity.id,
-              activityMPUnitPrice: activity.manPowerUnitPricing,
-              activityMaterialsUnitPrice: activity.materialsUnitPricing,
-              activityUnits: correspondingEnclosure?.unityCount,
-              activityMarginPercentage: correspondingEnclosure?.margin,
-              activityAdvancementPercentage: 10,
-            })),
+            quoteEnclosureActivities: activities,
           };
         }),
       };
