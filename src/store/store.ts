@@ -1,3 +1,4 @@
+import { Enclosure } from "@/app/(principal)/cotizaciones/[id]/page";
 import { Cotizacion } from "@/app/components/tables/cotizacionTable/TableCotizacionActual";
 import { create } from "zustand";
 
@@ -22,6 +23,11 @@ type QuoteStore = {
     finalPrice: number;
   };
   setQuote: (quote: QuoteStore["quote"]) => void;
+};
+
+type QuoteFinalData = {
+  quoteFinalData: Enclosure[];
+  setQuoteFinalData: (data: Enclosure[]) => void;
 };
 
 export interface QuotePostDataState {
@@ -55,4 +61,9 @@ export const useQuoteStore = create<QuoteStore>((set) => ({
 export const useQuotePostData = create<QuotePostDataState>((set) => ({
   enclosureQuotePost: [],
   setEnclosureQuotePost: (enclosureQuotePost) => set({ enclosureQuotePost }),
+}));
+
+export const useQuoteDataStore = create<QuoteFinalData>((set) => ({
+  quoteFinalData: [],
+  setQuoteFinalData: (data) => set({ quoteFinalData: data }),
 }));

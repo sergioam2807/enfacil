@@ -157,9 +157,6 @@ export default function Cotizaciones() {
   //   };
   // }, []);
 
-  console.log("quoteData", enclosureAdded);
-  console.log("activityData", activityData);
-
   const activityMapping = activityData.reduce((map, activity) => {
     map[activity.name] = activity;
     return map;

@@ -2,7 +2,7 @@
 
 import {
   getClientResponseData,
-  getFullQuoteData,
+  // getFullQuoteData,
   getQuoteData,
 } from "@/app/api/data";
 import { CreateButton } from "@/app/components/common/CreateButton";
@@ -11,6 +11,7 @@ import TitleComponent from "@/app/components/common/TitleComponent";
 import ModalCreateQuote from "@/app/components/modal/ModalCreateQuote";
 import QuoteTable from "@/app/components/tables/quoteTable/QuoteTable";
 import BaseTableCard from "@/app/components/tables/table/BaseTableCard";
+// import { useQuoteDataStore } from "@/store/store";
 import { Client, Quote } from "@/types/types";
 import { useRouter } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
@@ -19,6 +20,7 @@ export default function ListadoCotizaciones() {
   const [quoteData, setQuoteData] = useState<Quote[]>([]);
   const [show, setShow] = useState(false);
   const [clientData, setClientData] = useState<Client[]>([]);
+  // const {quoteFinalData,setQuoteFinalData}=useQuoteDataStore();
   const router = useRouter();
 
   useEffect(() => {
