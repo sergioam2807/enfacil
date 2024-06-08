@@ -1,6 +1,10 @@
 "use client";
 
-import { getClientResponseData, getQuoteData } from "@/app/api/data";
+import {
+  getClientResponseData,
+  getFullQuoteData,
+  getQuoteData,
+} from "@/app/api/data";
 import { CreateButton } from "@/app/components/common/CreateButton";
 import Search from "@/app/components/common/Search";
 import TitleComponent from "@/app/components/common/TitleComponent";
@@ -29,7 +33,7 @@ export default function ListadoCotizaciones() {
     }
   }, []);
 
-  console.log("quoteData desde listado cotizaciones", quoteData);
+  console.log("quotedata", quoteData);
 
   const handleClick = async () => {
     const token = localStorage.getItem("token");

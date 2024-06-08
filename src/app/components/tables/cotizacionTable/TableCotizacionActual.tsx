@@ -3,8 +3,9 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import TableHead from "../../common/TableHead";
 import TableCell from "../../common/TableCell";
 import { formatPrice } from "@/helpers/capitaliizeFirstLetter";
+import { useQuotePostData } from "@/store/store";
 
-interface Cotizacion {
+export interface Cotizacion {
   id: string;
   title: string;
   activityOne: string;
@@ -22,18 +23,21 @@ const TableCotizacionActual = ({ cotizacionData, onTotalChange }: any) => {
   const [enclosureAdded, setEnclosureAdded] = useState<Cotizacion[]>(
     cotizacionData || []
   );
+  const { setEnclosureQuotePost } = useQuotePostData();
 
   useEffect(() => {
-    setEnclosureAdded((prevState) => {
-      const newItems =
-        cotizacionData?.filter(
-          (dataItem: Cotizacion) =>
-            !prevState.some(
-              (prevStateItem: Cotizacion) => prevStateItem?.id === dataItem?.id
-            )
-        ) || [];
-      return [...prevState, ...newItems];
-    });
+    const newItems =
+      cotizacionData?.filter(
+        (dataItem: Cotizacion) =>
+          !enclosureAdded.some(
+            (prevStateItem: Cotizacion) => prevStateItem?.id === dataItem?.id
+          )
+      ) || [];
+    if (newItems.length > 0) {
+      const updatedState = [...enclosureAdded, ...newItems];
+      setEnclosureQuotePost(updatedState);
+      setEnclosureAdded(updatedState);
+    }
   }, [cotizacionData]);
 
   const handleInputChange = (
@@ -41,11 +45,13 @@ const TableCotizacionActual = ({ cotizacionData, onTotalChange }: any) => {
     id: string
   ) => {
     const newValue = Number(event.target.value);
-    setEnclosureAdded((prevState) =>
-      prevState.map((item) =>
+    setEnclosureAdded((prevState) => {
+      const updatedState = prevState.map((item) =>
         item?.id === id ? { ...item, unityCount: newValue } : item
-      )
-    );
+      );
+      setEnclosureQuotePost(updatedState);
+      return updatedState;
+    });
   };
 
   const handleMarginChange = (
@@ -53,11 +59,13 @@ const TableCotizacionActual = ({ cotizacionData, onTotalChange }: any) => {
     id: string
   ) => {
     const newValue = Number(event.target.value);
-    setEnclosureAdded((prevState) =>
-      prevState.map((item) =>
+    setEnclosureAdded((prevState) => {
+      const updatedState = prevState.map((item) =>
         item.id === id ? { ...item, margin: newValue } : item
-      )
-    );
+      );
+      setEnclosureQuotePost(updatedState);
+      return updatedState;
+    });
   };
 
   const calculateTotals = (enclosureData: Cotizacion[]) => {

@@ -15,7 +15,7 @@ import {
 import { formatPrice } from "@/helpers/capitaliizeFirstLetter";
 import { useRouter } from "next/navigation";
 // import { CreateButton } from "@/app/components/common/CreateButton";
-import { useClientQuoteStore } from "@/store/store";
+import { useClientQuoteStore, useQuotePostData } from "@/store/store";
 import { Enclosure } from "./[id]/page";
 import Search from "@/app/components/common/Search";
 
@@ -37,6 +37,7 @@ export default function Cotizaciones() {
   const [filteredEnclosureData, setFilteredEnclosureData] =
     useState(enclosureData);
   const { clientId, title, quoteId, clientName } = useClientQuoteStore();
+  const { enclosureQuotePost } = useQuotePostData();
 
   const route = useRouter();
 
@@ -156,10 +157,10 @@ export default function Cotizaciones() {
   //   };
   // }, []);
 
-  console.log("enclosureAdded", enclosureAdded);
   console.log("activityData", activityData);
-  console.log("combinedData", combinedData);
+  console.log("enclosureAdded", enclosureAdded);
   console.log("enclosureData", enclosureData);
+  console.log("enclosureQuotePost", enclosureQuotePost);
 
   const handleFinishQuote = async () => {
     const token = localStorage.getItem("token");
@@ -172,87 +173,39 @@ export default function Cotizaciones() {
 
     const quoteData = JSON.parse(quoteDataItem);
     if (token && quoteData) {
+      const storedData = JSON.parse(localStorage.getItem("quoteData") || "{}");
       const quoteWithEnclosure = {
         quote: {
           title: title,
           clientId: clientId,
         },
-        quoteEnclosures: enclosureAdded.map((enclosure: Enclosure) => ({
-          quoteId: quoteId,
-          enclosureID: enclosure.id,
-        })),
-      };
+        quoteEnclosures: enclosureAdded.map((enclosure: Enclosure) => {
+          // Find the corresponding enclosure from the enclosureQuotePost data
+          const correspondingEnclosure = enclosureQuotePost.find(
+            (data: any) => data.id === enclosure.id
+          );
 
+          return {
+            quoteId: quoteId,
+            enclosureID: enclosure.id,
+            quoteEnclosureActivities: activityData.map((activity: any) => ({
+              quoteEnclosureId: 0,
+              activityId: activity.id,
+              activityMPUnitPrice: activity.manPowerUnitPricing,
+              activityMaterialsUnitPrice: activity.materialsUnitPricing,
+              activityUnits: correspondingEnclosure?.unityCount,
+              activityMarginPercentage: correspondingEnclosure?.margin,
+              activityAdvancementPercentage: 10,
+            })),
+          };
+        }),
+      };
       try {
         const data = await postQuoteWhitEnclosureData(
           token,
           quoteWithEnclosure
         );
         console.log(data);
-        // let enclosureId = enclosureAdded[0]?.id;
-        // const quoteEnclosureResponseData = await postQuoteEnclosure(
-        //   token,
-        //   quoteId,
-        //   enclosureId
-        // );
-
-        // const quoteEnclosuresActivitys = enclosureAdded
-        //   .map((added) => {
-        //     let matchingEnclosures = enclosureData.filter(
-        //       (enclosure) => enclosure.id === added.id
-        //     );
-
-        //     let activitiesToSend: {
-        //       quoteEnclosureId: number;
-        //       activityId: number;
-        //       activityMPUnitPrice: number;
-        //       activityMaterialsUnitPrice: number;
-        //       activityUnits: number;
-        //       activityMarginPercentage: number;
-        //       activityAdvancementPercentage: number;
-        //     }[] = [];
-
-        //     matchingEnclosures.forEach((enclosure: any) => {
-        //       let activitiesInEnclosure =
-        //         enclosure.activitiesInEnclosure.split(", ");
-
-        //       activitiesInEnclosure.forEach((activityName: any) => {
-        //         let matchingActivity = activityData.find(
-        //           (activity) => activity.name === activityName
-        //         );
-
-        //         if (matchingActivity) {
-        //           activitiesToSend.push({
-        //             quoteEnclosureId: added.id,
-        //             activityId: matchingActivity.id,
-        //             activityMPUnitPrice: matchingActivity.manPowerUnitPricing,
-        //             activityMaterialsUnitPrice:
-        //               matchingActivity.materialsUnitPricing,
-        //             activityUnits: enclosure.unityCount,
-        //             activityMarginPercentage: enclosure.margin,
-        //             activityAdvancementPercentage: 0,
-        //           });
-        //         }
-        //       });
-        //     });
-
-        //     return activitiesToSend;
-        //   })
-        //   .flat();
-
-        // const quoteEnclosureData = {
-        //   quoteEnclosure: {
-        //     quoteId: quoteId,
-        //     enclosureId: enclosureAdded[0]?.id,
-        //   },
-        //   quoteEnclosuresActivitys,
-        // };
-
-        // const data2 = await postQuoteEnclosuresMultipleActivities(
-        //   token,
-        //   quoteEnclosureData
-        // );
-        // console.log(data2);
       } catch (error) {
         console.error(error);
       } finally {
