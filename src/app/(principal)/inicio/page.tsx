@@ -3,6 +3,8 @@ import SemiDonutChart from "@/app/components/common/SemiDonutChart";
 import TitleComponent from "@/app/components/common/TitleComponent";
 import BaseTableCard from "@/app/components/tables/table/BaseTableCard";
 import TableComponent from "@/app/components/tables/table/TableComponent";
+import positive from "../../../../public/images/arrow-positive.svg";
+import negative from "../../../../public/images/arrow-negative.svg";
 
 import Image from "next/image";
 
@@ -24,12 +26,7 @@ export default function Inicio() {
             </div>
             <div className="flex justify-center items-center gap-1">
               <div>
-                <Image
-                  src="/images/arrow-positive.svg"
-                  alt="Search Icon"
-                  width={8}
-                  height={10}
-                />
+                <Image src={positive} alt="Search Icon" width={8} height={10} />
               </div>
               <div>
                 <span className="text-[#149D52] font-semibold">2.1%</span>
@@ -54,12 +51,7 @@ export default function Inicio() {
             </div>
             <div className="flex justify-center items-center gap-1">
               <div>
-                <Image
-                  src="/images/arrow-negative.svg"
-                  alt="Search Icon"
-                  width={8}
-                  height={10}
-                />
+                <Image src={negative} alt="Search Icon" width={8} height={10} />
               </div>
               <div>
                 <span className="text-[#FF4D4D] font-semibold">5.1%</span>

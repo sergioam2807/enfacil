@@ -1,11 +1,11 @@
 "use client";
-import Image from "next/image";
+import Image, { StaticImageData } from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 interface Props {
   path: string;
-  icon: string;
+  icon: StaticImageData;
   title: string;
 }
 
@@ -20,7 +20,7 @@ export const SidebarItem = ({ path, icon, title }: Props) => {
             : ""
         }`}
       >
-        <Image src={`/images/${icon}.png`} alt="logo" width={15} height={15} />
+        <Image src={icon} alt="logo" width={15} height={15} />
         <div className="flex flex-col pl-1">
           <span className="text-sm font-medium leading-6 text-white">
             {title}

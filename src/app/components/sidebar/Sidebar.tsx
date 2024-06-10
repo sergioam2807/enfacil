@@ -7,56 +7,67 @@ import ModalCreateQuote from "../modal/ModalCreateQuote";
 import { getClientResponseData } from "@/app/api/data";
 import { Client } from "@/types/types";
 import { useRouter } from "next/navigation";
+import inicio from "../../../../public/images/inicio.png";
+import usuarios from "../../../../public/images/usuarios.png";
+import personal from "../../../../public/images/personal.png";
+import clientes from "../../../../public/images/clientes.png";
+import proyectos from "../../../../public/images/proyectos.png";
+import cotizaciones from "../../../../public/images/cotizaciones.png";
+import materiales from "../../../../public/images/materiales.png";
+import actividades from "../../../../public/images/actividades.png";
+import recintos from "../../../../public/images/recintos.png";
+import enfacil from "../../../../public/images/logo-en-facil.png";
+import eic from "../../../../public/images/logo-eic.png";
 
 const sidebarMenuItems = [
   {
     path: "/inicio",
-    icon: "inicio",
+    icon: inicio,
     title: "Inicio",
   },
   {
     path: "/usuarios",
-    icon: "usuarios",
+    icon: usuarios,
     title: "Usuarios",
   },
   {
     path: "/personal",
-    icon: "personal",
+    icon: personal,
     title: "Personal",
   },
   {
     path: "/clientes",
-    icon: "clientes",
+    icon: clientes,
     title: "Clientes",
   },
   {
     path: "/proyectos",
-    icon: "proyectos",
+    icon: proyectos,
     title: "Proyectos",
   },
   {
     path: "/listado-cotizaciones",
-    icon: "cotizaciones",
+    icon: cotizaciones,
     title: "Cotizaciones",
   },
   {
     path: "/finanzas",
-    icon: "cotizaciones",
+    icon: cotizaciones,
     title: "Finanzas",
   },
   {
     path: "/materiales",
-    icon: "materiales",
+    icon: materiales,
     title: "Materiales",
   },
   {
     path: "/actividades",
-    icon: "actividades",
+    icon: actividades,
     title: "Actividades",
   },
   {
     path: "/recintos",
-    icon: "recintos",
+    icon: recintos,
     title: "Recintos",
   },
 ];
@@ -89,13 +100,7 @@ export const Sidebar = () => {
   return (
     <div className="h-screen bg-[#0E436B] text-white flex-shrink-0 flex flex-col justify-start">
       <div className="pl-4 pr-4 pt-3 pb-7 text-white flex justify-center">
-        <Image
-          src="/images/logo-eic.png"
-          alt="logo"
-          width={120}
-          height={97}
-          priority
-        />
+        <Image src={eic} alt="logo" width={120} height={97} priority />
       </div>
       <div className="pl-4">
         {sidebarMenuItems.map((item) => (
@@ -114,13 +119,7 @@ export const Sidebar = () => {
         )}
       </div>
       <div className="mt-auto pl-4 pb-4">
-        <Image
-          src="/images/logo-en-facil.png"
-          alt="logo"
-          width={73}
-          height={52}
-          priority
-        />
+        <Image src={enfacil} alt="logo" width={73} height={52} priority />
       </div>
     </div>
   );
