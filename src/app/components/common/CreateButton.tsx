@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import plusIcons from '../../../../public/images/plus.png'
 
 interface Props {
   title: string;
@@ -22,7 +23,7 @@ export const CreateButton = ({
       onClick={onclick}
     >
       <Image
-        src="/images/plus.png"
+        src={plusIcons}
         alt="plus"
         width={`${iconSize}`}
         height={`${iconSize}`}
