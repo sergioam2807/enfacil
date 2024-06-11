@@ -35,6 +35,11 @@ export interface QuotePostDataState {
   setEnclosureQuotePost: (enclosureAdded: Cotizacion[]) => void;
 }
 
+interface QuoteInfo {
+  enclosuresInfo: QuoteInfo[];
+  setEnclosuresInfo: (info: QuoteInfo[]) => void;
+}
+
 export const useClientQuoteStore = create<Store>((set) => ({
   clientId: 0,
   title: "",
@@ -66,4 +71,9 @@ export const useQuotePostData = create<QuotePostDataState>((set) => ({
 export const useQuoteDataStore = create<QuoteFinalData>((set) => ({
   quoteFinalData: [],
   setQuoteFinalData: (data) => set({ quoteFinalData: data }),
+}));
+
+export const useQuoteInfoStore = create<QuoteInfo>((set) => ({
+  enclosuresInfo: [],
+  setEnclosuresInfo: (info) => set({ enclosuresInfo: info }),
 }));

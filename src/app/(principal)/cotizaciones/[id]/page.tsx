@@ -8,7 +8,8 @@ import TableCotizacionDetalle from "@/app/components/tables/cotizacionTable/Tabl
 import { useEffect, useState } from "react";
 import { formatPrice } from "@/helpers/capitaliizeFirstLetter";
 import ModalCotizacion from "@/app/components/modal/ModalCotizacion";
-import { useQuoteStore } from "@/store/store";
+import { useQuoteInfoStore, useQuoteStore } from "@/store/store";
+import { QuoteInfo } from "@/helpers/getEnclosure";
 
 export interface Enclosure {
   id: number;
@@ -46,11 +47,13 @@ export default function CotizacionDetalle({
   params: { id: string };
 }) {
   const [quoteFinalData, setQuoteFinalData] = useState<QuoteData | null>(null);
+  const [quoteInfo, setQuoteInfo] = useState<QuoteInfo | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [quoteId, setQuoteId] = useState(null);
   const [quoteData, setQuoteData] = useState<QuoteData | null>(null);
   const [loading, setLoading] = useState(true);
   const { quote } = useQuoteStore();
+  const { enclosuresInfo } = useQuoteInfoStore();
 
   console.log("quote", quote);
 
@@ -70,7 +73,7 @@ export default function CotizacionDetalle({
     }
   }, []);
 
-  console.log("params.id", params.id);
+  // console.log("params.id", params.id);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -102,11 +105,37 @@ export default function CotizacionDetalle({
       });
   }, [params.id]);
 
+  useEffect(() => {
+    const quoteInfo = enclosuresInfo.find(
+      (quote: any) => quote?.idQuote === Number(params.id)
+    );
+
+    if (quoteInfo) {
+      console.log("quoteInfo del id", quoteInfo);
+      setQuoteInfo(quoteInfo as any);
+    } else {
+      console.log(`No quote found with id ${params.id}`);
+    }
+
+    // ...
+  }, [params.id, enclosuresInfo]);
+
   if (loading) {
     return <div>Loading...</div>;
   }
 
-  console.log("quoteData", quoteData?.data[0].client?.name);
+  // console.log("quoteData", quoteData?.data[0].client?.name);
+  const dataToPass = params.id
+    ? quoteInfo?.enclosures
+    : quoteFinalData?.enclosures.map((enclosureInfo) => ({
+        ...enclosureInfo,
+        title: "",
+        activities: [],
+        activityOne: "",
+        activityTwo: "",
+      }));
+
+  console.log("quoteData?.data[0]?.client?.name", quoteData?.data[0]);
 
   return (
     <div className="pr-5 pb-5">
@@ -150,7 +179,7 @@ export default function CotizacionDetalle({
 
       <div className={`h-[400px] overflow-y-auto`}>
         <BaseTableCard>
-          <TableCotizacionDetalle quoteFinalData={quoteFinalData?.enclosures} />
+          <TableCotizacionDetalle quoteFinalData={dataToPass} />
         </BaseTableCard>
       </div>
       <div>
@@ -166,9 +195,10 @@ export default function CotizacionDetalle({
             </span>
             <span className="text-[#797979] font-semibold text-md ">
               {formatPrice(
-                (quoteFinalData?.totals?.materials ||
-                  quote.totalMaterialsPricing) ??
-                  0
+                (params.id
+                  ? // quoteFinalData?.totals?.manPower
+                    quoteData?.data[0]?.totalMaterialsUnitPrice
+                  : quoteFinalData?.totals?.materials) ?? 0
               )}
             </span>
           </div>
@@ -178,9 +208,9 @@ export default function CotizacionDetalle({
             </span>
             <span className="text-[#797979] font-semibold text-md ">
               {formatPrice(
-                (quoteFinalData?.totals?.manPower ||
-                  quote.totalManPowerUnitPricing) ??
-                  0
+                (params.id
+                  ? quoteData?.data[0]?.totalMPUnitPrice
+                  : quoteFinalData?.totals?.manPower) ?? 0
               )}
             </span>
           </div>
@@ -196,7 +226,9 @@ export default function CotizacionDetalle({
             </span>
             <span className="text-[#797979] font-semibold text-md ">
               {formatPrice(
-                (quoteFinalData?.totals?.finalTotal || quote.finalPrice) ?? 0
+                (params.id
+                  ? quoteData?.data[0]?.totalMargin
+                  : quoteFinalData?.totals?.finalTotal) ?? 0
               )}
             </span>
           </div>

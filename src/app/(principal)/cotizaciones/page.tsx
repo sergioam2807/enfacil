@@ -218,7 +218,7 @@ export default function Cotizaciones() {
       } catch (error) {
         console.error(error);
       } finally {
-        route.push("cotizaciones/detalle");
+        route.push("/listado-cotizaciones");
       }
     }
   };

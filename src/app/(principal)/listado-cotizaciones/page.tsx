@@ -5,12 +5,16 @@ import {
   // getFullQuoteData,
   getQuoteData,
 } from "@/app/api/data";
+
 import { CreateButton } from "@/app/components/common/CreateButton";
 import Search from "@/app/components/common/Search";
 import TitleComponent from "@/app/components/common/TitleComponent";
 import ModalCreateQuote from "@/app/components/modal/ModalCreateQuote";
 import QuoteTable from "@/app/components/tables/quoteTable/QuoteTable";
 import BaseTableCard from "@/app/components/tables/table/BaseTableCard";
+import getGroupedInfo from "@/helpers/getEnclosure";
+import { useQuoteInfoStore } from "@/store/store";
+
 // import { useQuoteDataStore } from "@/store/store";
 import { Client, Quote } from "@/types/types";
 import { useRouter } from "next/navigation";
@@ -21,6 +25,7 @@ export default function ListadoCotizaciones() {
   const [show, setShow] = useState(false);
   const [clientData, setClientData] = useState<Client[]>([]);
   // const {quoteFinalData,setQuoteFinalData}=useQuoteDataStore();
+  const { setEnclosuresInfo } = useQuoteInfoStore();
   const router = useRouter();
 
   useEffect(() => {
@@ -35,7 +40,13 @@ export default function ListadoCotizaciones() {
     }
   }, []);
 
-  console.log("quotedata", quoteData);
+  // console.log("quotedata", quoteData);
+
+  useEffect(() => {
+    const enclosuresInfo = getGroupedInfo(quoteData as any);
+    setEnclosuresInfo(enclosuresInfo as any);
+    console.log("enclosuresInfo", enclosuresInfo);
+  }, [quoteData, setEnclosuresInfo]);
 
   const handleClick = async () => {
     const token = localStorage.getItem("token");

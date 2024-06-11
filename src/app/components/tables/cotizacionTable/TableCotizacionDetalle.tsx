@@ -5,12 +5,9 @@ import TableCell from "../../common/TableCell";
 import { formatPrice } from "@/helpers/capitaliizeFirstLetter";
 import { Enclosure } from "@/app/(principal)/cotizaciones/[id]/page";
 
-interface TableCotizacionDetalleProps {
-  quoteFinalData?: Enclosure[];
-}
-const TableCotizacionDetalle = ({
-  quoteFinalData,
-}: TableCotizacionDetalleProps) => {
+const TableCotizacionDetalle = ({ quoteFinalData }: any) => {
+  console.log("quoteFinalData desde la tabla", quoteFinalData);
+
   return (
     <table className="w-full table-auto ">
       <thead>
@@ -33,24 +30,25 @@ const TableCotizacionDetalle = ({
             key={row?.id}
             className="text-[#797979] font-medium text-sm border-t border-[#EAEAEA]"
           >
-            <td className="text-left pb-8 pt-7 pl-10">{row.title ?? "-"}</td>
-            <TableCell>{row.activityOne ?? "-"}</TableCell>
-            <TableCell>{row.workUnit ?? "-"}</TableCell>
-            <TableCell>{row.unityCount ?? "-"}</TableCell>
-            <TableCell>{formatPrice(row.manPowerTotal) ?? "-"}</TableCell>
+            <td className="text-left pb-8 pt-7 pl-10">{row?.title ?? "-"}</td>
+            <TableCell>{row?.activityOne ?? "-"}</TableCell>
+            <TableCell>{row?.workUnit ?? "-"}</TableCell>
+            <TableCell>{row?.unityCount ?? "-"}</TableCell>
+            <TableCell>{formatPrice(row?.manPowerTotal) ?? "-"}</TableCell>
             <TableCell>{formatPrice(row.materialsTotal) ?? "-"}</TableCell>
             <TableCell>
-              {formatPrice(row.manPowerTotal * Number(row.unityCount)) || "-"}
+              {formatPrice(row?.manPowerTotal * Number(row?.unityCount)) || "-"}
             </TableCell>
             <TableCell>
-              {formatPrice(row.materialsTotal * Number(row.unityCount)) || "-"}
+              {formatPrice(row?.materialsTotal * Number(row?.unityCount)) ||
+                "-"}
             </TableCell>
-            <TableCell>%{row.margin ?? "-"}</TableCell>
+            <TableCell>%{row?.margin ?? "-"}</TableCell>
             <TableCell>
               {formatPrice(
-                (row.manPowerTotal * Number(row.unityCount) +
-                  row.materialsTotal * Number(row.unityCount)) *
-                  (1 + row.margin / 100)
+                (row?.manPowerTotal * Number(row?.unityCount) +
+                  row?.materialsTotal * Number(row?.unityCount)) *
+                  (1 + row?.margin / 100)
               ) || "-"}
             </TableCell>
           </tr>
