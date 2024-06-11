@@ -7,7 +7,12 @@ interface Activity {
 
 interface Enclosure {
   enclosureID: number;
-  enclosure?: string;
+  enclosure?: {
+    id: number;
+    name: string;
+    activitiesInEnclosure: string;
+    activities: any[];
+  };
   quoteEnclosureActivities: Activity[];
 }
 
@@ -19,7 +24,8 @@ interface Quote {
 
 interface EnclosureInfo {
   id: number;
-  nombreRecinto: string;
+  name: string;
+  activityOne: string;
   unityCount: number;
   precioManoObraUnitario: number;
   precioMaterialesUnitario: number;
@@ -36,17 +42,20 @@ export interface QuoteInfo {
 }
 
 function getGroupedInfo(data: Quote[]): QuoteInfo[] {
-  console.log("enclosure desde el maping", data);
   const quotesInfo: QuoteInfo[] = [];
 
   data?.forEach((quote: Quote) => {
     const enclosuresMap = new Map<number, EnclosureInfo>();
 
     quote.quoteEnclosures.forEach((enclosure: Enclosure) => {
+      console.log("object,", enclosure);
       if (!enclosuresMap.has(enclosure.enclosureID)) {
+        const activities =
+          enclosure?.enclosure?.activitiesInEnclosure.split(", ");
         enclosuresMap.set(enclosure.enclosureID, {
           id: enclosure.enclosureID,
-          nombreRecinto: enclosure.enclosure ? enclosure.enclosure : "N/A",
+          name: enclosure?.enclosure?.name ? enclosure?.enclosure?.name : "N/A",
+          activityOne: activities ? activities[0] : "N/A",
           unityCount: 0,
           precioManoObraUnitario: 0,
           precioMaterialesUnitario: 0,

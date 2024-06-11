@@ -30,7 +30,7 @@ const TableCotizacionDetalle = ({ quoteFinalData }: any) => {
             key={row?.id}
             className="text-[#797979] font-medium text-sm border-t border-[#EAEAEA]"
           >
-            <td className="text-left pb-8 pt-7 pl-10">{row?.title ?? "-"}</td>
+            <td className="text-left pb-8 pt-7 pl-10">{row?.name ?? "-"}</td>
             <TableCell>{row?.activityOne ?? "-"}</TableCell>
             <TableCell>{row?.workUnit ?? "-"}</TableCell>
             <TableCell>{row?.unityCount ?? "-"}</TableCell>

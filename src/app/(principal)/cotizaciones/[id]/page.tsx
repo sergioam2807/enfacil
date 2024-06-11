@@ -13,7 +13,7 @@ import { QuoteInfo } from "@/helpers/getEnclosure";
 
 export interface Enclosure {
   id: number;
-  title: string;
+  name: string;
   activities: number;
   activityOne: string;
   activityTwo: string;
@@ -54,8 +54,6 @@ export default function CotizacionDetalle({
   const [loading, setLoading] = useState(true);
   const { quote } = useQuoteStore();
   const { enclosuresInfo } = useQuoteInfoStore();
-
-  console.log("quote", quote);
 
   const openModal = () => {
     setModalOpen(true);
@@ -129,13 +127,11 @@ export default function CotizacionDetalle({
     ? quoteInfo?.enclosures
     : quoteFinalData?.enclosures.map((enclosureInfo) => ({
         ...enclosureInfo,
-        title: "",
+        name: "",
         activities: [],
         activityOne: "",
         activityTwo: "",
       }));
-
-  console.log("quoteData?.data[0]?.client?.name", quoteData?.data[0]);
 
   return (
     <div className="pr-5 pb-5">

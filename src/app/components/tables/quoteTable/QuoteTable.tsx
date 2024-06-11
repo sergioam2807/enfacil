@@ -34,7 +34,6 @@ const QuoteTable = ({ quoteData }: quoteProps) => {
 
   const data = Array.isArray(quoteData) ? quoteData : quoteData?.data || [];
 
-  console.log("data desde quotetable", data);
   const mappedData = data.map((item) => ({
     id: item?.id,
     projectName: item.title,

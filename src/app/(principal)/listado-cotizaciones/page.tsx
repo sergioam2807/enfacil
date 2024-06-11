@@ -2,6 +2,7 @@
 
 import {
   getClientResponseData,
+  getFullQuoteData,
   // getFullQuoteData,
   getQuoteData,
 } from "@/app/api/data";
@@ -33,19 +34,18 @@ export default function ListadoCotizaciones() {
       const token = localStorage.getItem("token");
 
       if (token) {
-        getQuoteData(token).then((data) => {
+        getFullQuoteData(token).then((data) => {
           setQuoteData(data?.data);
         });
       }
     }
   }, []);
 
-  // console.log("quotedata", quoteData);
+  console.log("quotedata", quoteData);
 
   useEffect(() => {
     const enclosuresInfo = getGroupedInfo(quoteData as any);
     setEnclosuresInfo(enclosuresInfo as any);
-    console.log("enclosuresInfo", enclosuresInfo);
   }, [quoteData, setEnclosuresInfo]);
 
   const handleClick = async () => {
