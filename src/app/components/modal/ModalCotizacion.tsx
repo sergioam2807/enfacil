@@ -24,6 +24,10 @@ const ModalCotizacion = ({
 
   const handleConvertToProject = async () => {
     const token = localStorage.getItem("token");
+    
+    if (!token) {
+      throw new Error("No token found in local storage");
+    }
 
     const projectData = {
       quoteId: quoteFinalData?.id,
