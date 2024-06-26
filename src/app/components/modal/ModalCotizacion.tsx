@@ -1,8 +1,10 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import TitleComponent from "../common/TitleComponent";
 import { formatPrice } from "@/helpers/capitaliizeFirstLetter";
 import { useRouter } from "next/navigation";
+import InputComponent from "../input/InputComponent";
+import { postProjectData } from "@/app/api/data";
 
 interface ModalCotizacionProps {
   quoteFinalData: any;
@@ -13,15 +15,35 @@ const ModalCotizacion = ({
   closeModal,
 }: ModalCotizacionProps) => {
   const router = useRouter();
+  const [projectName, setProjectName] = useState("");
 
-  const handleConvertToProject = () => {
-    if (typeof window !== "undefined") {
-      localStorage.removeItem("selectedClientId");
-      localStorage.removeItem("quoteData");
-      localStorage.removeItem("selectedClientName");
+  console.log("quoteFinalData", quoteFinalData);
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setProjectName(event.target.value);
+  };
+
+  const handleConvertToProject = async () => {
+    const token = localStorage.getItem("token");
+
+    const projectData = {
+      quoteId: quoteFinalData?.id,
+      name: projectName,
+    };
+
+    try {
+      const data = await postProjectData(token, projectData);
+      console.log(data);
+
+      if (typeof window !== "undefined") {
+        localStorage.removeItem("selectedClientId");
+        localStorage.removeItem("quoteData");
+        localStorage.removeItem("selectedClientName");
+      }
+      closeModal();
+      router.push("/proyectos");
+    } catch (error) {
+      console.error(error);
     }
-    closeModal();
-    router.push("/cotizaciones");
   };
 
   return (
@@ -35,7 +57,7 @@ const ModalCotizacion = ({
         <div className="flex flex-col bg-[#EFF4FC] px-4 py-8 rounded-xl gap-2">
           <div>
             <span className="text-custom-blue font-medium">
-              Cliente: {quoteFinalData?.clientName}
+              Cliente: {quoteFinalData?.title}
             </span>
           </div>
           <div>
@@ -46,7 +68,7 @@ const ModalCotizacion = ({
               Total Materiales
             </span>
             <span className="text-[#797979] font-medium ">
-              {formatPrice(quoteFinalData?.totals?.materials ?? 0)}
+              {formatPrice(quoteFinalData?.totalMaterialsUnitPrice ?? 0)}
             </span>
           </div>
           <div className="flex justify-between">
@@ -54,7 +76,7 @@ const ModalCotizacion = ({
               Total mano de obra
             </span>
             <span className="text-[#797979] font-medium ">
-              {formatPrice(quoteFinalData?.totals?.manPower ?? 0)}
+              {formatPrice(quoteFinalData?.totalMPUnitPrice ?? 0)}
             </span>
           </div>
           {/* <div className="flex justify-between">
@@ -67,10 +89,17 @@ const ModalCotizacion = ({
             <span className="text-[#797979] font-medium ">Total final</span>
             <span className="text-custom-blue font-medium ">
               {" "}
-              {formatPrice(quoteFinalData?.totals?.finalTotal ?? 0)}
+              {formatPrice(quoteFinalData?.totalMargin ?? 0)}
             </span>
           </div>
         </div>
+        <InputComponent
+          nameVizualization="Nombre del Proyecto"
+          name="name"
+          placeholder="Nombre del proyecto"
+          onChange={handleInputChange}
+          value={projectName}
+        />
 
         <div className="flex justify-end items-center gap-6 pt-5">
           <div className="flex justify-end mt-4">
@@ -84,7 +113,10 @@ const ModalCotizacion = ({
           <div className="flex justify-end mt-4">
             <button
               onClick={handleConvertToProject}
-              className="py-3 px-3 rounded-lg text-white text-sm font-semibold shadow-sm bg-[#1CB454]"
+              className={`py-3 px-3 rounded-lg text-white text-sm font-semibold shadow-sm ${
+                projectName.length < 3 ? "bg-gray-400" : "bg-[#1CB454]"
+              }`}
+              disabled={projectName.length < 3}
             >
               Sí, convertir
             </button>

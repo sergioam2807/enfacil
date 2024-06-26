@@ -9,7 +9,7 @@ export async function getUserByIdData(id?: string, token?: string) {
   );
 
   if (!res.ok) {
-    throw new Error("Failed to fetch data");
+    throw new Error('Failed to fetch data');
   }
 
   return res.json();
@@ -19,9 +19,9 @@ export async function createUserData(data: any, token: string) {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/UserApi/InsertUser`,
     {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(data),
@@ -29,8 +29,8 @@ export async function createUserData(data: any, token: string) {
   );
 
   if (!res.ok) {
-    let errorData = "";
-    if (res.headers.get("content-type")?.includes("application/json")) {
+    let errorData = '';
+    if (res.headers.get('content-type')?.includes('application/json')) {
       errorData = await res.json();
     }
     throw new Error(
@@ -45,9 +45,9 @@ export async function editUserData(id: string, data: any, token: string) {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/UserApi/UpdateUser`,
     {
-      method: "PUT",
+      method: 'PUT',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(data),
@@ -55,8 +55,8 @@ export async function editUserData(id: string, data: any, token: string) {
   );
 
   if (!res.ok) {
-    let errorData = "";
-    if (res.headers.get("content-type")?.includes("application/json")) {
+    let errorData = '';
+    if (res.headers.get('content-type')?.includes('application/json')) {
       errorData = await res.json();
     }
     throw new Error(
@@ -70,18 +70,18 @@ export async function deleteUserData(id: string, token: string) {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/UserApi/DeleteUser?id=${id}`,
     {
-      method: "DELETE",
+      method: 'DELETE',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
     }
   );
 
-  console.log("API response:", res);
+  console.log('API response:', res);
 
   if (!res.ok) {
-    throw new Error("Failed to delete user");
+    throw new Error('Failed to delete user');
   }
 
   const data = await res.json();
@@ -94,9 +94,9 @@ export async function createPersonalData(data: any, token: string) {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/PersonnelApi/InsertPersonnel`,
     {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(data),
@@ -104,8 +104,8 @@ export async function createPersonalData(data: any, token: string) {
   );
 
   if (!res.ok) {
-    let errorData = "";
-    if (res.headers.get("content-type")?.includes("application/json")) {
+    let errorData = '';
+    if (res.headers.get('content-type')?.includes('application/json')) {
       errorData = await res.json();
     }
     throw new Error(
@@ -120,9 +120,9 @@ export async function editPersonnelData(data: any, token: string) {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/PersonnelApi/UpdatePersonnel`,
     {
-      method: "PUT",
+      method: 'PUT',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(data),
@@ -130,8 +130,8 @@ export async function editPersonnelData(data: any, token: string) {
   );
 
   if (!res.ok) {
-    let errorData = "";
-    if (res.headers.get("content-type")?.includes("application/json")) {
+    let errorData = '';
+    if (res.headers.get('content-type')?.includes('application/json')) {
       errorData = await res.json();
     }
     throw new Error(
@@ -147,9 +147,9 @@ export async function createClientData(data: any, token: string) {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/ClientApi/InsertClient`,
     {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(data),
@@ -157,8 +157,8 @@ export async function createClientData(data: any, token: string) {
   );
 
   if (!res.ok) {
-    let errorData = "";
-    if (res.headers.get("content-type")?.includes("application/json")) {
+    let errorData = '';
+    if (res.headers.get('content-type')?.includes('application/json')) {
       errorData = await res.json();
     }
     throw new Error(
@@ -173,9 +173,9 @@ export async function editClientData(data: any, token: string) {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/ClientApi/UpdateClient`,
     {
-      method: "PUT",
+      method: 'PUT',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(data),
@@ -183,8 +183,8 @@ export async function editClientData(data: any, token: string) {
   );
 
   if (!res.ok) {
-    let errorData = "";
-    if (res.headers.get("content-type")?.includes("application/json")) {
+    let errorData = '';
+    if (res.headers.get('content-type')?.includes('application/json')) {
       errorData = await res.json();
     }
     throw new Error(
@@ -201,9 +201,9 @@ export async function createMaterialData(data: any, token: string) {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/MaterialApi/InsertMaterial`,
     {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(data),
@@ -211,8 +211,8 @@ export async function createMaterialData(data: any, token: string) {
   );
 
   if (!res.ok) {
-    let errorData = "";
-    if (res.headers.get("content-type")?.includes("application/json")) {
+    let errorData = '';
+    if (res.headers.get('content-type')?.includes('application/json')) {
       errorData = await res.json();
     }
     throw new Error(
@@ -227,9 +227,9 @@ export async function editMaterialData(data: any, token: string) {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/MaterialApi/UpdateMaterial`,
     {
-      method: "PUT",
+      method: 'PUT',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(data),
@@ -237,8 +237,8 @@ export async function editMaterialData(data: any, token: string) {
   );
 
   if (!res.ok) {
-    let errorData = "";
-    if (res.headers.get("content-type")?.includes("application/json")) {
+    let errorData = '';
+    if (res.headers.get('content-type')?.includes('application/json')) {
       errorData = await res.json();
     }
     throw new Error(
@@ -255,9 +255,9 @@ export async function createActivityData(data: any, token: string) {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/ActivityApi/InsertActivity`,
     {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(data),
@@ -265,8 +265,8 @@ export async function createActivityData(data: any, token: string) {
   );
 
   if (!res.ok) {
-    let errorData = "";
-    if (res.headers.get("content-type")?.includes("application/json")) {
+    let errorData = '';
+    if (res.headers.get('content-type')?.includes('application/json')) {
       errorData = await res.json();
     }
     throw new Error(
@@ -281,9 +281,9 @@ export async function editActivityData(data: any, token: string) {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/ActivityApi/UpdateActivity`,
     {
-      method: "PUT",
+      method: 'PUT',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(data),
@@ -291,8 +291,8 @@ export async function editActivityData(data: any, token: string) {
   );
 
   if (!res.ok) {
-    let errorData = "";
-    if (res.headers.get("content-type")?.includes("application/json")) {
+    let errorData = '';
+    if (res.headers.get('content-type')?.includes('application/json')) {
       errorData = await res.json();
     }
     throw new Error(
@@ -314,14 +314,14 @@ export async function getActivityTokenData(token: string) {
   );
 
   if (!res.ok) {
-    console.log("Failed to fetch data");
+    console.log('Failed to fetch data');
   }
 
-  const contentType = res.headers.get("content-type");
-  if (contentType && contentType.includes("application/json")) {
+  const contentType = res.headers.get('content-type');
+  if (contentType && contentType.includes('application/json')) {
     return res.json();
   } else {
-    console.log("No JSON content found in response");
+    console.log('No JSON content found in response');
     return [];
   }
 }
@@ -337,26 +337,26 @@ export async function getActivityEnclosure(token: string) {
   );
 
   if (!res.ok) {
-    console.log("Failed to fetch data");
+    console.log('Failed to fetch data');
   }
 
-  const contentType = res.headers.get("content-type");
-  if (contentType && contentType.includes("application/json")) {
+  const contentType = res.headers.get('content-type');
+  if (contentType && contentType.includes('application/json')) {
     return res.json();
   } else {
-    console.log("No JSON content found in response");
+    console.log('No JSON content found in response');
     return [];
   }
 }
 
 export const postEnclosureData = async (token: string, enclosure: any) => {
-  console.log(enclosure, "enclosure");
+  console.log(enclosure, 'enclosure');
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/EnclosureApi/InsertEnclosure`,
     {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(enclosure),
@@ -364,8 +364,8 @@ export const postEnclosureData = async (token: string, enclosure: any) => {
   );
 
   if (!response.ok) {
-    console.log("Response headers:", response.headers);
-    console.log("Response body:", await response.text());
+    console.log('Response headers:', response.headers);
+    console.log('Response body:', await response.text());
     throw new Error(`HTTP error! status: ${response.status}`);
   }
 
@@ -384,14 +384,14 @@ export async function getEnclosureData(token: string) {
   );
 
   if (!res.ok) {
-    console.log("Failed to fetch data enclosure");
+    console.log('Failed to fetch data enclosure');
   }
 
-  const contentType = res.headers.get("content-type");
-  if (contentType && contentType.includes("application/json")) {
+  const contentType = res.headers.get('content-type');
+  if (contentType && contentType.includes('application/json')) {
     return res.json();
   } else {
-    console.log("No JSON content found in response");
+    console.log('No JSON content found in response');
     return [];
   }
 }
@@ -400,17 +400,17 @@ export async function deleteEnclosureData(token: string, id: string) {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/EnclosureApi/DeleteEnclosure?id=${id}`,
     {
-      method: "DELETE",
+      method: 'DELETE',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
     }
   );
-  console.log("API response:", res);
+  console.log('API response:', res);
 
   if (!res.ok) {
-    throw new Error("Failed to enclosure ");
+    throw new Error('Failed to enclosure ');
   }
 
   const data = await res.json();
@@ -430,14 +430,14 @@ export async function getClientResponseData(token: string) {
   );
 
   if (!res.ok) {
-    console.log("Failed to fetch data");
+    console.log('Failed to fetch data');
   }
 
-  const contentType = res.headers.get("content-type");
-  if (contentType && contentType.includes("application/json")) {
+  const contentType = res.headers.get('content-type');
+  if (contentType && contentType.includes('application/json')) {
     return res.json();
   } else {
-    console.log("No JSON content found in response");
+    console.log('No JSON content found in response');
     return [];
   }
 }
@@ -447,9 +447,9 @@ export const postQuoteData = async (token: string, quote: any) => {
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/QuoteApi/InsertQuote`,
     {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(quote),
@@ -477,14 +477,14 @@ export async function getQuoteData(token: string) {
   );
 
   if (!res.ok) {
-    console.log("Failed to fetch data quote");
+    console.log('Failed to fetch data quote');
   }
 
-  const contentType = res.headers.get("content-type");
-  if (contentType && contentType.includes("application/json")) {
+  const contentType = res.headers.get('content-type');
+  if (contentType && contentType.includes('application/json')) {
     return res.json();
   } else {
-    console.log("No JSON content found in response");
+    console.log('No JSON content found in response');
     return [];
   }
 }
@@ -501,14 +501,14 @@ export async function getFullQuoteData(token: string) {
   );
 
   if (!res.ok) {
-    console.log("Failed to fetch data quote");
+    console.log('Failed to fetch data quote');
   }
 
-  const contentType = res.headers.get("content-type");
-  if (contentType && contentType.includes("application/json")) {
+  const contentType = res.headers.get('content-type');
+  if (contentType && contentType.includes('application/json')) {
     return res.json();
   } else {
-    console.log("No JSON content found in response");
+    console.log('No JSON content found in response');
     return [];
   }
 }
@@ -520,9 +520,9 @@ export const postQuoteWhitEnclosureData = async (
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/QuoteApi/InsertQuoteWithEnclosures`,
     {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(quoteWithEnclosure),
@@ -545,9 +545,9 @@ export const postQuoteEnclosuresMultipleActivities = async (
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/QuoteEnclosureApi/InsertQuoteEnclosuresMultipleActivities`,
     {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(QuoteEnclosuresMultiple),
@@ -571,9 +571,9 @@ export const postQuoteEnclosure = async (
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/QuoteEnclosureApi/InsertQuoteEnclosure`,
     {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({ quoteID: quoteId, enclosureID: enclosureId }),
@@ -588,3 +588,84 @@ export const postQuoteEnclosure = async (
 
   return data;
 };
+
+export const postProjectData = async (token: string, projectData: any) => {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/ProjectApi/InsertProject`,
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(projectData),
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+
+  const data = await response.json();
+
+  return data;
+};
+
+export async function getProyectData(token: string) {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/ProjectApi/GetProjects`,
+
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
+  if (!res.ok) {
+    console.log('Failed to fetch data projects');
+  }
+
+  const contentType = res.headers.get('content-type');
+  if (contentType && contentType.includes('application/json')) {
+    return res.json();
+  } else {
+    console.log('No JSON content found in response');
+    return [];
+  }
+}
+
+export const postFinalMovementstData = async (
+  token: string,
+  financialData: any
+) => {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/FinancialMovementsApi/InsertFinancialMovements`,
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(financialData),
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+
+  const data = await response.json();
+
+  return data;
+};
+
+// {
+//   "category": "Ingresos",
+//   "client": "string",
+//   "proyect": "string",
+//   "date": "string",
+//   "bank":"string",
+//   "amount":"number",
+//   "description": "string"
+//   }

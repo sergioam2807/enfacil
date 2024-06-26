@@ -8,7 +8,7 @@ import Link from "next/link";
 
 interface Proyect {
   id: string;
-  proyect: string;
+  name: string;
   client: string;
   startDate: string;
   finishDate: string;
@@ -20,18 +20,20 @@ interface proyectProps {
   proyectData: Proyect[];
 }
 
-const ProyectMainTable = () => {
-  const proyectData: Proyect[] = [
-    {
-      id: "1",
-      proyect: "Proyecto 1",
-      client: "Cliente 1",
-      startDate: "2022-01-01",
-      finishDate: "2022-12-31",
-      state: "Activo",
-      advance: "50",
-    },
-  ];
+const ProyectMainTable = ({proyectData}: proyectProps) => {
+  // const proyectData: Proyect[] = [
+  //   {
+  //     id: "1",
+  //     proyect: "Proyecto 1",
+  //     client: "Cliente 1",
+  //     startDate: "2022-01-01",
+  //     finishDate: "2022-12-31",
+  //     state: "Activo",
+  //     advance: "50",
+  //   },
+  // ];
+
+  console.log(proyectData)
   return (
     <table className="w-full table-auto">
       <thead>
@@ -53,7 +55,7 @@ const ProyectMainTable = () => {
           >
             <TableCell clickable>
               <Link className="ml-10" href={`/proyectos/${row?.id}`}>
-                {row.proyect ?? "-"}
+                {row.name ?? "-"}
               </Link>
             </TableCell>
             <TableCell>{row.client ?? "-"}</TableCell>

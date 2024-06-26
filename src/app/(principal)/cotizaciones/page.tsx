@@ -79,8 +79,6 @@ export default function Cotizaciones() {
     }
   }, []);
 
-  console.log("typeof", typeof allEnclosureData);
-
   useEffect(() => {
     //Seach data into enclosureData
     const results = allEnclosureData.filter((enclosure) =>

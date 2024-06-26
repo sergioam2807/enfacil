@@ -163,7 +163,7 @@ export default function CotizacionDetalle({
                 </button>
                 {modalOpen && (
                   <ModalCotizacion
-                    quoteFinalData={quoteFinalData}
+                    quoteFinalData={quoteData?.data[0]}
                     closeModal={closeModal}
                   />
                 )}
