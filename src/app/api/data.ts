@@ -698,12 +698,66 @@ export async function getProyectById(id?: string, token?: string) {
   return res.json();
 }
 
-// {
-//   "category": "Ingresos",
-//   "client": "string",
-//   "proyect": "string",
-//   "date": "string",
-//   "bank":"string",
-//   "amount":"number",
-//   "description": "string"
-//   }
+export const postCategoryData = async (token: string, categoryData: any) => {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/FinancialCategoryApi/InsertFinancialCategory`,
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(categoryData),
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+
+  const data = await response.json();
+
+  return data;
+};
+
+export const postSubCategoryData = async (
+  token: string,
+  subCategoryData: any
+) => {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/SubCategoriesApi/InsertSubCategories`,
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(subCategoryData),
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+
+  const data = await response.json();
+
+  return data;
+};
+
+export async function getCategory(token?: string) {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/FinancialCategoryApi/GetFinancialCategory`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
+  if (!res.ok) {
+    throw new Error('Failed to fetch data');
+  }
+
+  return res.json();
+}

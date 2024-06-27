@@ -4,6 +4,11 @@ import TitleComponent from '../common/TitleComponent';
 import InputComponent from '../input/InputComponent';
 import ciclebutton from '../../../../public/images/circlebutton.svg';
 import Image from 'next/image';
+import {
+  getCategory,
+  postCategoryData,
+  postSubCategoryData,
+} from '@/app/api/data';
 
 interface ModalCreateCategoryProps {
   onClose: () => void;
@@ -14,6 +19,9 @@ const ModalCreateCategory = ({ onClose }: ModalCreateCategoryProps) => {
   const [showSubcategory, setShowSubcategory] = useState(false);
   const [subcategoryName, setSubcategoryName] = useState('');
   const [subcategoryDescription, setSubcategoryDescription] = useState('');
+  const [selectedCategoryId, setSelectedCategoryId] = useState('');
+
+  const [categories, setCategories] = useState([]);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -41,21 +49,66 @@ const ModalCreateCategory = ({ onClose }: ModalCreateCategoryProps) => {
 
     switch (name) {
       case 'category':
+        setSelectedCategoryId(value);
         break;
       default:
         break;
     }
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
+    const token = localStorage.getItem('token');
     if (showSubcategory) {
-      console.log('subcategoria');
-      // Aquí puedes manejar el envío de una subcategoría
-      // Por ejemplo, puedes llamar a un endpoint de API para crear una subcategoría
+      const subcategoryData = {
+        name: subcategoryName,
+        description: subcategoryDescription,
+        financialCategoryId: selectedCategoryId,
+      };
+      if (token) {
+        try {
+          const data = await postSubCategoryData(token, subcategoryData);
+          console.log(data);
+        } catch (error) {
+          console.error(error);
+        }
+      } else {
+        console.error('No token found');
+      }
     } else {
-      console.log('categoria');
-      // Aquí puedes manejar el envío de una categoría
-      // Por ejemplo, puedes llamar a un endpoint de API para crear una categoría
+      const categoryData = {
+        name: name,
+        description: description,
+      };
+      if (token) {
+        try {
+          const data = await postCategoryData(token, categoryData);
+          console.log(data);
+        } catch (error) {
+          console.error(error);
+        }
+      } else {
+        console.error('No token found');
+      }
+    }
+  };
+
+  const handleAddSubcategoryClick = async () => {
+    setShowSubcategory(!showSubcategory);
+
+    const token = localStorage.getItem('token');
+    if (token) {
+      try {
+        const response = await getCategory(token);
+        if (response.success && Array.isArray(response.data)) {
+          setCategories(response.data);
+        } else {
+          console.error('Data is not an array');
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    } else {
+      console.error('No token found');
     }
   };
 
@@ -87,7 +140,7 @@ const ModalCreateCategory = ({ onClose }: ModalCreateCategoryProps) => {
         <div className='flex justify-end px-5'>
           <button
             className='flex items-center gap-2 text-custom-blue rounded-md border-2 border-custom-blue bg-white px-3 py-2'
-            onClick={() => setShowSubcategory(!showSubcategory)}
+            onClick={handleAddSubcategoryClick}
           >
             Agregar Subcategoria
             <Image src={ciclebutton} alt='edit' width={23} height={23} />
@@ -95,7 +148,6 @@ const ModalCreateCategory = ({ onClose }: ModalCreateCategoryProps) => {
         </div>
         {showSubcategory && (
           <div className='w-full px-5 py-4'>
-            {/* TODO ADD DROPDOWN WHIT CATEGORIES */}
             <div className='mb-4'>
               <label
                 className='block text-gray-700 text-sm font-bold mb-2'
@@ -110,10 +162,11 @@ const ModalCreateCategory = ({ onClose }: ModalCreateCategoryProps) => {
                 onChange={handleSelectChange}
               >
                 <option value=''>Selecciona una categoría</option>
-                <option value='categoria1'>Categoria 1</option>
-                <option value='categoria2'>Categoria 2</option>
-                <option value='categoria3'>Categoria 3</option>
-                {/* Agrega más opciones de categorías aquí */}
+                {categories.map((category: any) => (
+                  <option key={category?.id} value={category?.id}>
+                    {category?.name}
+                  </option>
+                ))}
               </select>
             </div>
             {/* Subcategory inputs */}
