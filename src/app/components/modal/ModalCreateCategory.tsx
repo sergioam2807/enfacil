@@ -47,6 +47,18 @@ const ModalCreateCategory = ({ onClose }: ModalCreateCategoryProps) => {
     }
   };
 
+  const handleSave = () => {
+    if (showSubcategory) {
+      console.log('subcategoria');
+      // Aquí puedes manejar el envío de una subcategoría
+      // Por ejemplo, puedes llamar a un endpoint de API para crear una subcategoría
+    } else {
+      console.log('categoria');
+      // Aquí puedes manejar el envío de una categoría
+      // Por ejemplo, puedes llamar a un endpoint de API para crear una categoría
+    }
+  };
+
   return (
     <div className='fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center'>
       <div className='border w-96 shadow-lg rounded-2xl bg-white  flex flex-col'>
@@ -60,6 +72,7 @@ const ModalCreateCategory = ({ onClose }: ModalCreateCategoryProps) => {
             placeholder='Nombre de la categoría'
             onChange={handleInputChange}
             value={name}
+            disabled={showSubcategory}
           />
           <InputComponent
             nameVizualization='Descripción de la categoría'
@@ -67,6 +80,7 @@ const ModalCreateCategory = ({ onClose }: ModalCreateCategoryProps) => {
             placeholder='Descripción de la categoría'
             onChange={handleInputChange}
             value={description}
+            disabled={showSubcategory}
           />
         </div>
 
@@ -127,7 +141,10 @@ const ModalCreateCategory = ({ onClose }: ModalCreateCategoryProps) => {
           >
             Cancelar
           </button>
-          <button className='text-white bg-custom-blue rounded-md px-5 py-3'>
+          <button
+            onClick={handleSave}
+            className='text-white bg-custom-blue rounded-md px-5 py-3'
+          >
             Guardar
           </button>
         </div>
