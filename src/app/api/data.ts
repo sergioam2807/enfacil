@@ -761,3 +761,26 @@ export async function getCategory(token?: string) {
 
   return res.json();
 }
+
+//deleteProject
+
+export async function deleteProject(token: string, id: number) {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/ProjectApi/DeleteProject?id=${id}`,
+    {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  console.log('API response:', res);
+
+  if (!res.ok) {
+    throw new Error('Failed to enclosure ');
+  }
+
+  const data = await res.json();
+  return data;
+}

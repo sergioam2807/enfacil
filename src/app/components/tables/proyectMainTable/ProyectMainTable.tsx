@@ -2,26 +2,30 @@ import React from 'react';
 import TableHead from '../../common/TableHead';
 import TableCell from '../../common/TableCell';
 import ChipStatus from '../../chip/ChipStatus';
-
-import OptionMenuButton from '../../buttons/OptionMenuButton';
+import trash from '../../../../../public/images/trash.svg';
 import Link from 'next/link';
+import Image from 'next/image';
 
 interface Proyect {
-  id: string;
+  id: number;
   name: string;
   client: string;
   startDate: string;
   finishDate: string;
   vigency: string;
   advance: string;
+  created: string;
+  updated: string;
 }
 
 interface proyectProps {
   proyectData: Proyect[];
+  handleDelete: (id: number | null) => void;
 }
 
-const ProyectMainTable = ({ proyectData }: proyectProps) => {
+const ProyectMainTable = ({ proyectData, handleDelete }: proyectProps) => {
   console.log(proyectData);
+
   return (
     <table className='w-full table-auto'>
       <thead>
@@ -47,20 +51,21 @@ const ProyectMainTable = ({ proyectData }: proyectProps) => {
               </Link>
             </TableCell>
             <TableCell>{row.client ?? '-'}</TableCell>
-            <TableCell>{row.startDate ?? '-'}</TableCell>
-            <TableCell>{row.finishDate ?? '-'}</TableCell>
+            <TableCell>{row.created ?? '-'}</TableCell>
+            <TableCell>{row.updated ?? '-'}</TableCell>
             <TableCell>
               <ChipStatus status={row.vigency} />
             </TableCell>
             <TableCell>
-              <span className='text-sm'>
-                {typeof row.advance === 'number'
-                  ? `${row.advance}%`
-                  : `${row.advance}%`}
-              </span>
+              <span className='text-sm'>{(row.advance || 0) + '%'}</span>
             </TableCell>
             <td className='text-left text-base'>
-              <OptionMenuButton />
+              <TableCell>
+                <button onClick={() => handleDelete(row.id)}>
+                  {' '}
+                  <Image src={trash} alt='Eliminar' width={15} height={15} />
+                </button>
+              </TableCell>
             </td>
           </tr>
         ))}
