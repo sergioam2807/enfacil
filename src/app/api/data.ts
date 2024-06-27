@@ -681,6 +681,23 @@ export const postFinalMovementstData = async (
   return data;
 };
 
+export async function getProyectById(id?: string, token?: string) {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/ProjectApi/GetProjects?id=${id}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
+  if (!res.ok) {
+    throw new Error('Failed to fetch data');
+  }
+
+  return res.json();
+}
+
 // {
 //   "category": "Ingresos",
 //   "client": "string",
