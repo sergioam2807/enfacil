@@ -1,25 +1,22 @@
-"use client";
+'use client';
 
 import {
+  deleteQuote,
   getClientResponseData,
   getFullQuoteData,
-  // getFullQuoteData,
-  getQuoteData,
-} from "@/app/api/data";
+} from '@/app/api/data';
 
-import { CreateButton } from "@/app/components/common/CreateButton";
-import Search from "@/app/components/common/Search";
-import TitleComponent from "@/app/components/common/TitleComponent";
-import ModalCreateQuote from "@/app/components/modal/ModalCreateQuote";
-import QuoteTable from "@/app/components/tables/quoteTable/QuoteTable";
-import BaseTableCard from "@/app/components/tables/table/BaseTableCard";
-import getGroupedInfo from "@/helpers/getEnclosure";
-import { useQuoteInfoStore } from "@/store/store";
-
-// import { useQuoteDataStore } from "@/store/store";
-import { Client, Quote } from "@/types/types";
-import { useRouter } from "next/navigation";
-import { Suspense, useEffect, useState } from "react";
+import { CreateButton } from '@/app/components/common/CreateButton';
+import Search from '@/app/components/common/Search';
+import TitleComponent from '@/app/components/common/TitleComponent';
+import ModalCreateQuote from '@/app/components/modal/ModalCreateQuote';
+import QuoteTable from '@/app/components/tables/quoteTable/QuoteTable';
+import BaseTableCard from '@/app/components/tables/table/BaseTableCard';
+import getGroupedInfo from '@/helpers/getEnclosure';
+import { useQuoteInfoStore } from '@/store/store';
+import { Client, Quote } from '@/types/types';
+import { useRouter } from 'next/navigation';
+import { Suspense, useEffect, useState } from 'react';
 
 export default function ListadoCotizaciones() {
   const [quoteData, setQuoteData] = useState<Quote[]>([]);
@@ -30,8 +27,8 @@ export default function ListadoCotizaciones() {
   const router = useRouter();
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const token = localStorage.getItem("token");
+    if (typeof window !== 'undefined') {
+      const token = localStorage.getItem('token');
 
       if (token) {
         getFullQuoteData(token).then((data) => {
@@ -41,15 +38,13 @@ export default function ListadoCotizaciones() {
     }
   }, []);
 
-  console.log("quotedata", quoteData);
-
   useEffect(() => {
     const enclosuresInfo = getGroupedInfo(quoteData as any);
     setEnclosuresInfo(enclosuresInfo as any);
   }, [quoteData, setEnclosuresInfo]);
 
   const handleClick = async () => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem('token');
 
     if (token) {
       try {
@@ -63,26 +58,46 @@ export default function ListadoCotizaciones() {
     }
   };
 
+  const handleDelete = async (id: number | null) => {
+    console.log('delete id', id);
+    const token = localStorage.getItem('token');
+    if (token) {
+      try {
+        if (id !== null) {
+          await deleteQuote(token, id);
+
+          getFullQuoteData(token).then((data) => {
+            setQuoteData(data?.data);
+          });
+        } else {
+          throw new Error('ID is null');
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+
   const handleClose = () => {
     setShow(false);
-    router.push("/cotizaciones");
+    router.push('/cotizaciones');
   };
 
   return (
-    <div className="pr-5 pb-5">
+    <div className='pr-5 pb-5'>
       <div>
-        <TitleComponent titleName={"Últimas Cotizaciones"} />
+        <TitleComponent titleName={'Últimas Cotizaciones'} />
       </div>
-      <div className="flex justify-between items-center pb-7">
+      <div className='flex justify-between items-center pb-7'>
         <Suspense fallback={<div>Loading...</div>}>
-          <Search color="#FFFFFF" />
+          <Search color='#FFFFFF' />
         </Suspense>
-        <div className="flex gap-4">
+        <div className='flex gap-4'>
           <div>
             <CreateButton
-              title="Crear Cotización"
+              title='Crear Cotización'
               iconSize={14}
-              bgcolor="#0E436B"
+              bgcolor='#0E436B'
               onclick={handleClick}
             />
 
@@ -94,7 +109,7 @@ export default function ListadoCotizaciones() {
       </div>
       <div className={`h-[600px] overflow-y-auto`}>
         <BaseTableCard>
-          <QuoteTable quoteData={quoteData} />
+          <QuoteTable quoteData={quoteData} handleDelete={handleDelete} />
         </BaseTableCard>
       </div>
     </div>

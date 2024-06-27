@@ -489,6 +489,27 @@ export async function getQuoteData(token: string) {
   }
 }
 
+export async function deleteQuote(token: string, id: number) {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/QuoteApi/DeleteQuote?id=${id}`,
+    {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  console.log('API response:', res);
+
+  if (!res.ok) {
+    throw new Error('Failed to enclosure ');
+  }
+
+  const data = await res.json();
+  return data;
+}
+
 export async function getFullQuoteData(token: string) {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/QuoteApi/GetFullQuotes`,
