@@ -1,15 +1,17 @@
-"use client";
-import Search from "@/app/components/common/Search";
-import TitleComponent from "@/app/components/common/TitleComponent";
-import { FilterDropdown } from "@/app/components/filter/FilterDropdown";
-import ModalCreateFinance from "@/app/components/modal/ModalCreateFinance";
-import SkeletonTable from "@/app/components/skeleton/SkeletonTable";
-import FinanceTable from "@/app/components/tables/finanzas/FinanceTable";
-import BaseTableCard from "@/app/components/tables/table/BaseTableCard";
-import { Suspense, useState } from "react";
+'use client';
+import Search from '@/app/components/common/Search';
+import TitleComponent from '@/app/components/common/TitleComponent';
+import ModalCreateCategory from '@/app/components/modal/ModalCreateCategory';
+// import { FilterDropdown } from '@/app/components/filter/FilterDropdown';
+import ModalCreateFinance from '@/app/components/modal/ModalCreateFinance';
+import SkeletonTable from '@/app/components/skeleton/SkeletonTable';
+import FinanceTable from '@/app/components/tables/finanzas/FinanceTable';
+import BaseTableCard from '@/app/components/tables/table/BaseTableCard';
+import { Suspense, useState } from 'react';
 
 export default function Finanzas() {
   const [modalOpen, setModalOpen] = useState(false);
+  const [modalCategoryOpen, setModalCategoryOpen] = useState(false);
 
   const openModal = () => {
     setModalOpen(true);
@@ -19,32 +21,46 @@ export default function Finanzas() {
     setModalOpen(false);
   };
 
+  const openCategoryModal = () => {
+    setModalCategoryOpen(true);
+  };
+
+  const closeCategoryModal = () => {
+    setModalCategoryOpen(false);
+  };
+
   return (
-    <div className="pr-5 pb-5">
-      <TitleComponent titleName={"Ultimos Movimientos"} />
-      <div className="flex justify-between items-center pb-7">
+    <div className='pr-5 pb-5'>
+      <TitleComponent titleName={'Ultimos Movimientos'} />
+      <div className='flex justify-between items-center pb-7'>
         <div>
           <Suspense fallback={<SkeletonTable />}>
-            <Search color="#FFFFFF" />
+            <Search color='#FFFFFF' />
           </Suspense>
         </div>
       </div>
-      <div className="pb-7">
-        <div className="flex justify-between">
-          <div className="flex gap-4">
-            <div>
+      <div className='pb-7'>
+        <div className='flex justify-between'>
+          <div className='flex gap-4'>
+            {/* <div>
               <FilterDropdown />
             </div>
             <div>
               <FilterDropdown />
-            </div>
+            </div> */}
           </div>
-          <div className="flex mr-4 items-center">
+          <div className='flex mr-4 items-center gap-3'>
             <button
               onClick={openModal}
-              className="text-custom-blue rounded-md border-2 border-custom-blue bg-white px-5 py-3"
+              className='text-custom-blue rounded-md border-2 border-custom-blue bg-white px-5 py-3'
             >
               Ingresar Movimiento
+            </button>
+            <button
+              onClick={openCategoryModal}
+              className='text-white rounded-md border-2 border-custom-blue bg-custom-blue px-5 py-3'
+            >
+              + Categorías
             </button>
           </div>
         </div>
@@ -53,6 +69,9 @@ export default function Finanzas() {
             // quoteFinalData={quoteFinalData}
             onClose={closeModal}
           />
+        )}
+        {modalCategoryOpen && (
+          <ModalCreateCategory onClose={closeCategoryModal} />
         )}
       </div>
       {/* <CustomScrollbar> */}
