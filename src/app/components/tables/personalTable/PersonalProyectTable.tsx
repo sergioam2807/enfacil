@@ -1,10 +1,10 @@
-import React from "react";
-import userIcon from "../../../../../public/images/user.svg";
-import Image from "next/image";
+import React from 'react';
+import userIcon from '../../../../../public/images/user.svg';
+import Image from 'next/image';
 // import ActionButtons from "../actionTable/ActionButtons";
-import TableHead from "../../common/TableHead";
-import TableCell from "../../common/TableCell";
-import ChipStatus from "../../chip/ChipStatus";
+import TableHead from '../../common/TableHead';
+import TableCell from '../../common/TableCell';
+import ChipStatus from '../../chip/ChipStatus';
 
 interface Proyect {
   id: string;
@@ -22,9 +22,9 @@ const PersonalProyectTable = async ({ proyectData }: proyectProps) => {
   // const proyectData = await getProyectsData();
 
   return (
-    <table className="w-full table-auto">
+    <table className='w-full table-auto'>
       <thead>
-        <tr className="text-[#0E436B] font-semibold text-sm">
+        <tr className='text-[#0E436B] font-semibold text-sm'>
           <th>&nbsp;</th>
           <TableHead>Proyecto</TableHead>
           <TableHead>F.inicio Proyecto</TableHead>
@@ -37,27 +37,25 @@ const PersonalProyectTable = async ({ proyectData }: proyectProps) => {
         {proyectData?.map((row: Proyect) => (
           <tr
             key={row?.id}
-            className="text-[#797979] font-medium text-sm border-t border-[#EAEAEA]"
+            className='text-[#797979] font-medium text-sm border-t border-[#EAEAEA]'
           >
-            <td className="text-left text-base pl-10 py-2">
+            <td className='text-left text-base pl-10 py-2'>
               <div>
                 <Image
                   src={userIcon}
-                  alt="Search Icon"
+                  alt='Search Icon'
                   width={54}
                   height={54}
                 />
               </div>
             </td>
-            <TableCell>{row?.proyect ?? "-"}</TableCell>
-            <TableCell>{row?.fIngreso ?? "-"}</TableCell>
-            <TableCell>{row?.fTermino ?? "-"}</TableCell>
+            <TableCell>{row?.proyect ?? '-'}</TableCell>
+            <TableCell>{row?.fIngreso ?? '-'}</TableCell>
+            <TableCell>{row?.fTermino ?? '-'}</TableCell>
             <TableCell>
-              <ChipStatus status={row?.state ?? "Activo"}>
-                {row?.state ?? "Activo"}
-              </ChipStatus>
+              <ChipStatus status={row?.state} />
             </TableCell>
-            <td className="text-left text-base">
+            <td className='text-left text-base'>
               {/* <ActionButtons id={row?.id} /> */}
             </td>
           </tr>

@@ -70,9 +70,7 @@ export default function ProyectDetails({ params }: { params: { id: string } }) {
             <Image src={user} width={83} height={83} alt="user-profile" />
           </div>
           <div>
-            <ChipStatus status={proyectDetail.state ?? "Activo"}>
-              {proyectDetail.state ?? "Activo"}
-            </ChipStatus>
+            <ChipStatus status={proyectDetail.state }/>
           </div>
         </div>
         <div className="w-2/5 flex flex-col">

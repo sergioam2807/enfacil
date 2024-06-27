@@ -38,9 +38,7 @@ const ClientProyectTable = async ({ proyectData }: proyectProps) => {
             <TableCell>{row.fIngreso ?? "-"}</TableCell>
             <TableCell>{row.fTermino ?? "-"}</TableCell>
             <TableCell>
-              <ChipStatus status={row.state ?? "Activo"}>
-                {row.state ?? "Activo"}
-              </ChipStatus>
+              <ChipStatus status={row.state } />
             </TableCell>
             <TableCell>
               <AdvanceBar avance={row.advance} />

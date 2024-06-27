@@ -32,9 +32,7 @@ export default async function PerfilUsuario({
             <Image src={user} width={83} height={83} alt="user-profile" />
           </div>
           <div>
-            <ChipStatus status={userProfile.state ?? "Activo"}>
-              {userProfile.state ?? "Activo"}
-            </ChipStatus>
+            <ChipStatus status={userProfile.state }/>
           </div>
         </div>
         <div className="w-2/5 flex flex-col">

@@ -77,9 +77,7 @@ const ClientTable = ({ clientData }: clientProps) => {
             <TableCell>{formatTaxId(row.taxId)}</TableCell>
             <TableCell>{formatDate(row.created) ?? "-"}</TableCell>
             <TableCell>
-              <ChipStatus status={row.state ?? "Activo"}>
-                {row.state ?? "Activo"}
-              </ChipStatus>
+              <ChipStatus status={row.state } />
             </TableCell>
             <TableCell>
               <div>

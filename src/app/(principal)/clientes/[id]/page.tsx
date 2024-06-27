@@ -35,9 +35,7 @@ export default async function PerfilClient({
             <Image src={user} width={83} height={83} alt="user-profile" />
           </div>
           <div>
-            <ChipStatus status={clientProfile.state ?? "Activo"}>
-              {clientProfile.state ?? "Activo"}
-            </ChipStatus>
+            <ChipStatus status={clientProfile.state ?? "Activo"}/>
           </div>
         </div>
         <div className="w-2/5 flex flex-col">
