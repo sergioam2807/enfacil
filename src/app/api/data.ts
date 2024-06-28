@@ -725,7 +725,7 @@ export const postSubCategoryData = async (
   subCategoryData: any
 ) => {
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/SubCategoriesApi/InsertSubCategories`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/FinancialSubCategoryApi/InsertFinancialSubCategory`,
     {
       method: 'POST',
       headers: {
