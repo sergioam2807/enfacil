@@ -5,6 +5,7 @@ import ChipStatus from '../../chip/ChipStatus';
 import trash from '../../../../../public/images/trash.svg';
 import Link from 'next/link';
 import Image from 'next/image';
+import { formatDate } from '@/helpers/capitaliizeFirstLetter';
 
 interface Proyect {
   id: number;
@@ -51,8 +52,8 @@ const ProyectMainTable = ({ proyectData, handleDelete }: proyectProps) => {
               </Link>
             </TableCell>
             <TableCell>{row.client ?? '-'}</TableCell>
-            <TableCell>{row.created ?? '-'}</TableCell>
-            <TableCell>{row.updated ?? '-'}</TableCell>
+            <TableCell>{formatDate(row.created) ?? '-'}</TableCell>
+            <TableCell>{formatDate(row.updated) ?? '-'}</TableCell>
             <TableCell>
               <ChipStatus status={row.vigency} />
             </TableCell>
