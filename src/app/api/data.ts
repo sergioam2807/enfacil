@@ -762,6 +762,23 @@ export async function getCategory(token?: string) {
   return res.json();
 }
 
+export async function getSubCategory(token?: string) {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/FinancialSubCategoryApi/GetFinancialSubCategory`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
+  if (!res.ok) {
+    throw new Error('Failed to fetch data');
+  }
+
+  return res.json();
+}
+
 //deleteProject
 
 export async function deleteProject(token: string, id: number) {
