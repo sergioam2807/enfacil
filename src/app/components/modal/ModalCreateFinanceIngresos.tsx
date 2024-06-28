@@ -8,6 +8,7 @@ import {
   getClientResponseData,
   getProyectData,
   getSubCategory,
+  postFinalMovementstData,
 } from '@/app/api/data';
 // import { cleanTaxId, formatTaxId } from '@/helpers/capitaliizeFirstLetter';
 
@@ -20,11 +21,12 @@ interface Props {
 interface CreateFinanceData {
   client: string;
   project: string;
-  date: string;
+  // date: string;
   bank: string;
   amount: string;
   description: string;
-  category: string | null;
+  name: string | null;
+  // category: string | null;
   subCategory: string;
 }
 
@@ -40,15 +42,14 @@ const ModalCreateFinanceIngresos = ({
   const [createFinance, setCreateFinance] = useState<CreateFinanceData>({
     client: '',
     project: '',
-    date: '',
+    // date: '',
     bank: '',
     amount: '',
     description: '',
-    category: categoryName,
+    // category: categoryName,
+    name: categoryName,
     subCategory: '',
   });
-
-  console.log('createFinance', createFinance);
 
   useEffect(() => {
     const fetchClients = async () => {
@@ -134,6 +135,29 @@ const ModalCreateFinanceIngresos = ({
     });
   };
 
+  const handleAddClick = async () => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      const createFinanceData = {
+        name: createFinance.name,
+        description: createFinance.description,
+        amount: createFinance.amount,
+        bank: createFinance.bank,
+        financialSubCategoryId: createFinance.subCategory,
+        referenceId: createFinance.project,
+      };
+      console.log('createFinanceData', createFinanceData);
+      try {
+        const data = await postFinalMovementstData(token, createFinanceData);
+        console.log(data);
+      } catch (error) {
+        console.error(error);
+      }
+    } else {
+      console.error('No token found');
+    }
+  };
+
   return (
     <div className='fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center'>
       <div className='p-8 border w-fit shadow-lg rounded-2xl bg-white'>
@@ -143,7 +167,7 @@ const ModalCreateFinanceIngresos = ({
               Añade {categoryName}
             </h3>
           </div>
-          <div className='w-full'>
+          {/* <div className='w-full'>
             <div className='my-4'>
               <div className='flex justify-start'>
                 <span className='text-sm text-[#000E41] mb-2'>Cliente</span>
@@ -162,7 +186,7 @@ const ModalCreateFinanceIngresos = ({
                 ))}
               </select>
             </div>
-          </div>
+          </div> */}
 
           <div className='w-full'>
             <div className='my-4'>
@@ -188,7 +212,7 @@ const ModalCreateFinanceIngresos = ({
           </div>
 
           <div className='flex items-center justify-between gap-5'>
-            <div>
+            <div className='w-full'>
               <div className=''>
                 <div className='flex justify-start'>
                   <span className='text-sm text-[#000E41] mb-2'>Proyecto</span>
@@ -209,7 +233,7 @@ const ModalCreateFinanceIngresos = ({
               </div>
             </div>
 
-            <div>
+            {/* <div>
               <InputComponent
                 nameVizualization='Fecha'
                 name='date'
@@ -217,7 +241,7 @@ const ModalCreateFinanceIngresos = ({
                 onChange={handleInputChange}
                 value={createFinance.date}
               />
-            </div>
+            </div> */}
           </div>
           <div className='flex items-center justify-between gap-5'>
             <div>
@@ -266,7 +290,7 @@ const ModalCreateFinanceIngresos = ({
                 borderColor={'#0E436B'}
                 textColor='#FFFFFF'
                 text='Añadir'
-                onClick={() => console.log('click')}
+                onClick={handleAddClick}
               />
             </div>
           </div>
