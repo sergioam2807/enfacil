@@ -5,7 +5,9 @@ export async function getUserData(id?: string) {
   const token = cookieStore.get('token')?.value;
 
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/UserApi/GetUsers${id ? `/${id}` : ''}`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/UserApi/GetUsers${
+      id ? `/${id}` : ''
+    }`,
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -30,7 +32,7 @@ export async function getPersonalData() {
   const cookieStore = cookies();
   const token = cookieStore.get('token')?.value;
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/PersonnelApi/GetPersonnel?identifier=all&value=true`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/PersonnelApi/GetPersonnel?identifier=all&value=true`,
     {
       method: 'GET',
       headers: {
@@ -52,7 +54,7 @@ export async function getPersonalData() {
 export function deletePersonalData() {
   return async (id: string, token: string) => {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/UserApi/DeleteUser?id=${id}`,
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/UserApi/DeleteUser?id=${id}`,
       {
         method: 'DELETE',
         headers: {
@@ -77,7 +79,7 @@ export async function getClientData() {
   const cookieStore = cookies();
   const token = cookieStore.get('token')?.value;
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/ClientApi/GetClients?identifier=all&value=true`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/ClientApi/GetClients?identifier=all&value=true`,
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -102,7 +104,7 @@ export async function getProyectsData() {
   const cookieStore = cookies();
   const token = cookieStore.get('token')?.value;
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/ProjectApi/GetProjects`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/ProjectApi/GetProjects`,
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -128,7 +130,7 @@ export async function getMaterialsData() {
   const token = cookieStore.get('token')?.value;
 
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/MaterialApi/GetMaterials`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/MaterialApi/GetMaterials`,
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -156,7 +158,7 @@ export async function getActivityData() {
   const token = cookieStore.get('token')?.value;
 
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/ActivityApi/GetActivities`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/ActivityApi/GetActivities`,
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -184,7 +186,7 @@ export async function getQuoteEnclosureActivities() {
   const token = cookieStore.get('token')?.value;
 
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/QuoteEnclosureActivityApi/GetQuoteEnclosureActivities`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/QuoteEnclosureActivityApi/GetQuoteEnclosureActivities`,
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -210,7 +212,7 @@ export async function getQuotes() {
   const token = cookieStore.get('token')?.value;
 
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/QuoteApi/GetQuotes`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/QuoteApi/GetQuotes`,
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -236,7 +238,7 @@ export async function getEnclosure() {
   const token = cookieStore.get('token')?.value;
 
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/EnclosureApi/GetEnclosures`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/EnclosureApi/GetEnclosures`,
     {
       headers: {
         Authorization: `Bearer ${token}`,

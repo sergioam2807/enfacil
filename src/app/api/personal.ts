@@ -1,12 +1,12 @@
-import { cookies } from "next/headers";
+import { cookies } from 'next/headers';
 
 export async function getPersonalByIdData(id?: string) {
   const cookieStore = cookies();
-  const token = cookieStore.get("token")?.value;
+  const token = cookieStore.get('token')?.value;
 
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/UserApi/GetPersonnel${
-      id ? `/${id}` : ""
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/UserApi/GetPersonnel${
+      id ? `/${id}` : ''
     }`,
     {
       headers: {
@@ -16,7 +16,7 @@ export async function getPersonalByIdData(id?: string) {
   );
 
   if (!res.ok) {
-    throw new Error("Failed to fetch data");
+    throw new Error('Failed to fetch data');
   }
 
   return res.json();

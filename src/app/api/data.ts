@@ -1,6 +1,6 @@
 export async function getUserByIdData(id?: string, token?: string) {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/UserApi/GetUsers?id=${id}`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/UserApi/GetUsers?id=${id}`,
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -17,7 +17,7 @@ export async function getUserByIdData(id?: string, token?: string) {
 
 export async function createUserData(data: any, token: string) {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/UserApi/InsertUser`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/UserApi/InsertUser`,
     {
       method: 'POST',
       headers: {
@@ -43,7 +43,7 @@ export async function createUserData(data: any, token: string) {
 
 export async function editUserData(id: string, data: any, token: string) {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/UserApi/UpdateUser`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/UserApi/UpdateUser`,
     {
       method: 'PUT',
       headers: {
@@ -68,7 +68,7 @@ export async function editUserData(id: string, data: any, token: string) {
 }
 export async function deleteUserData(id: string, token: string) {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/UserApi/DeleteUser?id=${id}`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/UserApi/DeleteUser?id=${id}`,
     {
       method: 'DELETE',
       headers: {
@@ -92,7 +92,7 @@ export async function deleteUserData(id: string, token: string) {
 
 export async function createPersonalData(data: any, token: string) {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/PersonnelApi/InsertPersonnel`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/PersonnelApi/InsertPersonnel`,
     {
       method: 'POST',
       headers: {
@@ -118,7 +118,7 @@ export async function createPersonalData(data: any, token: string) {
 
 export async function editPersonnelData(data: any, token: string) {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/PersonnelApi/UpdatePersonnel`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/PersonnelApi/UpdatePersonnel`,
     {
       method: 'PUT',
       headers: {
@@ -145,7 +145,7 @@ export async function editPersonnelData(data: any, token: string) {
 //CLIENT FETCH
 export async function createClientData(data: any, token: string) {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/ClientApi/InsertClient`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/ClientApi/InsertClient`,
     {
       method: 'POST',
       headers: {
@@ -171,7 +171,7 @@ export async function createClientData(data: any, token: string) {
 
 export async function editClientData(data: any, token: string) {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/ClientApi/UpdateClient`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/ClientApi/UpdateClient`,
     {
       method: 'PUT',
       headers: {
@@ -199,7 +199,7 @@ export async function editClientData(data: any, token: string) {
 
 export async function createMaterialData(data: any, token: string) {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/MaterialApi/InsertMaterial`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/MaterialApi/InsertMaterial`,
     {
       method: 'POST',
       headers: {
@@ -225,7 +225,7 @@ export async function createMaterialData(data: any, token: string) {
 
 export async function editMaterialData(data: any, token: string) {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/MaterialApi/UpdateMaterial`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/MaterialApi/UpdateMaterial`,
     {
       method: 'PUT',
       headers: {
@@ -253,7 +253,7 @@ export async function editMaterialData(data: any, token: string) {
 
 export async function createActivityData(data: any, token: string) {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/ActivityApi/InsertActivity`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/ActivityApi/InsertActivity`,
     {
       method: 'POST',
       headers: {
@@ -279,7 +279,7 @@ export async function createActivityData(data: any, token: string) {
 
 export async function editActivityData(data: any, token: string) {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/ActivityApi/UpdateActivity`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/ActivityApi/UpdateActivity`,
     {
       method: 'PUT',
       headers: {
@@ -305,7 +305,7 @@ export async function editActivityData(data: any, token: string) {
 
 export async function getActivityTokenData(token: string) {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/ActivityApi/GetActivities`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/ActivityApi/GetActivities`,
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -328,7 +328,7 @@ export async function getActivityTokenData(token: string) {
 
 export async function getActivityEnclosure(token: string) {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/EnclosureApi/GetEnclosures`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/EnclosureApi/GetEnclosures`,
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -352,7 +352,7 @@ export async function getActivityEnclosure(token: string) {
 export const postEnclosureData = async (token: string, enclosure: any) => {
   console.log(enclosure, 'enclosure');
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/EnclosureApi/InsertEnclosure`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/EnclosureApi/InsertEnclosure`,
     {
       method: 'POST',
       headers: {
@@ -375,7 +375,7 @@ export const postEnclosureData = async (token: string, enclosure: any) => {
 
 export async function getEnclosureData(token: string) {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/EnclosureApi/GetEnclosures`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/EnclosureApi/GetEnclosures`,
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -398,7 +398,7 @@ export async function getEnclosureData(token: string) {
 
 export async function deleteEnclosureData(token: string, id: string) {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/EnclosureApi/DeleteEnclosure?id=${id}`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/EnclosureApi/DeleteEnclosure?id=${id}`,
     {
       method: 'DELETE',
       headers: {
@@ -421,7 +421,7 @@ export async function deleteEnclosureData(token: string, id: string) {
 
 export async function getClientResponseData(token: string) {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/ClientApi/GetClients?identifier=all&value=true`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/ClientApi/GetClients?identifier=all&value=true`,
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -445,7 +445,7 @@ export async function getClientResponseData(token: string) {
 //QUOTE
 export const postQuoteData = async (token: string, quote: any) => {
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/QuoteApi/InsertQuote`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/QuoteApi/InsertQuote`,
     {
       method: 'POST',
       headers: {
@@ -467,7 +467,7 @@ export const postQuoteData = async (token: string, quote: any) => {
 
 export async function getQuoteData(token: string) {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/QuoteApi/GetQuotes`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/QuoteApi/GetQuotes`,
 
     {
       headers: {
@@ -491,7 +491,7 @@ export async function getQuoteData(token: string) {
 
 export async function deleteQuote(token: string, id: number) {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/QuoteApi/DeleteQuote?id=${id}`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/QuoteApi/DeleteQuote?id=${id}`,
     {
       method: 'DELETE',
       headers: {
@@ -512,7 +512,7 @@ export async function deleteQuote(token: string, id: number) {
 
 export async function getFullQuoteData(token: string) {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/QuoteApi/GetFullQuotes`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/QuoteApi/GetFullQuotes`,
 
     {
       headers: {
@@ -539,7 +539,7 @@ export const postQuoteWhitEnclosureData = async (
   quoteWithEnclosure: any
 ) => {
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/QuoteApi/InsertQuoteWithEnclosures`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/QuoteApi/InsertQuoteWithEnclosures`,
     {
       method: 'POST',
       headers: {
@@ -564,7 +564,7 @@ export const postQuoteEnclosuresMultipleActivities = async (
   QuoteEnclosuresMultiple: any
 ) => {
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/QuoteEnclosureApi/InsertQuoteEnclosuresMultipleActivities`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/QuoteEnclosureApi/InsertQuoteEnclosuresMultipleActivities`,
     {
       method: 'POST',
       headers: {
@@ -590,7 +590,7 @@ export const postQuoteEnclosure = async (
   enclosureId: number
 ) => {
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/QuoteEnclosureApi/InsertQuoteEnclosure`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/QuoteEnclosureApi/InsertQuoteEnclosure`,
     {
       method: 'POST',
       headers: {
@@ -612,7 +612,7 @@ export const postQuoteEnclosure = async (
 
 export const postProjectData = async (token: string, projectData: any) => {
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/ProjectApi/InsertProject`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/ProjectApi/InsertProject`,
     {
       method: 'POST',
       headers: {
@@ -634,7 +634,7 @@ export const postProjectData = async (token: string, projectData: any) => {
 
 export async function getProyectData(token: string) {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/ProjectApi/GetProjects`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/ProjectApi/GetProjects`,
 
     {
       headers: {
@@ -661,7 +661,7 @@ export const postFinalMovementstData = async (
   financialData: any
 ) => {
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/FinancialMovementsApi/InsertFinancialMovements`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/FinancialMovementsApi/InsertFinancialMovements`,
     {
       method: 'POST',
       headers: {
@@ -683,7 +683,7 @@ export const postFinalMovementstData = async (
 
 export async function getProyectById(id?: string, token?: string) {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/ProjectApi/GetProjects?id=${id}`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/ProjectApi/GetProjects?id=${id}`,
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -700,7 +700,7 @@ export async function getProyectById(id?: string, token?: string) {
 
 export const postCategoryData = async (token: string, categoryData: any) => {
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/FinancialCategoryApi/InsertFinancialCategory`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/FinancialCategoryApi/InsertFinancialCategory`,
     {
       method: 'POST',
       headers: {
@@ -725,7 +725,7 @@ export const postSubCategoryData = async (
   subCategoryData: any
 ) => {
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/FinancialSubCategoryApi/InsertFinancialSubCategory`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/FinancialSubCategoryApi/InsertFinancialSubCategory`,
     {
       method: 'POST',
       headers: {
@@ -747,7 +747,7 @@ export const postSubCategoryData = async (
 
 export async function getCategory(token?: string) {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/FinancialCategoryApi/GetFinancialCategory`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/FinancialCategoryApi/GetFinancialCategory`,
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -764,7 +764,7 @@ export async function getCategory(token?: string) {
 
 export async function getSubCategory(token?: string) {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/FinancialSubCategoryApi/GetFinancialSubCategory`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/FinancialSubCategoryApi/GetFinancialSubCategory`,
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -783,7 +783,7 @@ export async function getSubCategory(token?: string) {
 
 export async function deleteProject(token: string, id: number) {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/ProjectApi/DeleteProject?id=${id}`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/ProjectApi/DeleteProject?id=${id}`,
     {
       method: 'DELETE',
       headers: {
