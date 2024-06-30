@@ -1,6 +1,6 @@
-import { Enclosure } from "@/app/(principal)/cotizaciones/[id]/page";
-import { Cotizacion } from "@/app/components/tables/cotizacionTable/TableCotizacionActual";
-import { create } from "zustand";
+import { Enclosure } from '@/app/(principal)/cotizaciones/[id]/page';
+import { Cotizacion } from '@/app/components/tables/cotizacionTable/TableCotizacionActual';
+import { create } from 'zustand';
 
 interface Store {
   clientId: number;
@@ -22,7 +22,7 @@ type QuoteStore = {
     totalMaterialsPricing: number;
     finalPrice: number;
   };
-  setQuote: (quote: QuoteStore["quote"]) => void;
+  setQuote: (quote: QuoteStore['quote']) => void;
 };
 
 type QuoteFinalData = {
@@ -40,10 +40,15 @@ interface QuoteInfo {
   setEnclosuresInfo: (info: QuoteInfo[]) => void;
 }
 
+interface ReloadMovements {
+  updateFinancialMovements: boolean;
+  setUpdateFinancialMovements: (updateFinancialMovements: boolean) => void;
+}
+
 export const useClientQuoteStore = create<Store>((set) => ({
   clientId: 0,
-  title: "",
-  clientName: "",
+  title: '',
+  clientName: '',
   quoteId: 0,
   setTitle: (title: string) => set({ title }),
   setClientName: (clientName: string) => set({ clientName }),
@@ -53,9 +58,9 @@ export const useClientQuoteStore = create<Store>((set) => ({
 
 export const useQuoteStore = create<QuoteStore>((set) => ({
   quote: {
-    id: "",
-    projectName: "",
-    quote_date: "",
+    id: '',
+    projectName: '',
+    quote_date: '',
     totalManPowerUnitPricing: 0,
     totalMaterialsPricing: 0,
     finalPrice: 0,
@@ -76,4 +81,10 @@ export const useQuoteDataStore = create<QuoteFinalData>((set) => ({
 export const useQuoteInfoStore = create<QuoteInfo>((set) => ({
   enclosuresInfo: [],
   setEnclosuresInfo: (info) => set({ enclosuresInfo: info }),
+}));
+
+export const useReloadMovements = create<ReloadMovements>((set) => ({
+  updateFinancialMovements: false,
+  setUpdateFinancialMovements: (updateFinancialMovements: boolean) =>
+    set({ updateFinancialMovements }),
 }));

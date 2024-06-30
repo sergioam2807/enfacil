@@ -801,3 +801,41 @@ export async function deleteProject(token: string, id: number) {
   const data = await res.json();
   return data;
 }
+
+export async function getFinancialMovements(token?: string) {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/FinancialMovementsApi/GetFinancialMovements`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
+  if (!res.ok) {
+    throw new Error('Failed to fetch data');
+  }
+
+  return res.json();
+}
+
+export async function deleteFinancialMovement(token: string, id: number) {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/FinancialMovementsApi/DeleteFinancialMovements?id=${id}`,
+    {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  console.log('API response:', res);
+
+  if (!res.ok) {
+    throw new Error('Failed to Financial Movement ');
+  }
+
+  const data = await res.json();
+  return data;
+}

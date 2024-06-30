@@ -1,4 +1,5 @@
 'use client';
+import { getFinancialMovements } from '@/app/api/data';
 import Search from '@/app/components/common/Search';
 import TitleComponent from '@/app/components/common/TitleComponent';
 import ModalCreateCategory from '@/app/components/modal/ModalCreateCategory';
@@ -7,11 +8,14 @@ import ModalCreateFinance from '@/app/components/modal/ModalCreateFinance';
 import SkeletonTable from '@/app/components/skeleton/SkeletonTable';
 import FinanceTable from '@/app/components/tables/finanzas/FinanceTable';
 import BaseTableCard from '@/app/components/tables/table/BaseTableCard';
-import { Suspense, useState } from 'react';
+import { useReloadMovements } from '@/store/store';
+import { Suspense, useEffect, useState } from 'react';
 
 export default function Finanzas() {
   const [modalOpen, setModalOpen] = useState(false);
   const [modalCategoryOpen, setModalCategoryOpen] = useState(false);
+  const [financialMovements, setFinancialMovements] = useState([]);
+  const { updateFinancialMovements } = useReloadMovements();
 
   const openModal = () => {
     setModalOpen(true);
@@ -28,6 +32,18 @@ export default function Finanzas() {
   const closeCategoryModal = () => {
     setModalCategoryOpen(false);
   };
+
+  useEffect(() => {
+    const fetchFinancialMovements = async () => {
+      const token = localStorage.getItem('token');
+      if (!token) return;
+
+      const data = await getFinancialMovements(token);
+      setFinancialMovements(data?.data);
+    };
+
+    fetchFinancialMovements();
+  }, [updateFinancialMovements]);
 
   return (
     <div className='pr-5 pb-5'>
@@ -77,7 +93,7 @@ export default function Finanzas() {
       {/* <CustomScrollbar> */}
       <div className={`h-[500px] overflow-y-auto overflow-x-hidden`}>
         <BaseTableCard>
-          <FinanceTable />
+          <FinanceTable financialMovements={financialMovements} />
         </BaseTableCard>
         {/* </CustomScrollbar> */}
       </div>

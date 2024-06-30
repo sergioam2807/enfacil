@@ -1,11 +1,11 @@
-import React from "react";
-import TableHead from "../../common/TableHead";
-import TableCell from "../../common/TableCell";
-import OptionMenuMaterialsButton from "../../buttons/OptionMenuMaterialsButton";
+import React from 'react';
+import TableHead from '../../common/TableHead';
+import TableCell from '../../common/TableCell';
+import OptionMenuMaterialsButton from '../../buttons/OptionMenuMaterialsButton';
 import {
   capitalizeFirstLetter,
   formatPrice,
-} from "@/helpers/capitaliizeFirstLetter";
+} from '@/helpers/capitaliizeFirstLetter';
 
 interface Material {
   id: string;
@@ -27,8 +27,8 @@ const TableMaterial = ({ materialData }: materialProps) => {
     (Array.isArray(materialData) && materialData.length === 0)
   ) {
     return (
-      <div className="w-full text-center py-10">
-        <p className="text-xl text-custom-blue">No hay datos disponibles</p>
+      <div className='w-full text-center py-10'>
+        <p className='text-xl text-custom-blue'>No hay datos disponibles</p>
       </div>
     );
   }
@@ -37,10 +37,10 @@ const TableMaterial = ({ materialData }: materialProps) => {
     ? materialData
     : materialData?.data || [];
   return (
-    <table className="w-full table-auto">
+    <table className='w-full table-auto'>
       <thead>
-        <tr className="text-[#0E436B] font-semibold text-sm">
-          <th className="text-left pb-8 pt-5 pl-10">Material</th>
+        <tr className='text-[#0E436B] font-semibold text-sm'>
+          <th className='text-left pb-8 pt-5 pl-10'>Material</th>
           <TableHead>Actividad</TableHead>
           <TableHead>Cantidad</TableHead>
           <TableHead>U.Medida</TableHead>
@@ -54,34 +54,34 @@ const TableMaterial = ({ materialData }: materialProps) => {
         {data?.map((row: Material) => (
           <tr
             key={row?.id}
-            className="text-[#797979] font-medium text-sm border-t border-[#EAEAEA]"
+            className='text-[#797979] font-medium text-sm border-t border-[#EAEAEA]'
           >
-            <td className="text-left pb-8 pt-5 pl-10">
-              {capitalizeFirstLetter(row.name) ?? "-"}
+            <td className='text-left pb-8 pt-5 pl-10'>
+              {capitalizeFirstLetter(row.name) ?? '-'}
             </td>
 
-            <TableCell>{row.Activity ?? "-"}</TableCell>
-            <TableCell>{row.unitsPerSinglePurchase ?? "-"}</TableCell>
-            <TableCell>{row.metricUnit ?? "-"}</TableCell>
+            <TableCell>{row.Activity ?? '-'}</TableCell>
+            <TableCell>{row.unitsPerSinglePurchase ?? '-'}</TableCell>
+            <TableCell>{row.metricUnit ?? '-'}</TableCell>
             <TableCell>
-              {formatPrice(Number(row.pricingPerSinglePurchase)) ?? "-"}
+              {formatPrice(Number(row.pricingPerSinglePurchase)) ?? '-'}
             </TableCell>
             <TableCell>
               {formatPrice(
                 Number(
                   row.pricingPerSinglePurchase * row.unitsPerSinglePurchase
                 )
-              ) ?? "-"}
+              ) ?? '-'}
             </TableCell>
             <TableCell>
-              {capitalizeFirstLetter(row.providerName) ?? "-"}
+              {capitalizeFirstLetter(row.providerName) ?? '-'}
             </TableCell>
-            <td className="text-left text-base">
+            <td className='text-left text-base'>
               <OptionMenuMaterialsButton
                 id={row.id}
-                byIdURL={"/MaterialApi/GetMaterials"}
-                deleteURL={"/MaterialApi/DeleteMaterial"}
-                type={"materiales"}
+                byIdURL={'/api/MaterialApi/GetMaterials'}
+                deleteURL={'/api/MaterialApi/DeleteMaterial'}
+                type={'materiales'}
                 details
               />
             </td>

@@ -1,14 +1,15 @@
-"use client";
-import Image from "next/image";
-import React, { useState } from "react";
-import edit from "../../../../../public/images/edit.svg";
-import trash from "../../../../../public/images/trash.svg";
-import { useRouter } from "next/navigation";
-import ModalEditUser from "../../modal/ModalEditUser";
-import ModalEditPersonnel from "../../modal/ModalEditPersonal";
-import ModalEditClient from "../../modal/ModalEditClient";
-import ModalEditMaterial from "../../modal/ModalEditMaterial";
-import { Client, Material, Personnel, User } from "@/types/types";
+'use client';
+import Image from 'next/image';
+import React, { useState } from 'react';
+import edit from '../../../../../public/images/edit.svg';
+import trash from '../../../../../public/images/trash.svg';
+import { useRouter } from 'next/navigation';
+import ModalEditUser from '../../modal/ModalEditUser';
+import ModalEditPersonnel from '../../modal/ModalEditPersonal';
+import ModalEditClient from '../../modal/ModalEditClient';
+import ModalEditMaterial from '../../modal/ModalEditMaterial';
+import { Client, Material, Personnel, User } from '@/types/types';
+import { useReloadMovements } from '@/store/store';
 
 interface ActionButtonsProps {
   id: number | string;
@@ -32,9 +33,11 @@ const ActionButtons = ({
   >(initialUserState);
   const [isUserDataLoaded, setIsUserDataLoaded] = useState(false);
   const router = useRouter();
+  const { setUpdateFinancialMovements, updateFinancialMovements } =
+    useReloadMovements();
 
   const fetchUserData = async () => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem('token');
 
     const url = hasIdentifier
       ? `${process.env.NEXT_PUBLIC_BASE_URL}${byIdURL}?identifier=id&value=${id}`
@@ -47,16 +50,16 @@ const ActionButtons = ({
     });
 
     if (!res.ok) {
-      throw new Error("Failed to fetch data");
+      throw new Error('Failed to fetch data');
     }
 
     const userData = await res.json();
 
-    if (userData.data && typeof userData.data === "object") {
+    if (userData.data && typeof userData.data === 'object') {
       setEditUser(userData.data);
       setIsUserDataLoaded(true);
     } else {
-      console.error("User data is not an object", userData.data);
+      console.error('User data is not an object', userData.data);
     }
   };
 
@@ -70,53 +73,61 @@ const ActionButtons = ({
   }
 
   async function handleDelete(id: string) {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem('token');
 
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_BASE_URL}${deleteURL}?id=${id}`,
       {
-        method: "DELETE",
+        method: 'DELETE',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
       }
     );
 
     if (!res.ok) {
-      throw new Error("Failed to delete user");
+      throw new Error('Failed to delete user');
     }
 
     const data = await res.json();
-    console.log("Deleted successfully", data);
+    setUpdateFinancialMovements(!updateFinancialMovements);
+    console.log('Deleted successfully', data);
     router.refresh();
   }
 
   const renderModal = () => {
     switch (type) {
-      case "usuarios":
+      case 'usuarios':
         return (
           <ModalEditUser
             handleCloseEdit={handleCloseEdit}
-            userId={typeof id === "string" ? Number(id) : id}
+            userId={typeof id === 'string' ? Number(id) : id}
             userData={editUser as User}
           />
         );
-      case "personal":
+      case 'personal':
         return (
           <ModalEditPersonnel
             handleCloseEdit={handleCloseEdit}
             userData={editUser as Personnel}
           />
         );
-      case "clientes":
+      case 'clientes':
         return (
           <ModalEditClient
             handleCloseEdit={handleCloseEdit}
             userData={editUser as Client}
           />
         );
-      case "materiales":
+      case 'materiales':
+        return (
+          <ModalEditMaterial
+            handleCloseEdit={handleCloseEdit}
+            materialData={editUser as Material}
+          />
+        );
+      case 'financialMovements':
         return (
           <ModalEditMaterial
             handleCloseEdit={handleCloseEdit}
@@ -129,13 +140,13 @@ const ActionButtons = ({
   };
 
   return (
-    <div className="flex items-center gap-8">
+    <div className='flex items-center gap-8'>
       <button onClick={handleEdit}>
-        <Image src={edit} alt="Edit Icon" width={20} height={20} />
+        <Image src={edit} alt='Edit Icon' width={20} height={20} />
       </button>
       {showEditModal && isUserDataLoaded && renderModal()}
       <button onClick={() => handleDelete(id.toString())}>
-        <Image src={trash} alt="Delete Icon" width={20} height={20} />
+        <Image src={trash} alt='Delete Icon' width={20} height={20} />
       </button>
     </div>
   );

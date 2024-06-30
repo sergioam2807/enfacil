@@ -1,42 +1,35 @@
-import React from "react";
-import userIcon from "../../../../../public/images/user.svg";
-import Image from "next/image";
-import TableHead from "../../common/TableHead";
-import TableCell from "../../common/TableCell";
-import ChipStatus from "../../chip/ChipStatus";
-import Link from "next/link";
-import ActionButtons from "../actionTable/ActionButtons";
-import { formatDate, formatTaxId } from "@/helpers/capitaliizeFirstLetter";
+import React, { useEffect, useState } from 'react';
+import TableHead from '../../common/TableHead';
+import TableCell from '../../common/TableCell';
+import ActionButtons from '../actionTable/ActionButtons';
+import { formatDate } from '@/helpers/capitaliizeFirstLetter';
+import { getProyectData } from '@/app/api/data';
+import { useReloadMovements } from '@/store/store';
 
-const FinanceTable = () => {
-  const dummyData = [
-    {
-      id: 1,
-      cliente: "Cliente 1",
-      proyecto: "Proyecto 1",
-      fecha: new Date(),
-      banco: "Banco 1",
-      tipo: "Tipo 1",
-      descripcion: "Descripción 1",
-      monto: 1000,
-    },
-    {
-      id: 2,
-      cliente: "Cliente 2",
-      proyecto: "Proyecto 2",
-      fecha: new Date(),
-      banco: "Banco 2",
-      tipo: "Tipo 2",
-      descripcion: "Descripción 2",
-      monto: 2000,
-    },
-    // Agrega más objetos aquí para más filas en la tabla
-  ];
+interface FinanceTableProps {
+  financialMovements: any[];
+}
+
+const FinanceTable = ({ financialMovements }: FinanceTableProps) => {
+  const [projects, setProjects] = useState<any>([]);
+  const { updateFinancialMovements } = useReloadMovements();
+
+  useEffect(() => {
+    const fetchFinancialMovements = async () => {
+      const token = localStorage.getItem('token');
+      if (!token) return;
+
+      const data = await getProyectData(token);
+      setProjects(data?.data);
+    };
+
+    fetchFinancialMovements();
+  }, [updateFinancialMovements]);
 
   return (
-    <table className="w-full table-auto ml-6">
+    <table className='w-full table-auto ml-6'>
       <thead>
-        <tr className="text-[#0E436B] font-semibold text-sm">
+        <tr className='text-[#0E436B] font-semibold text-sm'>
           <TableHead>Cliente</TableHead>
           <TableHead>Proyecto</TableHead>
           <TableHead>Fecha</TableHead>
@@ -47,29 +40,38 @@ const FinanceTable = () => {
         </tr>
       </thead>
       <tbody>
-        {dummyData.map((row) => (
-          <tr
-            key={row.id}
-            className="text-[#797979] font-medium text-sm border-t border-[#EAEAEA]"
-          >
-            <TableCell>{row.cliente}</TableCell>
-            <TableCell>{row.proyecto}</TableCell>
-            <TableCell>{row.banco}</TableCell>
-            <TableCell>{row.banco}</TableCell>
-            <TableCell>{row.tipo}</TableCell>
-            <TableCell>{row.descripcion}</TableCell>
-            <TableCell>{row.monto}</TableCell>
-            <td className="text-left text-base">
-              <ActionButtons
-                id={row.id}
-                byIdURL={"/ClientApi/GetClients"}
-                deleteURL={"/ClientApi/DeleteClient"}
-                type="clientes"
-                hasIdentifier
-              />
-            </td>
-          </tr>
-        ))}
+        {financialMovements.map((row) => {
+          const project = projects.find(
+            (project: any) => project.id === row.referenceId
+          );
+          return (
+            <tr
+              key={row.id}
+              className='text-[#797979] font-medium text-sm border-t border-[#EAEAEA]'
+            >
+              <TableCell>{row.name ?? '-'}</TableCell>
+              <TableCell>
+                {project ? project.name : 'Proyecto no encontrado'}
+              </TableCell>
+              <TableCell>{row.date ?? '-'}</TableCell>
+              <TableCell>{row.bank ?? '-'}</TableCell>
+              <TableCell>{row.type ?? '-'}</TableCell>
+              <TableCell>{row.description}</TableCell>
+              <TableCell>{row.amout}</TableCell>
+              <td className='text-left text-base'>
+                <ActionButtons
+                  id={row.id}
+                  byIdURL={'/api/FinancialMovementsApi/GetFinancialMovements'}
+                  deleteURL={
+                    '/api/FinancialMovementsApi/DeleteFinancialMovements'
+                  }
+                  type='clientes'
+                  hasIdentifier
+                />
+              </td>
+            </tr>
+          );
+        })}
       </tbody>
     </table>
   );

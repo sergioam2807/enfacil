@@ -4,7 +4,7 @@ export async function POST(req: NextRequest) {
   const { email, password } = await req.json();
 
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/Login/Authenticate`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/Login/Authenticate`,
     {
       method: 'POST',
       headers: {
