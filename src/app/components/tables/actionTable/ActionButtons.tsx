@@ -10,6 +10,9 @@ import ModalEditClient from '../../modal/ModalEditClient';
 import ModalEditMaterial from '../../modal/ModalEditMaterial';
 import { Client, Material, Personnel, User } from '@/types/types';
 import { useReloadMovements } from '@/store/store';
+import ModalEditFinanceIngresos, {
+  EditFinanceData,
+} from '../../modal/ModalEditFinanceIngresos';
 
 interface ActionButtonsProps {
   id: number | string;
@@ -19,7 +22,13 @@ interface ActionButtonsProps {
   type: string;
 }
 
-const initialUserState: User | Personnel | Client | Material | null = null;
+const initialUserState:
+  | User
+  | Personnel
+  | Client
+  | Material
+  | EditFinanceData
+  | null = null;
 const ActionButtons = ({
   id,
   deleteURL,
@@ -29,7 +38,7 @@ const ActionButtons = ({
 }: ActionButtonsProps) => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [editUser, setEditUser] = useState<
-    User | Personnel | Client | Material | null
+    User | Personnel | Client | Material | EditFinanceData | null
   >(initialUserState);
   const [isUserDataLoaded, setIsUserDataLoaded] = useState(false);
   const router = useRouter();
@@ -129,15 +138,18 @@ const ActionButtons = ({
         );
       case 'financialMovements':
         return (
-          <ModalEditMaterial
+          <ModalEditFinanceIngresos
             handleCloseEdit={handleCloseEdit}
-            materialData={editUser as Material}
+            categoryName={editUser?.name as string}
+            materialData={editUser as EditFinanceData}
           />
         );
       default:
         return null;
     }
   };
+
+  console.log('editUser', editUser);
 
   return (
     <div className='flex items-center gap-8'>

@@ -3,7 +3,6 @@
 import React, { useEffect, useState } from 'react';
 import InputComponent from '../input/InputComponent';
 import BasicButtonComponent from '../buttons/BasicButtonComponent';
-import { useRouter } from 'next/navigation';
 import {
   getClientResponseData,
   getProyectData,
@@ -14,12 +13,12 @@ import { useReloadMovements } from '@/store/store';
 // import { cleanTaxId, formatTaxId } from '@/helpers/capitaliizeFirstLetter';
 
 interface Props {
-  onClose: () => void;
-  categoryId: number | null;
+  handleCloseEdit: () => void;
   categoryName: string | null;
+  materialData: any;
 }
 
-interface CreateFinanceData {
+export interface EditFinanceData {
   client: string;
   project: string;
   // date: string;
@@ -31,16 +30,15 @@ interface CreateFinanceData {
   subCategory: string;
 }
 
-const ModalCreateFinanceIngresos = ({
-  onClose,
-  categoryId,
+const ModalEditFinanceIngresos = ({
+  handleCloseEdit,
   categoryName,
+  materialData,
 }: Props) => {
-  const router = useRouter();
   const [clients, setClients] = useState([]);
   const [subCategories, setSubCategories] = useState([]);
   const [projects, setProjects] = useState([]);
-  const [createFinance, setCreateFinance] = useState<CreateFinanceData>({
+  const [createFinance, setCreateFinance] = useState<EditFinanceData>({
     client: '',
     project: '',
     // date: '',
@@ -55,12 +53,32 @@ const ModalCreateFinanceIngresos = ({
     useReloadMovements();
 
   useEffect(() => {
+    setCreateFinance({
+      client: materialData?.client?.id,
+      project: materialData?.project?.id,
+      bank: materialData.bank,
+      amount: materialData.amount,
+      description: materialData.description,
+      name: materialData.name,
+      subCategory: materialData?.subCategory?.id,
+    });
+  }, [materialData]);
+
+  useEffect(() => {
     const fetchClients = async () => {
       const token = localStorage.getItem('token');
       if (token) {
         try {
           const data = await getClientResponseData(token);
           setClients(data.data);
+          if (materialData && materialData.client) {
+            setCreateFinance((prevState) => ({
+              ...prevState,
+              client: data.data.find(
+                (client: any) => client.id === materialData.client.id
+              ).id,
+            }));
+          }
         } catch (error) {
           console.error(error);
         }
@@ -70,7 +88,7 @@ const ModalCreateFinanceIngresos = ({
     };
 
     fetchClients();
-  }, []);
+  }, [materialData]);
 
   useEffect(() => {
     const fetchSubCategories = async () => {
@@ -79,6 +97,12 @@ const ModalCreateFinanceIngresos = ({
         try {
           const data = await getSubCategory(token);
           setSubCategories(data.data);
+          if (materialData && materialData.subCategory) {
+            setCreateFinance((prevState) => ({
+              ...prevState,
+              subCategory: materialData.subCategory.id,
+            }));
+          }
         } catch (error) {
           console.error(error);
         }
@@ -88,7 +112,7 @@ const ModalCreateFinanceIngresos = ({
     };
 
     fetchSubCategories();
-  }, []);
+  }, [materialData]);
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -97,6 +121,12 @@ const ModalCreateFinanceIngresos = ({
         try {
           const data = await getProyectData(token);
           setProjects(data.data);
+          if (materialData && materialData.project) {
+            setCreateFinance((prevState) => ({
+              ...prevState,
+              project: materialData.project.id,
+            }));
+          }
         } catch (error) {
           console.error(error);
         }
@@ -106,7 +136,7 @@ const ModalCreateFinanceIngresos = ({
     };
 
     fetchProjects();
-  }, []);
+  }, [materialData]);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setCreateFinance({
@@ -164,13 +194,15 @@ const ModalCreateFinanceIngresos = ({
     }
   };
 
+  console.log('materialDat movements', materialData);
+
   return (
     <div className='fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center'>
       <div className='p-8 border w-fit shadow-lg rounded-2xl bg-white'>
         <div className='text-center p-4'>
           <div className='flex justify-start'>
             <h3 className='text-xl font-semibold text-[#000E41]'>
-              Añade {categoryName}
+              Editar {categoryName}
             </h3>
           </div>
           <div className='w-full'>
@@ -182,11 +214,12 @@ const ModalCreateFinanceIngresos = ({
                 className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
                 id='client'
                 name='client'
+                value={createFinance.client}
                 onChange={handleClientChange}
               >
                 <option value=''>Selecciona un Cliente</option>
                 {clients.map((client: any) => (
-                  <option key={client?.id} value={client?.name}>
+                  <option key={client?.id} value={client?.id}>
                     {client?.name}
                   </option>
                 ))}
@@ -205,6 +238,7 @@ const ModalCreateFinanceIngresos = ({
                 className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
                 id='client'
                 name='client'
+                value={createFinance.subCategory}
                 onChange={handleSubCategoryChange}
               >
                 <option value=''>Selecciona una subcategoria</option>
@@ -228,6 +262,7 @@ const ModalCreateFinanceIngresos = ({
                   id='client'
                   name='client'
                   onChange={handleProjectChange}
+                  value={createFinance.project}
                 >
                   <option value=''>Selecciona un Proyecto</option>
                   {projects?.map((project: any) => (
@@ -283,7 +318,7 @@ const ModalCreateFinanceIngresos = ({
           <div className='flex justify-end items-center gap-6 pt-5'>
             <div className='flex justify-end mt-4'>
               <button
-                onClick={onClose}
+                onClick={handleCloseEdit}
                 style={{ borderColor: '#0E436B', color: '#0E436B' }}
                 className='py-3 px-8 rounded-lg text-custom-blue text-sm font-semibold shadow-sm shadow-custom-blue border-custom-blue focus:outline-none focus:ring-2 focus:ring-gray-300'
               >
@@ -295,7 +330,7 @@ const ModalCreateFinanceIngresos = ({
                 bgColor={'#0E436B'}
                 borderColor={'#0E436B'}
                 textColor='#FFFFFF'
-                text='Añadir'
+                text='Editar'
                 onClick={handleAddClick}
               />
             </div>
@@ -306,4 +341,4 @@ const ModalCreateFinanceIngresos = ({
   );
 };
 
-export default ModalCreateFinanceIngresos;
+export default ModalEditFinanceIngresos;

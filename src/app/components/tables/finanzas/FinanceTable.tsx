@@ -65,8 +65,7 @@ const FinanceTable = ({ financialMovements }: FinanceTableProps) => {
                   deleteURL={
                     '/api/FinancialMovementsApi/DeleteFinancialMovements'
                   }
-                  type='clientes'
-                  hasIdentifier
+                  type='financialMovements'
                 />
               </td>
             </tr>
