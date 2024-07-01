@@ -75,7 +75,7 @@ export default async function PerfilPersonal({
             <ButtonEditProfile
               id={params.id}
               type='personnel'
-              byIdURL={'/api/PersonnelApi/GetPersonnel'}
+              byIdURL={'/PersonnelApi/GetPersonnel'}
               hasIdentifier
             />
           </div>

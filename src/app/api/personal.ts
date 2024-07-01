@@ -5,7 +5,7 @@ export async function getPersonalByIdData(id?: string) {
   const token = cookieStore.get('token')?.value;
 
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/UserApi/GetPersonnel${
+    `${process.env.NEXT_PUBLIC_BASE_URL}/UserApi/GetPersonnel${
       id ? `/${id}` : ''
     }`,
     {

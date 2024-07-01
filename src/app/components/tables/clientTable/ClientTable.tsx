@@ -89,8 +89,8 @@ const ClientTable = ({ clientData }: clientProps) => {
             <td className='text-left text-base'>
               <ActionButtons
                 id={row.id}
-                byIdURL={'/api/ClientApi/GetClients'}
-                deleteURL={'/api/ClientApi/DeleteClient'}
+                byIdURL={'/ClientApi/GetClients'}
+                deleteURL={'/ClientApi/DeleteClient'}
                 type='clientes'
                 hasIdentifier
               />

@@ -95,8 +95,8 @@ const ActionTableComponent = async ({ searchData }: any) => {
             <td className='text-left text-base'>
               <ActionButtons
                 id={row.id}
-                byIdURL={'/api/UserApi/GetUsers'}
-                deleteURL={'/api/UserApi/DeleteUser'}
+                byIdURL={'/UserApi/GetUsers'}
+                deleteURL={'/UserApi/DeleteUser'}
                 type='usuarios'
               />
             </td>

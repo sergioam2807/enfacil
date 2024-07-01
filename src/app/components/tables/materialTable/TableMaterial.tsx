@@ -79,8 +79,8 @@ const TableMaterial = ({ materialData }: materialProps) => {
             <td className='text-left text-base'>
               <OptionMenuMaterialsButton
                 id={row.id}
-                byIdURL={'/api/MaterialApi/GetMaterials'}
-                deleteURL={'/api/MaterialApi/DeleteMaterial'}
+                byIdURL={'/MaterialApi/GetMaterials'}
+                deleteURL={'/MaterialApi/DeleteMaterial'}
                 type={'materiales'}
                 details
               />

@@ -5,9 +5,7 @@ export async function getUserData(id?: string) {
   const token = cookieStore.get('token')?.value;
 
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/UserApi/GetUsers${
-      id ? `/${id}` : ''
-    }`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/UserApi/GetUsers${id ? `/${id}` : ''}`,
     {
       headers: {
         Authorization: `Bearer ${token}`,

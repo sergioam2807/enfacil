@@ -69,7 +69,7 @@ export default async function PerfilClient({
           <div>
             <ButtonEditProfile
               id={params.id}
-              byIdURL='/api/ClientApi/GetClients'
+              byIdURL='/ClientApi/GetClients'
               type='client'
               hasIdentifier
             />

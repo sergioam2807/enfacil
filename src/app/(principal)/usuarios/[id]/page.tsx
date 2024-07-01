@@ -70,7 +70,7 @@ export default async function PerfilUsuario({
             <ButtonEditProfile
               type='user'
               id={params.id}
-              byIdURL={'/api/UserApi/GetUsers'}
+              byIdURL={'/UserApi/GetUsers'}
             />
           </div>
           <div>

@@ -61,10 +61,8 @@ const FinanceTable = ({ financialMovements }: FinanceTableProps) => {
               <td className='text-left text-base'>
                 <ActionButtons
                   id={row.id}
-                  byIdURL={'/api/FinancialMovementsApi/GetFinancialMovements'}
-                  deleteURL={
-                    '/api/FinancialMovementsApi/DeleteFinancialMovements'
-                  }
+                  byIdURL={'/FinancialMovementsApi/GetFinancialMovements'}
+                  deleteURL={'/FinancialMovementsApi/DeleteFinancialMovements'}
                   type='financialMovements'
                 />
               </td>

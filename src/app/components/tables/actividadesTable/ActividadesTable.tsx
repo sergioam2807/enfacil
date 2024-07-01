@@ -55,8 +55,8 @@ const ActividadesTable = ({ activityData }: activityProps) => {
             <td className='text-left text-base'>
               <OptionMenuMaterialsButton
                 id={row.id?.toString() ?? ''}
-                byIdURL={'/api/ActivityApi/GetActivities'}
-                deleteURL={'/api/ActivityApi/DeleteActivity'}
+                byIdURL={'/ActivityApi/GetActivities'}
+                deleteURL={'/ActivityApi/DeleteActivity'}
                 type='actividades'
               />
             </td>

@@ -77,8 +77,8 @@ const PersonalTable = ({ personalData }: userProps) => {
             <td className='text-left text-base'>
               <ActionButtons
                 id={row?.id}
-                byIdURL={'/api/PersonnelApi/GetPersonnel'}
-                deleteURL={'/api/PersonnelApi/DeletePersonnel'}
+                byIdURL={'/PersonnelApi/GetPersonnel'}
+                deleteURL={'/PersonnelApi/DeletePersonnel'}
                 type='personal'
                 hasIdentifier
               />
