@@ -174,7 +174,7 @@ export default function Cotizaciones() {
 
     const quoteData = JSON.parse(quoteDataItem);
     if (token && quoteData) {
-      const storedData = JSON.parse(localStorage.getItem('quoteData') || '{}');
+      // const storedData = JSON.parse(localStorage.getItem('quoteData') || '{}');
       const quoteWithEnclosure = {
         quote: {
           title: title,
@@ -192,6 +192,11 @@ export default function Cotizaciones() {
               const activity =
                 activityMapping[(enclosure as any)[activityName]];
 
+              if (!activity) {
+                console.error(`Activity not found: ${activityName}`);
+                return null;
+              }
+              console.log('activity', activity);
               return {
                 quoteEnclosureId: 0,
                 activityId: activity.id,
@@ -218,6 +223,7 @@ export default function Cotizaciones() {
         console.log(data);
       } catch (error) {
         console.error(error);
+        console.log('error aqui');
       } finally {
         route.push('/listado-cotizaciones');
       }

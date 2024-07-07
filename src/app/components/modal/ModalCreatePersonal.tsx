@@ -1,16 +1,16 @@
-"use client";
-import Link from "next/link";
-import React, { useState } from "react";
-import InputComponent from "../input/InputComponent";
-import BasicButtonComponent from "../buttons/BasicButtonComponent";
-import { useRouter } from "next/navigation";
-import { createPersonalData } from "@/app/api/data";
-import { Personnel } from "@/types/types";
+'use client';
+import Link from 'next/link';
+import React, { useEffect, useState } from 'react';
+import InputComponent from '../input/InputComponent';
+import BasicButtonComponent from '../buttons/BasicButtonComponent';
+import { useRouter } from 'next/navigation';
+import { createPersonalData, getProyectData } from '@/app/api/data';
+import { Personnel } from '@/types/types';
 import {
   cleanTaxId,
   formatRUT,
   formatTaxId,
-} from "@/helpers/capitaliizeFirstLetter";
+} from '@/helpers/capitaliizeFirstLetter';
 
 export type CreatePersonnelData = {
   email: string;
@@ -19,24 +19,41 @@ export type CreatePersonnelData = {
   pricePerWorkDay: number | null;
   taxId: string | null;
   phone: number | null;
+  projectId: number | null;
 };
 
 const ModalCreatePersonal = () => {
   const router = useRouter();
+  const [projects, setProjects] = useState<any>('');
   const [createPesonnel, setCreatePersonnel] = useState<CreatePersonnelData>({
-    email: "",
-    name: "",
-    specialty: "",
+    email: '',
+    name: '',
+    specialty: '',
     pricePerWorkDay: null,
     taxId: null,
     phone: null,
+    projectId: null,
   });
 
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem('token');
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const token = localStorage.getItem('token');
+
+      if (token) {
+        getProyectData(token).then((data) => {
+          setProjects(data?.data);
+        });
+      }
+    }
+  }, []);
+
+  console.log('projects', projects);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-    if (name === "taxId") {
+    if (name === 'taxId') {
       setCreatePersonnel((prevState) => ({
         ...prevState,
         [name]: formatRUT(value),
@@ -54,20 +71,30 @@ const ModalCreatePersonal = () => {
       const personnelData = {
         ...createPesonnel,
         taxId: createPesonnel.taxId
-          ? Number(createPesonnel.taxId.replace(/\D/g, ""))
+          ? Number(createPesonnel.taxId.replace(/\D/g, ''))
           : null,
       };
-      await createPersonalData(personnelData, token || "");
-      router.push("/personal");
+      await createPersonalData(personnelData, token || '');
+      router.push('/personal');
       router.refresh();
     } catch (error) {
-      console.error("Failed to create personnel", error);
+      console.error('Failed to create personnel', error);
     }
+  };
+
+  const handleProjectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setCreatePersonnel((prevState) => ({
+      ...prevState,
+      projectId: Number(event.target.value),
+    }));
   };
 
   const allFieldsFilled = () => {
     for (let key in createPesonnel) {
-      if (!createPesonnel[key as keyof CreatePersonnelData]) {
+      if (
+        key !== 'projectId' &&
+        !createPesonnel[key as keyof CreatePersonnelData]
+      ) {
         return false;
       }
     }
@@ -75,95 +102,119 @@ const ModalCreatePersonal = () => {
   };
 
   return (
-    <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center">
-      <div className="p-8 border w-fit shadow-lg rounded-2xl bg-white">
-        <div className="text-center p-4">
-          <div className="flex justify-start">
-            <h3 className="text-xl font-semibold text-[#000E41]">
+    <div className='fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center'>
+      <div className='p-8 border w-fit shadow-lg rounded-2xl bg-white'>
+        <div className='text-center p-4'>
+          <div className='flex justify-start'>
+            <h3 className='text-xl font-semibold text-[#000E41]'>
               Crear personal
             </h3>
           </div>
-          <div className="w-full">
+          <div className='w-full'>
             <InputComponent
-              nameVizualization="Nombre de usuario"
-              name="name"
-              placeholder="Nombre de usuario"
+              nameVizualization='Nombre de usuario'
+              name='name'
+              placeholder='Nombre de usuario'
               onChange={handleInputChange}
               value={createPesonnel?.name}
             />
           </div>
 
-          <div className="flex items-center justify-between gap-5">
+          <div className='flex items-center justify-between gap-5'>
             <div>
               <InputComponent
-                nameVizualization="Rut"
-                name="taxId"
-                placeholder="00.000.000-0"
+                nameVizualization='Rut'
+                name='taxId'
+                placeholder='00.000.000-0'
                 onChange={(e) => {
                   e.target.value = cleanTaxId(e.target.value);
                   handleInputChange(e);
                 }}
-                value={formatTaxId(createPesonnel?.taxId?.toString() ?? "")}
+                value={formatTaxId(createPesonnel?.taxId?.toString() ?? '')}
               />
             </div>
 
             <div>
               <InputComponent
-                nameVizualization="Teléfono"
-                name="phone"
-                placeholder="+569 87592653"
+                nameVizualization='Teléfono'
+                name='phone'
+                placeholder='+569 87592653'
                 onChange={handleInputChange}
-                value={createPesonnel?.phone?.toString() ?? ""}
+                value={createPesonnel?.phone?.toString() ?? ''}
               />
             </div>
           </div>
-          <div className="flex items-center justify-between gap-5">
+          <div className='flex items-center justify-between gap-5'>
             <div>
               <InputComponent
-                nameVizualization="Cargo"
-                name="specialty"
-                placeholder="Cargo"
+                nameVizualization='Cargo'
+                name='specialty'
+                placeholder='Cargo'
                 onChange={handleInputChange}
                 value={createPesonnel?.specialty}
               />
             </div>
             <div>
               <InputComponent
-                nameVizualization="Valor día"
-                name="pricePerWorkDay"
-                placeholder="$00.000"
+                nameVizualization='Valor día'
+                name='pricePerWorkDay'
+                placeholder='$00.000'
                 onChange={handleInputChange}
-                value={createPesonnel?.pricePerWorkDay?.toString() ?? ""}
+                value={createPesonnel?.pricePerWorkDay?.toString() ?? ''}
               />
             </div>
           </div>
 
           <div>
             <InputComponent
-              nameVizualization="Correo"
-              name="email"
-              placeholder="joseretamal@gmail.com"
+              nameVizualization='Correo'
+              name='email'
+              placeholder='joseretamal@gmail.com'
               onChange={handleInputChange}
               value={createPesonnel?.email}
             />
           </div>
+          <div className='mt-4 flex-grow'>
+            <select
+              name='project'
+              onChange={handleProjectChange}
+              className='w-full mt-1 py-3 pl-2 text-sm font-medium border rounded-md focus:outline-none focus:border-[#EFF4FC]'
+            >
+              <option value='' disabled>
+                Asigna un proyecto
+              </option>
+              {projects?.length > 0 ? (
+                projects.map((project: any, index: number) => (
+                  <option
+                    key={index}
+                    value={project?.id || ''}
+                    className='w-full mt-1 py-3 pl-2 text-sm font-medium border rounded-md focus:outline-none focus:border-[#EFF4FC]'
+                  >
+                    {project?.name}
+                  </option>
+                ))
+              ) : (
+                <option disabled>No hay proyectos</option>
+              )}
+            </select>
+          </div>
 
-          <div className="flex justify-end items-center gap-6 pt-5">
-            <div className="flex justify-end mt-4">
+          <div className='flex justify-end items-center gap-6 pt-5'>
+            <div className='flex justify-end mt-4'>
               <Link
-                href="/personal"
-                style={{ borderColor: "#0E436B", color: "#0E436B" }}
-                className="py-3 px-8 rounded-lg text-custom-blue text-sm font-semibold shadow-sm shadow-custom-blue border-custom-blue focus:outline-none focus:ring-2 focus:ring-gray-300"
+                href='/personal'
+                style={{ borderColor: '#0E436B', color: '#0E436B' }}
+                className='py-3 px-8 rounded-lg text-custom-blue text-sm font-semibold shadow-sm shadow-custom-blue border-custom-blue focus:outline-none focus:ring-2 focus:ring-gray-300'
               >
                 Close
               </Link>
             </div>
-            <div className="flex justify-end mt-4">
+            <div className='flex justify-end mt-4'>
               <BasicButtonComponent
-                bgColor={allFieldsFilled() ? "#0E436B" : "#BDBDBD"}
-                borderColor={allFieldsFilled() ? "#0E436B" : "#BDBDBD"}
-                textColor="#FFFFFF"
-                text="Añadir"
+                bgColor={allFieldsFilled() ? '#0E436B' : '#BDBDBD'}
+                borderColor={allFieldsFilled() ? '#0E436B' : '#BDBDBD'}
+                textColor='#FFFFFF'
+                text='Añadir'
                 onClick={handleCreatePesonnel}
                 disabled={!allFieldsFilled()}
               />
