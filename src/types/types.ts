@@ -38,6 +38,7 @@ export type Personnel = {
   email: string;
   created: string;
   state: string;
+  projectId: number | null;
 };
 
 export type Material = {

@@ -230,8 +230,6 @@ export default function Cotizaciones() {
     }
   };
 
-  console.log('filteredEnclosureData', filteredEnclosureData);
-
   return (
     <div className='pr-5 pb-5'>
       <div>
