@@ -180,7 +180,7 @@ const ModalCreatePersonal = () => {
               onChange={handleProjectChange}
               className='w-full mt-1 py-3 pl-2 text-sm font-medium border rounded-md focus:outline-none focus:border-[#EFF4FC]'
             >
-              <option value='' disabled>
+              <option value='' disabled selected>
                 Asigna un proyecto
               </option>
               {projects?.length > 0 ? (
