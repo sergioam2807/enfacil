@@ -4,7 +4,7 @@ interface Props {
   name: string;
   nameVizualization?: string;
   placeholder: string;
-  value: string;
+  value: string | number;
   onChange: (event: ChangeEvent<HTMLInputElement>) => void;
   onBlur?: (event: FocusEvent<HTMLInputElement>) => void;
   isPassword?: boolean;

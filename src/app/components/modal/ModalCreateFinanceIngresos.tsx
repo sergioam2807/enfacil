@@ -145,7 +145,7 @@ const ModalCreateFinanceIngresos = ({
       const createFinanceData = {
         name: createFinance.client,
         description: createFinance.description,
-        amount: createFinance.amount,
+        amout: createFinance.amount,
         bank: createFinance.bank,
         type: createFinance.name,
         financialSubCategoryId: createFinance.subCategory,

@@ -1,23 +1,24 @@
-"use client";
+'use client';
 
-import TitleComponent from "@/app/components/common/TitleComponent";
-import BaseTableCard from "@/app/components/tables/table/BaseTableCard";
-import TableCotizacion from "@/app/components/tables/cotizacionTable/TableCotizacion";
-import TableCotizacionActual from "@/app/components/tables/cotizacionTable/TableCotizacionActual";
-import { Suspense, useEffect, useState } from "react";
+import TitleComponent from '@/app/components/common/TitleComponent';
+import BaseTableCard from '@/app/components/tables/table/BaseTableCard';
+import TableCotizacion from '@/app/components/tables/cotizacionTable/TableCotizacion';
+import TableCotizacionActual from '@/app/components/tables/cotizacionTable/TableCotizacionActual';
+import { Suspense, useEffect, useState } from 'react';
 import {
   getActivityTokenData,
   getEnclosureData,
   postQuoteEnclosure,
   postQuoteEnclosuresMultipleActivities,
   postQuoteWhitEnclosureData,
-} from "@/app/api/data";
-import { formatPrice } from "@/helpers/capitaliizeFirstLetter";
-import { useRouter } from "next/navigation";
+} from '@/app/api/data';
+import { formatPrice } from '@/helpers/capitaliizeFirstLetter';
+import { useRouter } from 'next/navigation';
 // import { CreateButton } from "@/app/components/common/CreateButton";
-import { useClientQuoteStore, useQuotePostData } from "@/store/store";
-import { Enclosure } from "./[id]/page";
-import Search from "@/app/components/common/Search";
+import { useClientQuoteStore, useQuotePostData } from '@/store/store';
+import { Enclosure } from './[id]/page';
+import Search from '@/app/components/common/Search';
+import { act } from 'react-dom/test-utils';
 
 export default function Cotizaciones() {
   const [enclosureData, setEnclosureData] = useState<any[]>([]);
@@ -32,7 +33,7 @@ export default function Cotizaciones() {
     generalExpenses: 0,
     finalTotal: 0,
   });
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState('');
   const [allEnclosureData, setAllEnclosureData] = useState(enclosureData);
   const [filteredEnclosureData, setFilteredEnclosureData] =
     useState(enclosureData);
@@ -40,6 +41,8 @@ export default function Cotizaciones() {
   const { enclosureQuotePost } = useQuotePostData();
 
   const route = useRouter();
+
+  console.log('activityData', activityData);
 
   const handleData = (data: any) => {
     setEnclosureAdded(data);
@@ -59,8 +62,8 @@ export default function Cotizaciones() {
   };
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const token = localStorage.getItem("token");
+    if (typeof window !== 'undefined') {
+      const token = localStorage.getItem('token');
 
       if (token) {
         getEnclosureData(token).then((data) => {
@@ -116,7 +119,7 @@ export default function Cotizaciones() {
       let manPowerTotal = 0;
       let materialsTotal = 0;
 
-      const activityNames = enclosure?.activitiesInEnclosure?.split(", ");
+      const activityNames = enclosure?.activitiesInEnclosure?.split(', ');
 
       activityNames?.forEach((name: string) => {
         const activity = activityData.find(
@@ -161,17 +164,17 @@ export default function Cotizaciones() {
   }, {});
 
   const handleFinishQuote = async () => {
-    const token = localStorage.getItem("token");
-    const quoteDataItem = localStorage.getItem("quoteData");
+    const token = localStorage.getItem('token');
+    const quoteDataItem = localStorage.getItem('quoteData');
 
     if (!quoteDataItem) {
-      console.error("quoteData not found in localStorage");
+      console.error('quoteData not found in localStorage');
       return;
     }
 
     const quoteData = JSON.parse(quoteDataItem);
     if (token && quoteData) {
-      const storedData = JSON.parse(localStorage.getItem("quoteData") || "{}");
+      const storedData = JSON.parse(localStorage.getItem('quoteData') || '{}');
       const quoteWithEnclosure = {
         quote: {
           title: title,
@@ -182,13 +185,13 @@ export default function Cotizaciones() {
           const correspondingEnclosure = enclosureQuotePost.find(
             (data: any) => data.id === enclosure.id
           );
-
           // Map the activities of the enclosure
-          const activities = ["activityOne", "activityTwo", "activityThree"]
-            .filter((activityName) => (enclosure as any)[activityName] !== "-")
+          const activities = ['activityOne', 'activityTwo', 'activityThree']
+            .filter((activityName) => (enclosure as any)[activityName] !== '-')
             .map((activityName) => {
               const activity =
                 activityMapping[(enclosure as any)[activityName]];
+
               return {
                 quoteEnclosureId: 0,
                 activityId: activity.id,
@@ -216,28 +219,30 @@ export default function Cotizaciones() {
       } catch (error) {
         console.error(error);
       } finally {
-        route.push("/listado-cotizaciones");
+        route.push('/listado-cotizaciones');
       }
     }
   };
 
+  console.log('filteredEnclosureData', filteredEnclosureData);
+
   return (
-    <div className="pr-5 pb-5">
+    <div className='pr-5 pb-5'>
       <div>
         <div>
-          <div className="flex justify-between items-center">
-            <TitleComponent titleName={"Cotización"} />
+          <div className='flex justify-between items-center'>
+            <TitleComponent titleName={'Cotización'} />
           </div>
         </div>
-        <div className="text-[#0E436B] font-semibold text-xl mb-4">{title}</div>
-        <div className="text-[#0E436B] font-semibold text-xl mb-4">
+        <div className='text-[#0E436B] font-semibold text-xl mb-4'>{title}</div>
+        <div className='text-[#0E436B] font-semibold text-xl mb-4'>
           Cliente: {clientName}
         </div>
-        <div className="bg-white mb-7  w-2/3">
+        <div className='bg-white mb-7  w-2/3'>
           <Suspense fallback={<span>Cargando...</span>}>
             <Search
-              placeholder="Buscar Recinto"
-              color="white"
+              placeholder='Buscar Recinto'
+              color='white'
               onSearchChange={handleSearchChange}
             />
           </Suspense>
@@ -252,8 +257,8 @@ export default function Cotizaciones() {
         </BaseTableCard>
       </div>
 
-      <div className="flex justify-between items-center">
-        <TitleComponent titleName={"Cotización actual"} />
+      <div className='flex justify-between items-center'>
+        <TitleComponent titleName={'Cotización actual'} />
         {/* <div className="flex text-[#797979] bg-white px-4 py-2 font-semibold items-center text-md gap-2">
           <input type="checkbox" className="border-[#49454F]" />
           Aplicar a todos
@@ -268,25 +273,25 @@ export default function Cotizaciones() {
         </BaseTableCard>
       </div>
       <div>
-        <div className="flex flex-col bg-[#FFFFFF]  mt-8 rounded-lg w-full h-fit py-8 px-6 gap-4">
+        <div className='flex flex-col bg-[#FFFFFF]  mt-8 rounded-lg w-full h-fit py-8 px-6 gap-4'>
           <div>
-            <span className="text-[#0E436B] font-semibold text-xl ">
+            <span className='text-[#0E436B] font-semibold text-xl '>
               Resumen
             </span>
           </div>
-          <div className="flex justify-between">
-            <span className="text-[#0E436B] font-semibold text-md ">
+          <div className='flex justify-between'>
+            <span className='text-[#0E436B] font-semibold text-md '>
               Total materiales
             </span>
-            <span className="text-[#797979] font-semibold text-md ">
+            <span className='text-[#797979] font-semibold text-md '>
               {formatPrice(quoteTotal.materials)}
             </span>
           </div>
-          <div className="flex justify-between">
-            <span className="text-[#0E436B] font-semibold text-md ">
+          <div className='flex justify-between'>
+            <span className='text-[#0E436B] font-semibold text-md '>
               Total mano de obra
             </span>
-            <span className="text-[#797979] font-semibold text-md ">
+            <span className='text-[#797979] font-semibold text-md '>
               {formatPrice(quoteTotal.manPower)}
             </span>
           </div>
@@ -298,19 +303,19 @@ export default function Cotizaciones() {
               {formatPrice(quoteTotal.generalExpenses)}
             </span>
   </div>*/}
-          <div className="flex justify-between">
-            <span className="text-[#0E436B] font-semibold text-md ">
+          <div className='flex justify-between'>
+            <span className='text-[#0E436B] font-semibold text-md '>
               Total Final
             </span>
-            <span className="text-[#797979] font-semibold text-md ">
+            <span className='text-[#797979] font-semibold text-md '>
               {formatPrice(quoteTotal.finalTotal)}
             </span>
           </div>
         </div>
-        <div className="w-full flex justify-end py-6">
+        <div className='w-full flex justify-end py-6'>
           <button
             onClick={handleFinishQuote}
-            className="bg-custom-blue p-3 flex rounded-md text-white h-fit"
+            className='bg-custom-blue p-3 flex rounded-md text-white h-fit'
           >
             Finalizar cotización
           </button>

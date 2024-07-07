@@ -1,12 +1,12 @@
-import { getActivityData } from "@/app/api/getUser";
-import { CreateButton } from "@/app/components/common/CreateButton";
-import Search from "@/app/components/common/Search";
-import TitleComponent from "@/app/components/common/TitleComponent";
-import ModalCreateActivity from "@/app/components/modal/ModalCreateActivity";
-import ActividadesTable from "@/app/components/tables/actividadesTable/ActividadesTable";
-import BaseTableCard from "@/app/components/tables/table/BaseTableCard";
-import { Activity } from "@/types/types";
-import Link from "next/link";
+import { getActivityData } from '@/app/api/getUser';
+import { CreateButton } from '@/app/components/common/CreateButton';
+import Search from '@/app/components/common/Search';
+import TitleComponent from '@/app/components/common/TitleComponent';
+import ModalCreateActivity from '@/app/components/modal/ModalCreateActivity';
+import ActividadesTable from '@/app/components/tables/actividadesTable/ActividadesTable';
+import BaseTableCard from '@/app/components/tables/table/BaseTableCard';
+import { Activity } from '@/types/types';
+import Link from 'next/link';
 
 type SearchParamProps = {
   searchParams: Record<string, string> | null | undefined;
@@ -15,7 +15,9 @@ type SearchParamProps = {
 export default async function Actividades({ searchParams }: SearchParamProps) {
   const activityData = await getActivityData();
   const show = searchParams?.show;
-  const search = searchParams?.search || "";
+  const search = searchParams?.search || '';
+
+  console.log('activityData', activityData);
 
   let filteredData;
   if (search) {
@@ -26,21 +28,21 @@ export default async function Actividades({ searchParams }: SearchParamProps) {
     filteredData = activityData;
   }
   return (
-    <div className="pr-5 pb-5">
+    <div className='pr-5 pb-5'>
       <div>
-        <TitleComponent titleName={"Actividades"} />
+        <TitleComponent titleName={'Actividades'} />
       </div>
-      <div className="flex justify-between items-center pb-7">
+      <div className='flex justify-between items-center pb-7'>
         <div>
-          <Search color="#FFFFFF" />
+          <Search color='#FFFFFF' />
         </div>
-        <div className="flex gap-4">
+        <div className='flex gap-4'>
           <div>
-            <Link href="/actividades?show=true">
+            <Link href='/actividades?show=true'>
               <CreateButton
-                title="Crear actividad"
+                title='Crear actividad'
                 iconSize={14}
-                bgcolor="#0E436B"
+                bgcolor='#0E436B'
               />
             </Link>
             {show && <ModalCreateActivity />}

@@ -7,7 +7,7 @@ import TableCell from '../../common/TableCell';
 import ChipStatus from '../../chip/ChipStatus';
 import Link from 'next/link';
 import { Personnel } from '@/types/types';
-import { formatDate } from '@/helpers/capitaliizeFirstLetter';
+import { formatDate, formatPrice } from '@/helpers/capitaliizeFirstLetter';
 
 type userProps = {
   personalData: { data: Personnel[] } | Personnel[];
@@ -37,6 +37,7 @@ const PersonalTable = ({ personalData }: userProps) => {
           <TableHead>Nombre</TableHead>
           <TableHead>Proyecto asignado</TableHead>
           <TableHead>Cargo</TableHead>
+          <TableHead>Precio por día</TableHead>
           <TableHead>F.ingreso</TableHead>
           <TableHead>Estado</TableHead>
           <TableHead>Contacto</TableHead>
@@ -64,6 +65,11 @@ const PersonalTable = ({ personalData }: userProps) => {
             </TableCell>
             <TableCell>No data</TableCell>
             <TableCell>{row?.specialty ?? '-'}</TableCell>
+            <TableCell>
+              {row?.pricePerWorkDay !== null
+                ? formatPrice(row.pricePerWorkDay)
+                : '-'}
+            </TableCell>
             <TableCell>{formatDate(row?.created) ?? '-'}</TableCell>
             <TableCell>
               <ChipStatus status={row?.state} />

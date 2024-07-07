@@ -1,9 +1,9 @@
-"use client";
-import React, { useEffect, useMemo, useRef, useState } from "react";
-import TableHead from "../../common/TableHead";
-import TableCell from "../../common/TableCell";
-import { formatPrice } from "@/helpers/capitaliizeFirstLetter";
-import { useQuotePostData } from "@/store/store";
+'use client';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import TableHead from '../../common/TableHead';
+import TableCell from '../../common/TableCell';
+import { formatPrice } from '@/helpers/capitaliizeFirstLetter';
+import { useQuotePostData } from '@/store/store';
 
 export interface Cotizacion {
   id: string;
@@ -24,6 +24,8 @@ const TableCotizacionActual = ({ cotizacionData, onTotalChange }: any) => {
     cotizacionData || []
   );
   const { setEnclosureQuotePost } = useQuotePostData();
+
+  console.log('cotizacionData', cotizacionData);
 
   useEffect(() => {
     const newItems =
@@ -114,9 +116,9 @@ const TableCotizacionActual = ({ cotizacionData, onTotalChange }: any) => {
   let selectedClientId;
   let selectedClientName;
 
-  if (typeof window !== "undefined") {
-    selectedClientId = localStorage.getItem("selectedClientId");
-    selectedClientName = localStorage.getItem("selectedClientName");
+  if (typeof window !== 'undefined') {
+    selectedClientId = localStorage.getItem('selectedClientId');
+    selectedClientName = localStorage.getItem('selectedClientName');
 
     const combinedData = {
       enclosures: enclosureAdded,
@@ -125,14 +127,16 @@ const TableCotizacionActual = ({ cotizacionData, onTotalChange }: any) => {
       clientName: selectedClientName,
     };
 
-    localStorage.setItem("quoteData", JSON.stringify(combinedData));
+    localStorage.setItem('quoteData', JSON.stringify(combinedData));
   }
 
+  console.log('enclosureAdded', enclosureAdded);
+
   return (
-    <table className="w-full table-auto ">
+    <table className='w-full table-auto '>
       <thead>
-        <tr className="text-[#0E436B] font-semibold text-sm">
-          <th className="text-left pb-8 pt-5 pl-10">Recinto</th>
+        <tr className='text-[#0E436B] font-semibold text-sm'>
+          <th className='text-left pb-8 pt-5 pl-10'>Recinto</th>
           <TableHead>Actividad Principal</TableHead>
           <TableHead>Unidad de trabajo</TableHead>
           <TableHead>Cantidad unidades</TableHead>
@@ -148,42 +152,44 @@ const TableCotizacionActual = ({ cotizacionData, onTotalChange }: any) => {
         {enclosureAdded?.map((row: Cotizacion) => (
           <tr
             key={row?.id}
-            className="text-[#797979] font-medium text-sm border-t border-[#EAEAEA]"
+            className='text-[#797979] font-medium text-sm border-t border-[#EAEAEA]'
           >
-            <td className="text-left pb-8 pt-7 pl-10">{row.title ?? "-"}</td>
-            <TableCell>{row.activityOne ?? "-"}</TableCell>
-            <TableCell>{row.workUnit ?? "-"}</TableCell>
+            <td className='text-left pb-8 pt-7 pl-10'>{row.title ?? '-'}</td>
+            <TableCell>{row.activityOne ?? '-'}</TableCell>
+            <TableCell>{row.workUnit ?? '-'}</TableCell>
             <TableCell>
               <input
-                type="text"
+                type='text'
                 value={row.unityCount || 0}
                 onChange={(e) => handleInputChange(e, row.id)}
-                className="border rounded w-1/2 py-2 px-3 text-grey-darker"
+                className='border rounded w-1/2 py-2 px-3 text-grey-darker'
               />
             </TableCell>
-            <TableCell>{formatPrice(row.manPowerTotal) ?? "-"}</TableCell>
-            <TableCell>{formatPrice(row.materialsTotal) ?? "-"}</TableCell>
+            <TableCell>{formatPrice(row.manPowerTotal) ?? '-'}</TableCell>
+            <TableCell>{formatPrice(row.materialsTotal) ?? '-'}</TableCell>
             <TableCell>
-              {formatPrice(row.manPowerTotal * Number(row.unityCount)) || "-"}
+              {formatPrice(row.manPowerTotal * Number(row.unityCount)) || '-'}
             </TableCell>
             <TableCell>
-              {formatPrice(row.materialsTotal * Number(row.unityCount)) || "-"}
+              {formatPrice(row.materialsTotal * Number(row.unityCount)) || '-'}
             </TableCell>
             <TableCell>
-              %
-              <input
-                type="text"
-                value={row.margin | 0}
-                onChange={(e) => handleMarginChange(e, row.id)}
-                className="border rounded w-1/2 py-2 px-3 text-grey-darker"
-              />
+              <div className='flex items-center'>
+                <input
+                  type='text'
+                  value={row.margin | 0}
+                  onChange={(e) => handleMarginChange(e, row.id)}
+                  className='border rounded w-16 py-2 px-3 text-grey-darker'
+                />
+                <span className='ml-2'>%</span>
+              </div>
             </TableCell>
             <TableCell>
               {formatPrice(
                 (row.manPowerTotal * Number(row.unityCount) +
                   row.materialsTotal * Number(row.unityCount)) *
                   (1 + row.margin / 100)
-              ) || "-"}
+              ) || '-'}
             </TableCell>
           </tr>
         ))}

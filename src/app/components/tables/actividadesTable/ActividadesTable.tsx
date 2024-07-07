@@ -32,6 +32,7 @@ const ActividadesTable = ({ activityData }: activityProps) => {
           <th className='text-left text-base pl-10 py-2'>Actividad</th>
           <TableHead>Precio Mano obra Unitario</TableHead>
           <TableHead>Precio Material Unitario</TableHead>
+          <TableHead>Tiempo Promedio</TableHead>
           <TableHead>Unidad de medida</TableHead>
         </tr>
       </thead>
@@ -51,6 +52,7 @@ const ActividadesTable = ({ activityData }: activityProps) => {
             <TableCell>
               {formatPrice(Number(row.materialsUnitPricing)) ?? '-'}
             </TableCell>
+            <TableCell>{row.averageTime ?? '-'}</TableCell>
             <TableCell>{row.metricUnit ?? '-'}</TableCell>
             <td className='text-left text-base'>
               <OptionMenuMaterialsButton

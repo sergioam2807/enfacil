@@ -1,24 +1,24 @@
-"use client";
-import Link from "next/link";
-import React, { useState } from "react";
-import InputComponent from "../input/InputComponent";
-import BasicButtonComponent from "../buttons/BasicButtonComponent";
-import { useRouter } from "next/navigation";
-import { createActivityData } from "@/app/api/data";
-import { SelectComponent } from "../common/SelectComponent";
-import { measurementUnits } from "@/constants/measurementunits";
+'use client';
+import Link from 'next/link';
+import React, { useState } from 'react';
+import InputComponent from '../input/InputComponent';
+import BasicButtonComponent from '../buttons/BasicButtonComponent';
+import { useRouter } from 'next/navigation';
+import { createActivityData } from '@/app/api/data';
+import { SelectComponent } from '../common/SelectComponent';
+import { measurementUnits } from '@/constants/measurementunits';
 
 const ModalCreateActivity = () => {
   const router = useRouter();
   const [createActivity, setCreateActivity] = useState({
-    name: "",
-    metricUnit: "",
-    manPowerUnitPricing: "",
-    materialsUnitPricing: "",
-    materialsRecipeIds: "1",
+    name: '',
+    metricUnit: '',
+    manPowerUnitPricing: '',
+    materialsUnitPricing: '',
+    materialsRecipeIds: '1',
     averageTime: 0,
   });
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem('token');
 
   const handleInputChange = (
     event: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>
@@ -31,28 +31,28 @@ const ModalCreateActivity = () => {
 
   const handleCreateActivity = async () => {
     try {
-      await createActivityData(createActivity, token || "");
-      router.push("/actividades");
+      await createActivityData(createActivity, token || '');
+      router.push('/actividades');
       router.refresh();
     } catch (error) {
-      console.error("Failed to create activity", error);
+      console.error('Failed to create activity', error);
     }
   };
 
   return (
-    <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center">
-      <div className="p-8 border w-fit shadow-lg rounded-2xl bg-white">
-        <div className="text-center p-4">
-          <div className="flex justify-start">
-            <h3 className="text-xl font-semibold text-[#000E41]">
+    <div className='fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center'>
+      <div className='p-8 border w-fit shadow-lg rounded-2xl bg-white'>
+        <div className='text-center p-4'>
+          <div className='flex justify-start'>
+            <h3 className='text-xl font-semibold text-[#000E41]'>
               Añadir Actividad
             </h3>
           </div>
-          <div className="w-full">
+          <div className='w-full'>
             <InputComponent
-              nameVizualization="Nombre"
-              name="name"
-              placeholder="Nombre"
+              nameVizualization='Nombre'
+              name='name'
+              placeholder='Nombre'
               onChange={handleInputChange}
               value={createActivity?.name}
             />
@@ -60,50 +60,61 @@ const ModalCreateActivity = () => {
 
           <div>
             <InputComponent
-              nameVizualization="Precio mano de obra unitario"
-              name="manPowerUnitPricing"
-              placeholder="$00.000"
+              nameVizualization='Precio mano de obra unitario'
+              name='manPowerUnitPricing'
+              placeholder='$00.000'
               onChange={handleInputChange}
               value={createActivity?.manPowerUnitPricing}
             />
           </div>
-          <div className="flex items-center justify-between gap-5">
+          <div className='flex items-center justify-between gap-5'>
             <div>
               <InputComponent
-                nameVizualization="Precio material unitario"
-                name="materialsUnitPricing"
-                placeholder="$00.000"
+                nameVizualization='Precio material unitario'
+                name='materialsUnitPricing'
+                placeholder='$00.000'
                 onChange={handleInputChange}
                 value={createActivity?.materialsUnitPricing}
               />
             </div>
           </div>
-          <div className="flex items-center justify-between gap-5">
+          <div className='flex items-center justify-between gap-5'>
+            <div>
+              <InputComponent
+                nameVizualization='Tiempo Promedio de actividad'
+                name='averageTime'
+                placeholder='15'
+                onChange={handleInputChange}
+                value={createActivity?.averageTime}
+              />
+            </div>
+          </div>
+          <div className='flex items-center justify-between gap-5'>
             <div>
               <SelectComponent
-                name="metricUnit"
+                name='metricUnit'
                 value={createActivity?.metricUnit}
                 onChange={handleInputChange}
                 options={measurementUnits}
               />
             </div>
           </div>
-          <div className="flex justify-end items-center gap-6 pt-5">
-            <div className="flex justify-end mt-4">
+          <div className='flex justify-end items-center gap-6 pt-5'>
+            <div className='flex justify-end mt-4'>
               <Link
-                href="/actividades"
-                style={{ borderColor: "#0E436B", color: "#0E436B" }}
-                className="py-3 px-8 rounded-lg text-custom-blue text-sm font-semibold shadow-sm shadow-custom-blue border-custom-blue focus:outline-none focus:ring-2 focus:ring-gray-300"
+                href='/actividades'
+                style={{ borderColor: '#0E436B', color: '#0E436B' }}
+                className='py-3 px-8 rounded-lg text-custom-blue text-sm font-semibold shadow-sm shadow-custom-blue border-custom-blue focus:outline-none focus:ring-2 focus:ring-gray-300'
               >
                 Close
               </Link>
             </div>
-            <div className="flex justify-end mt-4">
+            <div className='flex justify-end mt-4'>
               <BasicButtonComponent
-                bgColor="#0E436B"
-                borderColor="#0E436B"
-                textColor="#FFFFFF"
-                text="Añadir"
+                bgColor='#0E436B'
+                borderColor='#0E436B'
+                textColor='#FFFFFF'
+                text='Añadir'
                 onClick={handleCreateActivity}
               />
             </div>

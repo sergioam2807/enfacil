@@ -1,15 +1,15 @@
-import { getPersonalData } from "@/app/api/getUser";
-import { CreateButton } from "@/app/components/common/CreateButton";
-import Search from "@/app/components/common/Search";
-import TitleComponent from "@/app/components/common/TitleComponent";
-import { FilterDropdown } from "@/app/components/filter/FilterDropdown";
-import ModalCreatePersonal from "@/app/components/modal/ModalCreatePersonal";
-import SkeletonTable from "@/app/components/skeleton/SkeletonTable";
-import PersonalTable from "@/app/components/tables/personalTable/PersonalTable";
-import BaseTableCard from "@/app/components/tables/table/BaseTableCard";
-import { Personnel } from "@/types/types";
-import Link from "next/link";
-import { Suspense } from "react";
+import { getPersonalData } from '@/app/api/getUser';
+import { CreateButton } from '@/app/components/common/CreateButton';
+import Search from '@/app/components/common/Search';
+import TitleComponent from '@/app/components/common/TitleComponent';
+import { FilterDropdown } from '@/app/components/filter/FilterDropdown';
+import ModalCreatePersonal from '@/app/components/modal/ModalCreatePersonal';
+import SkeletonTable from '@/app/components/skeleton/SkeletonTable';
+import PersonalTable from '@/app/components/tables/personalTable/PersonalTable';
+import BaseTableCard from '@/app/components/tables/table/BaseTableCard';
+import { Personnel } from '@/types/types';
+import Link from 'next/link';
+import { Suspense } from 'react';
 
 type SearchParamProps = {
   searchParams: Record<string, string> | null | undefined;
@@ -19,7 +19,7 @@ export default async function Personal({ searchParams }: SearchParamProps) {
   const personalData = await getPersonalData();
 
   const show = searchParams?.show;
-  const search = searchParams?.search || "";
+  const search = searchParams?.search || '';
 
   let filteredData;
   if (search) {
@@ -30,27 +30,29 @@ export default async function Personal({ searchParams }: SearchParamProps) {
     filteredData = personalData;
   }
 
+  console.log('personalData', personalData);
+
   return (
-    <div className="pr-5 pb-5">
+    <div className='pr-5 pb-5'>
       <div>
-        <TitleComponent titleName={"Personal"} />
+        <TitleComponent titleName={'Personal'} />
       </div>
-      <div className="flex justify-between items-center pb-7">
+      <div className='flex justify-between items-center pb-7'>
         <div>
           <Suspense fallback={<div>Loading...</div>}>
-            <Search color="#FFFFFF" />
+            <Search color='#FFFFFF' />
           </Suspense>
         </div>
-        <div className="flex gap-4">
+        <div className='flex gap-4'>
           <div>
             <FilterDropdown />
           </div>
           <div>
-            <Link href="/personal?show=true">
+            <Link href='/personal?show=true'>
               <CreateButton
-                title="Añadir Personal"
+                title='Añadir Personal'
                 iconSize={14}
-                bgcolor="#0E436B"
+                bgcolor='#0E436B'
               />
             </Link>
             {show && <ModalCreatePersonal />}

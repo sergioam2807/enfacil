@@ -1,5 +1,4 @@
 import { cookies } from 'next/headers';
-import Cookies from 'js-cookie';
 
 export async function getUserData(id?: string) {
   const cookieStore = cookies();
@@ -32,7 +31,6 @@ export async function getPersonalData() {
   const cookieStore = cookies();
   const token = cookieStore.get('token')?.value;
 
-  console.log('Token:', token);
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/PersonnelApi/GetPersonnel?identifier=all&value=true`,
     {

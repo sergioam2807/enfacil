@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import TableHead from '../../common/TableHead';
 import TableCell from '../../common/TableCell';
 import ActionButtons from '../actionTable/ActionButtons';
-import { formatDate } from '@/helpers/capitaliizeFirstLetter';
+import { formatDate, formatPrice } from '@/helpers/capitaliizeFirstLetter';
 import { getProyectData } from '@/app/api/data';
 import { useReloadMovements } from '@/store/store';
 
@@ -56,8 +56,16 @@ const FinanceTable = ({ financialMovements }: FinanceTableProps) => {
               <TableCell>{row.date ?? '-'}</TableCell>
               <TableCell>{row.bank ?? '-'}</TableCell>
               <TableCell>{row.type ?? '-'}</TableCell>
-              <TableCell>{row.description}</TableCell>
-              <TableCell>{row.amout}</TableCell>
+              <TableCell>{row.description ?? '-'}</TableCell>
+              <TableCell>
+                <span
+                  className={
+                    row.amout < 0 ? 'text-custom-red' : 'text-custom-green'
+                  }
+                >
+                  {formatPrice(row.amout) ?? '-'}
+                </span>
+              </TableCell>
               <td className='text-left text-base'>
                 <ActionButtons
                   id={row.id}

@@ -1,9 +1,9 @@
-"use client";
-import React, { useEffect, useState } from "react";
-import TableHead from "../../common/TableHead";
-import TableCell from "../../common/TableCell";
-import ciclebutton from "../../../../../public/images/circlebutton.svg";
-import Image from "next/image";
+'use client';
+import React, { useEffect, useState } from 'react';
+import TableHead from '../../common/TableHead';
+import TableCell from '../../common/TableCell';
+import ciclebutton from '../../../../../public/images/circlebutton.svg';
+import Image from 'next/image';
 
 interface Enclosure {
   id: string;
@@ -26,7 +26,7 @@ const TableCotizacion = ({ cotizacionData, onData }: cotizacionProps) => {
   let transformedData = cotizacionData?.map((enclosure: Enclosure) => {
     let enclosureActivities = enclosure.activitiesInEnclosure
       ? enclosure.activitiesInEnclosure
-          .split(",")
+          .split(',')
           .map((activity) => activity.trim())
       : [];
 
@@ -34,21 +34,23 @@ const TableCotizacion = ({ cotizacionData, onData }: cotizacionProps) => {
       id: enclosure.id,
       title: enclosure.name,
       activities: enclosureActivities.length,
-      activityOne: enclosureActivities[0] ?? "-",
-      activityTwo: enclosureActivities[1] ?? "-",
-      activityThree: enclosureActivities[2] ?? "-",
+      activityOne: enclosureActivities[0] ?? '-',
+      activityTwo: enclosureActivities[1] ?? '-',
+      activityThree: enclosureActivities[2] ?? '-',
     };
   });
+
+  console.log('transformedData', transformedData);
 
   useEffect(() => {
     onData(selectedRow);
   }, [selectedRow, onData]);
 
   return (
-    <table className="w-full table-auto">
+    <table className='w-full table-auto'>
       <thead>
-        <tr className="text-[#0E436B] font-semibold text-sm">
-          <th className="text-left pb-8 pt-5 pl-10">Recinto</th>
+        <tr className='text-[#0E436B] font-semibold text-sm'>
+          <th className='text-left pb-8 pt-5 pl-10'>Recinto</th>
           <TableHead>Cantidad Actividades</TableHead>
           <TableHead>Actividad 1</TableHead>
           <TableHead>Actividad 2</TableHead>
@@ -60,18 +62,18 @@ const TableCotizacion = ({ cotizacionData, onData }: cotizacionProps) => {
         {transformedData?.map((row: any) => (
           <tr
             key={row?.id}
-            className="text-[#797979] font-medium text-sm border-t border-[#EAEAEA]"
+            className='text-[#797979] font-medium text-sm border-t border-[#EAEAEA]'
           >
-            <td className="text-left pb-8 pt-5 pl-10">{row.title ?? "-"}</td>
-            <TableCell>{row.activities ?? "-"}</TableCell>
-            <TableCell>{row.activityOne ?? "-"}</TableCell>
-            <TableCell>{row.activityTwo ?? "-"}</TableCell>
-            <TableCell>{row.activityThree ?? "-"}</TableCell>
-            <td className="text-left text-base">
+            <td className='text-left pb-8 pt-5 pl-10'>{row.title ?? '-'}</td>
+            <TableCell>{row.activities ?? '-'}</TableCell>
+            <TableCell>{row.activityOne ?? '-'}</TableCell>
+            <TableCell>{row.activityTwo ?? '-'}</TableCell>
+            <TableCell>{row.activityThree ?? '-'}</TableCell>
+            <td className='text-left text-base'>
               <button
                 onClick={() => setSelectedRow((prevRows) => [...prevRows, row])}
               >
-                <Image src={ciclebutton} alt="edit" width={23} height={23} />
+                <Image src={ciclebutton} alt='edit' width={23} height={23} />
               </button>
             </td>
           </tr>
