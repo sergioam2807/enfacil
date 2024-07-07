@@ -18,8 +18,6 @@ export default function ProyectDetails({ params }: { params: { id: string } }) {
   );
   const [proyectData, setProyectData] = useState(null);
 
-  console.log('params.id', params.id);
-
   const handleOpenModal = () => {
     setShowModal(true);
   };
@@ -69,8 +67,6 @@ export default function ProyectDetails({ params }: { params: { id: string } }) {
       .then((data) => setProyectData(data))
       .catch((error) => console.error(error));
   }, []);
-
-  console.log(proyectData ? proyectData : 'No data');
 
   return (
     <div>

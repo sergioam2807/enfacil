@@ -65,8 +65,6 @@ export default function CotizacionDetalle({
     setModalOpen(false);
   };
 
-  console.log('quoteData', quoteData);
-
   useEffect(() => {
     const quoteData = localStorage?.getItem('quoteData');
     if (quoteData) {
@@ -87,8 +85,6 @@ export default function CotizacionDetalle({
     }
   }, []);
 
-  // console.log("params.id", params.id);
-
   useEffect(() => {
     const token = localStorage.getItem('token');
     fetch(
@@ -108,7 +104,7 @@ export default function CotizacionDetalle({
       .then((data) => {
         if (data) {
           const jsonData = JSON.parse(data);
-          console.log(jsonData);
+
           setQuoteData(jsonData);
         }
         setLoading(false);
@@ -125,7 +121,6 @@ export default function CotizacionDetalle({
     );
 
     if (quoteInfo) {
-      console.log('quoteInfo del id', quoteInfo);
       setQuoteInfo(quoteInfo as any);
     } else {
       console.log(`No quote found with id ${params.id}`);
@@ -138,7 +133,6 @@ export default function CotizacionDetalle({
     return <div>Loading...</div>;
   }
 
-  console.log('quoteInfo', quoteInfo?.enclosures[0]?.activityOne);
   const dataToPass = params.id
     ? quoteInfo?.enclosures.map((enclosureInfo) => ({
         ...enclosureInfo,
@@ -158,9 +152,6 @@ export default function CotizacionDetalle({
               enclosureInfo.activityOne.trim().toLowerCase()
           )?.metricUnit ?? 'null',
       }));
-
-  console.log('activitysData from cotizacionDetalle', activitysData);
-  console.log('dataToPass', dataToPass);
 
   return (
     <div className='pr-5 pb-5'>

@@ -25,8 +25,6 @@ interface proyectProps {
 }
 
 const ProyectMainTable = ({ proyectData, handleDelete }: proyectProps) => {
-  console.log(proyectData);
-
   return (
     <table className='w-full table-auto'>
       <thead>

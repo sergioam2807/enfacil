@@ -48,14 +48,13 @@ function getGroupedInfo(data: Quote[]): QuoteInfo[] {
     const enclosuresMap = new Map<number, EnclosureInfo>();
 
     quote.quoteEnclosures.forEach((enclosure: Enclosure) => {
-      console.log("object,", enclosure);
       if (!enclosuresMap.has(enclosure.enclosureID)) {
         const activities =
-          enclosure?.enclosure?.activitiesInEnclosure.split(", ");
+          enclosure?.enclosure?.activitiesInEnclosure.split(', ');
         enclosuresMap.set(enclosure.enclosureID, {
           id: enclosure.enclosureID,
-          name: enclosure?.enclosure?.name ? enclosure?.enclosure?.name : "N/A",
-          activityOne: activities ? activities[0] : "N/A",
+          name: enclosure?.enclosure?.name ? enclosure?.enclosure?.name : 'N/A',
+          activityOne: activities ? activities[0] : 'N/A',
           unityCount: 0,
           precioManoObraUnitario: 0,
           precioMaterialesUnitario: 0,

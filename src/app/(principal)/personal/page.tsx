@@ -30,8 +30,6 @@ export default async function Personal({ searchParams }: SearchParamProps) {
     filteredData = personalData;
   }
 
-  console.log('personalData', personalData);
-
   return (
     <div className='pr-5 pb-5'>
       <div>

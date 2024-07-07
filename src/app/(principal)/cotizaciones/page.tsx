@@ -42,8 +42,6 @@ export default function Cotizaciones() {
 
   const route = useRouter();
 
-  console.log('activityData', activityData);
-
   const handleData = (data: any) => {
     setEnclosureAdded(data);
   };
@@ -95,7 +93,7 @@ export default function Cotizaciones() {
   //   if (typeof window !== "undefined") {
   //     const clientName =
   //       localStorage.getItem("selectedClientName") || "Nombre del cliente";
-  //     console.log("clientName", clientName);
+
   //     setClientName(clientName);
   //   }
   // }, []);
@@ -196,7 +194,7 @@ export default function Cotizaciones() {
                 console.error(`Activity not found: ${activityName}`);
                 return null;
               }
-              console.log('activity', activity);
+
               return {
                 quoteEnclosureId: 0,
                 activityId: activity.id,
@@ -223,7 +221,6 @@ export default function Cotizaciones() {
         console.log(data);
       } catch (error) {
         console.error(error);
-        console.log('error aqui');
       } finally {
         route.push('/listado-cotizaciones');
       }

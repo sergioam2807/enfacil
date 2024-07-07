@@ -116,7 +116,6 @@ const ModalCreateFinanceIngresos = ({
   };
 
   const handleClientChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    console.log('event.target.value', event.target.value);
     setCreateFinance({
       ...createFinance,
       client: event.target.value,

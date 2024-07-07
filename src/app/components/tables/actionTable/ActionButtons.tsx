@@ -149,8 +149,6 @@ const ActionButtons = ({
     }
   };
 
-  console.log('editUser', editUser);
-
   return (
     <div className='flex items-center gap-8'>
       <button onClick={handleEdit}>

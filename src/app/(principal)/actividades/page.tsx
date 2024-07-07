@@ -17,8 +17,6 @@ export default async function Actividades({ searchParams }: SearchParamProps) {
   const show = searchParams?.show;
   const search = searchParams?.search || '';
 
-  console.log('activityData', activityData);
-
   let filteredData;
   if (search) {
     filteredData = activityData?.data?.filter((user: Activity) =>

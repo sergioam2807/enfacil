@@ -146,7 +146,6 @@ const ModalEditFinanceIngresos = ({
   };
 
   const handleClientChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    console.log('event.target.value', event.target.value);
     setCreateFinance({
       ...createFinance,
       client: event.target.value,
@@ -193,8 +192,6 @@ const ModalEditFinanceIngresos = ({
       console.error('No token found');
     }
   };
-
-  console.log('materialDat movements', materialData);
 
   return (
     <div className='fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center'>

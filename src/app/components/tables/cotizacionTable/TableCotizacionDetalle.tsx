@@ -6,8 +6,6 @@ import { formatPrice } from '@/helpers/capitaliizeFirstLetter';
 import { Enclosure } from '@/app/(principal)/cotizaciones/[id]/page';
 
 const TableCotizacionDetalle = ({ quoteFinalData }: any) => {
-  console.log('quoteFinalData desde la tabla', quoteFinalData);
-
   return (
     <table className='w-full table-auto '>
       <thead>

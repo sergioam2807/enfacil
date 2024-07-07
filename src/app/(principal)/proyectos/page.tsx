@@ -42,8 +42,6 @@ export default function Proyectos() {
     }
   };
 
-  console.log(proyectData);
-
   return (
     <div className='pr-5 pb-5'>
       <div>

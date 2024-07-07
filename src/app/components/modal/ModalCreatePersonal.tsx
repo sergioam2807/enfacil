@@ -49,8 +49,6 @@ const ModalCreatePersonal = () => {
     }
   }, []);
 
-  console.log('projects', projects);
-
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     if (name === 'taxId') {

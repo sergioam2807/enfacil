@@ -59,7 +59,6 @@ export default function ListadoCotizaciones() {
   };
 
   const handleDelete = async (id: number | null) => {
-    console.log('delete id', id);
     const token = localStorage.getItem('token');
     if (token) {
       try {

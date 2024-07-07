@@ -39,7 +39,7 @@ export default function Home() {
     const data = await response.json();
 
     const token = data.responseData;
-    console.log(token);
+
     Cookies.set('token', token);
 
     localStorage.setItem('token', token);

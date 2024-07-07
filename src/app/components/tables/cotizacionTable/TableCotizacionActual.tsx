@@ -25,8 +25,6 @@ const TableCotizacionActual = ({ cotizacionData, onTotalChange }: any) => {
   );
   const { setEnclosureQuotePost } = useQuotePostData();
 
-  console.log('cotizacionData 111', cotizacionData);
-
   useEffect(() => {
     const newItems =
       cotizacionData?.filter(
@@ -129,8 +127,6 @@ const TableCotizacionActual = ({ cotizacionData, onTotalChange }: any) => {
 
     localStorage.setItem('quoteData', JSON.stringify(combinedData));
   }
-
-  console.log('enclosureAdded', enclosureAdded);
 
   return (
     <table className='w-full table-auto '>
