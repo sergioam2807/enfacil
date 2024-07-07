@@ -9,7 +9,7 @@ export interface Cotizacion {
   id: string;
   title: string;
   activityOne: string;
-  workUnit: string;
+  metricUnit: string;
   unityCount: number;
   manPowerTotal: number;
   materialsTotal: number;
@@ -25,7 +25,7 @@ const TableCotizacionActual = ({ cotizacionData, onTotalChange }: any) => {
   );
   const { setEnclosureQuotePost } = useQuotePostData();
 
-  console.log('cotizacionData', cotizacionData);
+  console.log('cotizacionData 111', cotizacionData);
 
   useEffect(() => {
     const newItems =
@@ -156,7 +156,7 @@ const TableCotizacionActual = ({ cotizacionData, onTotalChange }: any) => {
           >
             <td className='text-left pb-8 pt-7 pl-10'>{row.title ?? '-'}</td>
             <TableCell>{row.activityOne ?? '-'}</TableCell>
-            <TableCell>{row.workUnit ?? '-'}</TableCell>
+            <TableCell>{row.metricUnit ?? '-'}</TableCell>
             <TableCell>
               <input
                 type='text'

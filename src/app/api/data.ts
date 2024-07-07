@@ -656,6 +656,29 @@ export async function getProyectData(token: string) {
   }
 }
 
+export async function getMaterials(token: string) {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/MaterialApi/GetMaterials`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
+  if (!res.ok) {
+    console.log('Failed to fetch data');
+  }
+
+  const contentType = res.headers.get('content-type');
+  if (contentType && contentType.includes('application/json')) {
+    return res.json();
+  } else {
+    console.log('No JSON content found in response');
+    return [];
+  }
+}
+
 export const postFinalMovementstData = async (
   token: string,
   financialData: any

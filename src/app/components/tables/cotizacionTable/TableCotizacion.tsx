@@ -4,6 +4,7 @@ import TableHead from '../../common/TableHead';
 import TableCell from '../../common/TableCell';
 import ciclebutton from '../../../../../public/images/circlebutton.svg';
 import Image from 'next/image';
+import { getActivityTokenData, getMaterials } from '@/app/api/data';
 
 interface Enclosure {
   id: string;
@@ -22,6 +23,19 @@ interface cotizacionProps {
 
 const TableCotizacion = ({ cotizacionData, onData }: cotizacionProps) => {
   const [selectedRow, setSelectedRow] = useState<cotizacionProps[]>([]);
+  const [activitysData, setActivityData] = useState<any[]>([]);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const token = localStorage.getItem('token');
+
+      if (token) {
+        getActivityTokenData(token).then((data) => {
+          setActivityData(data?.data);
+        });
+      }
+    }
+  }, []);
 
   let transformedData = cotizacionData?.map((enclosure: Enclosure) => {
     let enclosureActivities = enclosure.activitiesInEnclosure
@@ -37,10 +51,12 @@ const TableCotizacion = ({ cotizacionData, onData }: cotizacionProps) => {
       activityOne: enclosureActivities[0] ?? '-',
       activityTwo: enclosureActivities[1] ?? '-',
       activityThree: enclosureActivities[2] ?? '-',
+      metricUnit:
+        activitysData.find(
+          (activity) => activity.name === enclosureActivities[0]
+        )?.metricUnit ?? '-',
     };
   });
-
-  console.log('transformedData', transformedData);
 
   useEffect(() => {
     onData(selectedRow);
