@@ -156,6 +156,7 @@ const ModalCreateFinanceIngresos = ({
         amout: createFinance.amount,
         bank: createFinance.bank,
         type: createFinance.name,
+        DocumentDate: createFinance.DocumentDate,
         financialSubCategoryId: createFinance.subCategory,
         referenceId: createFinance.project,
       };
