@@ -10,7 +10,8 @@ import {
   getSubCategory,
   postFinalMovementstData,
 } from '@/app/api/data';
-import { useReloadMovements } from '@/store/store';
+import { useDateStore, useReloadMovements } from '@/store/store';
+import Datepicker from '../common/Datepicker';
 // import { cleanTaxId, formatTaxId } from '@/helpers/capitaliizeFirstLetter';
 
 interface Props {
@@ -22,7 +23,7 @@ interface Props {
 interface CreateFinanceData {
   client: string;
   project: string;
-  // date: string;
+  DocumentDate: string;
   bank: string;
   amount: string;
   description: string;
@@ -40,10 +41,11 @@ const ModalCreateFinanceIngresos = ({
   const [clients, setClients] = useState([]);
   const [subCategories, setSubCategories] = useState([]);
   const [projects, setProjects] = useState([]);
+  const { selectedDate } = useDateStore();
   const [createFinance, setCreateFinance] = useState<CreateFinanceData>({
     client: '',
     project: '',
-    // date: '',
+    DocumentDate: selectedDate,
     bank: '',
     amount: '',
     description: '',
@@ -107,6 +109,13 @@ const ModalCreateFinanceIngresos = ({
 
     fetchProjects();
   }, []);
+
+  useEffect(() => {
+    setCreateFinance((prevState) => ({
+      ...prevState,
+      DocumentDate: selectedDate,
+    }));
+  }, [selectedDate]);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setCreateFinance({
@@ -266,6 +275,11 @@ const ModalCreateFinanceIngresos = ({
                 onChange={handleInputChange}
                 value={createFinance.amount}
               />
+            </div>
+          </div>
+          <div className='flex items-center justify-between gap-5'>
+            <div>
+              <Datepicker />
             </div>
           </div>
 

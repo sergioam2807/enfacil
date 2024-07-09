@@ -45,6 +45,11 @@ interface ReloadMovements {
   setUpdateFinancialMovements: (updateFinancialMovements: boolean) => void;
 }
 
+interface DateFinancial {
+  selectedDate: string;
+  setSelectedDate: (date: string) => void;
+}
+
 export const useClientQuoteStore = create<Store>((set) => ({
   clientId: 0,
   title: '',
@@ -87,4 +92,9 @@ export const useReloadMovements = create<ReloadMovements>((set) => ({
   updateFinancialMovements: false,
   setUpdateFinancialMovements: (updateFinancialMovements: boolean) =>
     set({ updateFinancialMovements }),
+}));
+
+export const useDateStore = create<DateFinancial>((set) => ({
+  selectedDate: '',
+  setSelectedDate: (date: string) => set({ selectedDate: date }),
 }));
