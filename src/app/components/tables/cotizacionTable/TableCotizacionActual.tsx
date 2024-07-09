@@ -70,11 +70,13 @@ const TableCotizacionActual = ({ cotizacionData, onTotalChange }: any) => {
 
   const calculateTotals = (enclosureData: Cotizacion[]) => {
     const materialsTotal = enclosureData.reduce(
-      (total, item) => total + item.materialsTotal * item.unityCount,
+      (total, item) =>
+        total + item.materialsTotal * item.unityCount * (1 + item.margin / 100),
       0
     );
     const manPowerTotal = enclosureData.reduce(
-      (total, item) => total + item.manPowerTotal * item.unityCount,
+      (total, item) =>
+        total + item.manPowerTotal * item.unityCount * (1 + item.margin / 100),
       0
     );
     const generalExpenses = materialsTotal + manPowerTotal;
