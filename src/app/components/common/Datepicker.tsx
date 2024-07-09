@@ -55,12 +55,7 @@ const Datepicker = () => {
       })
     );
 
-    let formattedDate =
-      ('0' + (selectedDate.getMonth() + 1)).slice(-2) +
-      '/' +
-      ('0' + selectedDate.getDate()).slice(-2) +
-      '/' +
-      selectedDate.getFullYear();
+    let formattedDate = selectedDate.toISOString();
 
     setSelectedDate(formattedDate);
 
