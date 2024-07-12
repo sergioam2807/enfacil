@@ -1,10 +1,10 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import TitleComponent from '../common/TitleComponent';
 import { formatPrice } from '@/helpers/capitaliizeFirstLetter';
 import { useRouter } from 'next/navigation';
 import InputComponent from '../input/InputComponent';
-import { postProjectData } from '@/app/api/data';
+import { getClientResponseData, postProjectData } from '@/app/api/data';
 
 interface ModalCotizacionProps {
   quoteFinalData: any;
@@ -16,9 +16,22 @@ const ModalCotizacion = ({
 }: ModalCotizacionProps) => {
   const router = useRouter();
   const [projectName, setProjectName] = useState('');
+  const [clientId, setClientId] = useState('');
+  const [clientData, setClientData] = useState<{ id: number; name: string }[]>(
+    []
+  );
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setProjectName(event.target.value);
+  const handleInputChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    const value = event.target.value;
+    const name = event.target.name;
+
+    if (name === 'projectName') {
+      setProjectName(value);
+    } else if (name === 'clientId') {
+      setClientId(value);
+    }
   };
 
   const handleConvertToProject = async () => {
@@ -28,11 +41,14 @@ const ModalCotizacion = ({
       throw new Error('No token found in local storage');
     }
 
+    console.log('clientId', clientId);
     const projectData = {
       quoteId: quoteFinalData?.id,
       name: projectName,
+      clientId: Number(clientId),
     };
 
+    console.log('projectData', projectData);
     try {
       const data = await postProjectData(token, projectData);
       console.log(data);
@@ -48,6 +64,23 @@ const ModalCotizacion = ({
       console.error(error);
     }
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const token = localStorage.getItem('token');
+
+      if (token) {
+        try {
+          const response = await getClientResponseData(token);
+          setClientData(response?.data);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <div className='fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center'>
@@ -82,12 +115,12 @@ const ModalCotizacion = ({
               {formatPrice(quoteFinalData?.totalMPUnitPrice ?? 0)}
             </span>
           </div>
-          {/* <div className="flex justify-between">
-            <span className="text-[#797979] font-medium ">
+          <div className='flex justify-between'>
+            <span className='text-[#797979] font-medium '>
               Gastos generales
             </span>
-            <span className="text-[#797979] font-medium ">$0</span>
-          </div> */}
+            <span className='text-[#797979] font-medium '>$0</span>
+          </div>
           <div className='flex justify-between'>
             <span className='text-[#797979] font-medium '>Total final</span>
             <span className='text-custom-blue font-medium '>
@@ -98,12 +131,26 @@ const ModalCotizacion = ({
         </div>
         <InputComponent
           nameVizualization='Nombre del Proyecto'
-          name='name'
+          name='projectName'
           placeholder='Nombre del proyecto'
           onChange={handleInputChange}
           value={projectName}
         />
-
+        <select
+          name='clientId'
+          onChange={handleInputChange}
+          className='px-4 py-2 border rounded-md text-gray-700 bg-white shadow'
+        >
+          <option value='' disabled selected>
+            Selecciona un cliente
+          </option>
+          {clientData &&
+            clientData.map((client, index) => (
+              <option key={index} value={client.id}>
+                {client.name}
+              </option>
+            ))}
+        </select>
         <div className='flex justify-end items-center gap-6 pt-5'>
           <div className='flex justify-end mt-4'>
             <button

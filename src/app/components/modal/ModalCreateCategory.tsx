@@ -78,6 +78,7 @@ const ModalCreateCategory = ({ onClose }: ModalCreateCategoryProps) => {
       const categoryData = {
         name: name,
         description: description,
+        type: 'I',
       };
       if (token) {
         try {

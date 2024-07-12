@@ -194,7 +194,6 @@ export default function Cotizaciones() {
                 console.error(`Activity not found: ${activityName}`);
                 return null;
               }
-
               return {
                 quoteEnclosureId: 0,
                 activityId: activity.id,
@@ -204,7 +203,9 @@ export default function Cotizaciones() {
                 activityMarginPercentage: correspondingEnclosure?.margin,
                 activityAdvancementPercentage: 10,
               };
-            });
+            })
+            .filter((activity) => activity !== null);
+          console.log('activity', activities);
 
           return {
             quoteId: quoteId,

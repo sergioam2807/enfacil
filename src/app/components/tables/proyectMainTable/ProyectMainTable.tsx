@@ -7,10 +7,19 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { formatDate } from '@/helpers/capitaliizeFirstLetter';
 
+interface Client {
+  id: number;
+  name: string;
+  email: string;
+  phone: string;
+  taxId: string;
+  address: string;
+  created: string;
+}
 interface Proyect {
   id: number;
   name: string;
-  client: string;
+  client: Client;
   startDate: string;
   finishDate: string;
   vigency: string;
@@ -49,7 +58,7 @@ const ProyectMainTable = ({ proyectData, handleDelete }: proyectProps) => {
                 {row.name ?? '-'}
               </Link>
             </TableCell>
-            <TableCell>{row.client ?? '-'}</TableCell>
+            <TableCell>{row.client?.name ?? '-'}</TableCell>
             <TableCell>{formatDate(row.created) ?? '-'}</TableCell>
             <TableCell>{formatDate(row.updated) ?? '-'}</TableCell>
             <TableCell>
