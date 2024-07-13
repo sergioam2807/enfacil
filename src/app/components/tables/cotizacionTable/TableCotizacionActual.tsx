@@ -54,6 +54,9 @@ const TableCotizacionActual = ({ cotizacionData, onTotalChange }: any) => {
     });
   };
 
+  useEffect(() => {
+    setEnclosureQuotePost(enclosureAdded);
+  }, [enclosureAdded]);
   const handleMarginChange = (
     event: React.ChangeEvent<HTMLInputElement>,
     id: string

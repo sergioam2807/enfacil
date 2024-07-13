@@ -67,14 +67,14 @@ const ProyectMainTable = ({ proyectData, handleDelete }: proyectProps) => {
             <TableCell>
               <span className='text-sm'>{(row.advance || 0) + '%'}</span>
             </TableCell>
-            <td className='text-left text-base'>
-              <TableCell>
-                <button onClick={() => handleDelete(row.id)}>
-                  {' '}
-                  <Image src={trash} alt='Eliminar' width={15} height={15} />
-                </button>
-              </TableCell>
-            </td>
+            <tr className='text-left text-base'>
+              {/* <TableCell> */}
+              <button onClick={() => handleDelete(row.id)}>
+                {' '}
+                <Image src={trash} alt='Eliminar' width={15} height={15} />
+              </button>
+              {/* </TableCell> */}
+            </tr>
           </tr>
         ))}
       </tbody>

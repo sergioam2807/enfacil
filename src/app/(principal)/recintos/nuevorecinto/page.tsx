@@ -1,19 +1,19 @@
-"use client";
+'use client';
 import {
   getActivityEnclosure,
   getActivityTokenData,
   postEnclosureData,
-} from "@/app/api/data";
-import { ActivityChip } from "@/app/components/chip/ChipSelected";
-import { CreateButton } from "@/app/components/common/CreateButton";
-import TitleComponent from "@/app/components/common/TitleComponent";
-import InputComponent from "@/app/components/input/InputComponent";
-import ActividadesEnclosureTable from "@/app/components/tables/actividadesTable/ActividadesEnclosureTable.";
-import BaseTableCard from "@/app/components/tables/table/BaseTableCard";
-import { capitalizeFirstLetter } from "@/helpers/capitaliizeFirstLetter";
+} from '@/app/api/data';
+import { ActivityChip } from '@/app/components/chip/ChipSelected';
+import { CreateButton } from '@/app/components/common/CreateButton';
+import TitleComponent from '@/app/components/common/TitleComponent';
+import InputComponent from '@/app/components/input/InputComponent';
+import ActividadesEnclosureTable from '@/app/components/tables/actividadesTable/ActividadesEnclosureTable.';
+import BaseTableCard from '@/app/components/tables/table/BaseTableCard';
+import { capitalizeFirstLetter } from '@/helpers/capitaliizeFirstLetter';
 // import { useRouter } from "next/navigation";
-import { useCallback, useState } from "react";
-import { useEffect } from "react";
+import { useCallback, useState } from 'react';
+import { useEffect } from 'react';
 
 interface Enclosure {
   activitiesInEnclosure: string;
@@ -40,15 +40,15 @@ const AñadirRecinto = () => {
   const [enclosureData, setEnclosureData] = useState<EnclosureData | null>(
     null
   );
-  const [selectedActivity, setSelectedActivity] = useState("");
+  const [selectedActivity, setSelectedActivity] = useState('');
   const [enclosure, setEnclosure] = useState({
-    activitiesInEnclosure: "",
-    name: "",
+    activitiesInEnclosure: '',
+    name: '',
   });
   // const navigation = useRouter();
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem('token');
     if (token) {
       setToken(token);
     }
@@ -73,10 +73,10 @@ const AñadirRecinto = () => {
       if (
         enclosureData?.data &&
         enclosureData.data.length > 0 &&
-        "activitiesInEnclosure" in enclosureData.data[0]
+        'activitiesInEnclosure' in enclosureData.data[0]
       ) {
         const activitiesArray =
-          enclosureData.data[0].activitiesInEnclosure.split(", ");
+          enclosureData.data[0].activitiesInEnclosure.split(', ');
         setActivitiesArray(activitiesArray);
       }
     }
@@ -96,14 +96,14 @@ const AñadirRecinto = () => {
     if (selectedActivity) {
       setEnclosure((prevForm) => {
         const newActivities = prevForm.activitiesInEnclosure
-          ? prevForm.activitiesInEnclosure + ", " + selectedActivity
+          ? prevForm.activitiesInEnclosure + ', ' + selectedActivity
           : selectedActivity;
         return {
           ...prevForm,
           activitiesInEnclosure: newActivities,
         };
       });
-      setSelectedActivity("");
+      setSelectedActivity('');
     }
   };
 
@@ -120,7 +120,7 @@ const AñadirRecinto = () => {
       fetchActivitysData();
       setEnclosure((prevForm) => ({
         ...prevForm,
-        activitiesInEnclosure: "",
+        activitiesInEnclosure: '',
       }));
       console.log(response);
     }
@@ -130,9 +130,9 @@ const AñadirRecinto = () => {
   const handleRemoveActivity = (activityToRemove: string) => {
     setEnclosure((prevForm) => {
       const newActivities = prevForm.activitiesInEnclosure
-        .split(", ")
+        .split(', ')
         .filter((activity) => activity !== activityToRemove)
-        .join(", ");
+        .join(', ');
       return {
         ...prevForm,
         activitiesInEnclosure: newActivities,
@@ -141,41 +141,41 @@ const AñadirRecinto = () => {
   };
 
   return (
-    <div className="pr-5 pb-5">
+    <div className='pr-5 pb-5'>
       <div>
-        <TitleComponent titleName={"Recintos"} />
+        <TitleComponent titleName={'Recintos'} />
       </div>
-      <div className="flex justify-between items-center pb-5">
-        <div className="w-1/3">
-          <p className="text-[#0E436B] text-lg font-semibold">
+      <div className='flex justify-between items-center pb-5'>
+        <div className='w-1/3'>
+          <p className='text-[#0E436B] text-lg font-semibold'>
             Añade un recinto
           </p>
           <div>
             <InputComponent
-              name="enclosure"
+              name='enclosure'
               value={enclosure.name}
               onChange={handleTitleChange}
-              placeholder="Nombre Recinto"
+              placeholder='Nombre Recinto'
             />
           </div>
         </div>
-        <div className="w-1/3">
-          <p className="text-[#0E436B] text-lg font-semibold">
+        <div className='w-1/3'>
+          <p className='text-[#0E436B] text-lg font-semibold'>
             Selecciona una actividad
           </p>
-          <div className="flex items-end gap-4">
-            <div className="mt-4 flex-grow">
+          <div className='flex items-end gap-4'>
+            <div className='mt-4 flex-grow'>
               <select
-                name="activity"
+                name='activity'
                 onChange={handleActivityChange}
-                className="w-full mt-1 py-3 pl-2 text-sm font-medium border rounded-md focus:outline-none focus:border-[#EFF4FC]"
+                className='w-full mt-1 py-3 pl-2 text-sm font-medium border rounded-md focus:outline-none focus:border-[#EFF4FC]'
               >
-                <option value="">Selecciona una actividad</option>
+                <option value=''>Selecciona una actividad</option>
                 {activityData?.map((activity, index) => (
                   <option
                     key={index}
-                    value={activity.name || ""}
-                    className="w-full mt-1 py-3 pl-2 text-sm font-medium border rounded-md focus:outline-none focus:border-[#EFF4FC]"
+                    value={activity.name || ''}
+                    className='w-full mt-1 py-3 pl-2 text-sm font-medium border rounded-md focus:outline-none focus:border-[#EFF4FC]'
                   >
                     {activity.name}
                   </option>
@@ -184,27 +184,27 @@ const AñadirRecinto = () => {
             </div>
             <button
               onClick={handleAddActivity}
-              className="py-2 px-4 mb-1 bg-custom-green text-white rounded-md"
+              className='py-2 px-4 mb-1 bg-custom-green text-white rounded-md'
             >
               +
             </button>
           </div>
         </div>
-        <div className="flex gap-4">
+        <div className='flex gap-4'>
           <div>
             <CreateButton
               onclick={handlePostEnclosure}
-              title="Añadir"
+              title='Añadir Nuevo Recinto'
               iconSize={14}
-              bgcolor="#0E436B"
+              bgcolor='#0E436B'
             />
           </div>
         </div>
       </div>
 
-      <div className="mt-1">
-        {enclosure.activitiesInEnclosure.split(", ").map((activity, index) => {
-          if (activity.trim() !== "") {
+      <div className='mt-1'>
+        {enclosure.activitiesInEnclosure.split(', ').map((activity, index) => {
+          if (activity.trim() !== '') {
             return (
               <ActivityChip
                 key={index}
@@ -221,7 +221,7 @@ const AñadirRecinto = () => {
           ? (() => {
               let activitiesArray = enclosure.activitiesInEnclosure
                 ? enclosure.activitiesInEnclosure
-                    .split(",")
+                    .split(',')
                     .map((activity) => activity.trim())
                 : [];
               let filteredActivityData = activityData.filter(

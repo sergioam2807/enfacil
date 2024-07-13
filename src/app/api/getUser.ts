@@ -4,7 +4,6 @@ export async function getUserData(id?: string) {
   const cookieStore = cookies();
   const token = cookieStore.get('token')?.value;
 
-  console.log('token', token);
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/UserApi/GetUsers${id ? `/${id}` : ''}`,
     {

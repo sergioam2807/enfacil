@@ -33,6 +33,9 @@ export default function Cotizaciones() {
     generalExpenses: 0,
     finalTotal: 0,
   });
+  const [generalExpensesInput, setGeneralExpensesInput] = useState(
+    `$${quoteTotal.generalExpenses}`
+  );
   const [searchTerm, setSearchTerm] = useState('');
   const [allEnclosureData, setAllEnclosureData] = useState(enclosureData);
   const [filteredEnclosureData, setFilteredEnclosureData] =
@@ -177,6 +180,7 @@ export default function Cotizaciones() {
         quote: {
           title: title,
           clientId: clientId,
+          //add general expenses
         },
         quoteEnclosures: enclosureAdded.map((enclosure: Enclosure) => {
           // Find the corresponding enclosure from the enclosureQuotePost data
@@ -226,6 +230,45 @@ export default function Cotizaciones() {
         route.push('/listado-cotizaciones');
       }
     }
+  };
+
+  const handleGeneralExpensesChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const value = event.target.value.replace('$', '');
+
+    // If the input is empty, set it to 0
+    if (value === '') {
+      setGeneralExpensesInput('$0');
+      setQuoteTotal((prevState) => ({
+        ...prevState,
+        generalExpenses: 0,
+        finalTotal: prevState.materials + prevState.manPower,
+      }));
+      return;
+    }
+
+    // Ignore non-numeric input
+    if (!/^[\d.]+$/.test(value)) {
+      return;
+    }
+
+    setGeneralExpensesInput(`$${value}`);
+
+    const numberValue = parseFloat(value);
+
+    setQuoteTotal((prevState) => {
+      const generalExpenses = isNaN(numberValue)
+        ? prevState.generalExpenses
+        : numberValue;
+      const finalTotal =
+        prevState.materials + prevState.manPower + generalExpenses;
+      return {
+        ...prevState,
+        generalExpenses: generalExpenses,
+        finalTotal: finalTotal,
+      };
+    });
   };
 
   return (
@@ -297,14 +340,17 @@ export default function Cotizaciones() {
               {formatPrice(quoteTotal.manPower)}
             </span>
           </div>
-          {/*<div className="flex justify-between">
-            <span className="text-[#0E436B] font-semibold text-md ">
+          <div className='flex justify-between'>
+            <span className='text-[#0E436B] font-semibold text-md '>
               Gastos generales
             </span>
-            <span className="text-[#797979] font-semibold text-md ">
-              {formatPrice(quoteTotal.generalExpenses)}
-            </span>
-  </div>*/}
+            <input
+              type='text'
+              value={generalExpensesInput}
+              onChange={handleGeneralExpensesChange}
+              className='text-[#797979] font-semibold text-md text-right border border-gray-300 focus:border-gray-500'
+            />
+          </div>
           <div className='flex justify-between'>
             <span className='text-[#0E436B] font-semibold text-md '>
               Total Final
