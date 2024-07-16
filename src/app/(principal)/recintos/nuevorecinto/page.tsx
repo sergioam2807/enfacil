@@ -11,6 +11,7 @@ import InputComponent from '@/app/components/input/InputComponent';
 import ActividadesEnclosureTable from '@/app/components/tables/actividadesTable/ActividadesEnclosureTable.';
 import BaseTableCard from '@/app/components/tables/table/BaseTableCard';
 import { capitalizeFirstLetter } from '@/helpers/capitaliizeFirstLetter';
+import { useRouter } from 'next/navigation';
 // import { useRouter } from "next/navigation";
 import { useCallback, useState } from 'react';
 import { useEffect } from 'react';
@@ -45,7 +46,7 @@ const AñadirRecinto = () => {
     activitiesInEnclosure: '',
     name: '',
   });
-  // const navigation = useRouter();
+  const navigation = useRouter();
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -124,7 +125,7 @@ const AñadirRecinto = () => {
       }));
       console.log(response);
     }
-    // navigation.push("/recintos");
+    navigation.push('/recintos');
   };
 
   const handleRemoveActivity = (activityToRemove: string) => {
@@ -194,7 +195,7 @@ const AñadirRecinto = () => {
           <div>
             <CreateButton
               onclick={handlePostEnclosure}
-              title='Añadir Nuevo Recinto'
+              title='Finalizar'
               iconSize={14}
               bgcolor='#0E436B'
             />

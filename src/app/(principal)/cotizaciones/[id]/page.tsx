@@ -50,7 +50,6 @@ export default function CotizacionDetalle({
   const [quoteFinalData, setQuoteFinalData] = useState<QuoteData | null>(null);
   const [quoteInfo, setQuoteInfo] = useState<QuoteInfo | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
-  const [quoteId, setQuoteId] = useState(null);
   const [quoteData, setQuoteData] = useState<QuoteData | null>(null);
   const [activitysData, setActivityData] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -133,6 +132,10 @@ export default function CotizacionDetalle({
     return <div>Loading...</div>;
   }
 
+  console.log('quoteData', quoteData);
+
+  console.log('quoteinfor', quoteInfo);
+
   const dataToPass = params.id
     ? quoteInfo?.enclosures.map((enclosureInfo) => ({
         ...enclosureInfo,
@@ -152,6 +155,8 @@ export default function CotizacionDetalle({
               enclosureInfo.activityOne.trim().toLowerCase()
           )?.metricUnit ?? 'null',
       }));
+
+  console.log('dataToPass', dataToPass);
 
   return (
     <div className='pr-5 pb-5'>

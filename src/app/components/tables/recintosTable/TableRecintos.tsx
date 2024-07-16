@@ -130,8 +130,8 @@ const TableRecinto = ({ recintoData, activitys }: recintoProps) => {
         <ShowEnclosures
           data={filteredActivities.map((activity: any) => ({
             actividad: activity.name,
-            avance: activity.averageTime, // reemplzar con advance
-            // encargado: "Encargado 1", // Reemplazar con encargado
+            avance: activity.averageTime,
+            encargado: 'Encargado 1',
             totalActividad:
               activity.manPowerUnitPricing + activity.materialsUnitPricing,
           }))}

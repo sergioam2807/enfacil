@@ -19,6 +19,8 @@ import { useClientQuoteStore, useQuotePostData } from '@/store/store';
 import { Enclosure } from './[id]/page';
 import Search from '@/app/components/common/Search';
 import { act } from 'react-dom/test-utils';
+import { useFullQuoteData, useSelectedIdStore } from '@/store/quote-store';
+import TableEditCotizacionActual from '@/app/components/tables/cotizacionTable/TableEditCotizacionActual';
 
 export default function Cotizaciones() {
   const [enclosureData, setEnclosureData] = useState<any[]>([]);
@@ -42,6 +44,8 @@ export default function Cotizaciones() {
     useState(enclosureData);
   const { clientId, title, quoteId, clientName } = useClientQuoteStore();
   const { enclosureQuotePost } = useQuotePostData();
+  const { selectedId } = useSelectedIdStore();
+  const { fullQuoteData } = useFullQuoteData();
 
   const route = useRouter();
 
@@ -271,6 +275,12 @@ export default function Cotizaciones() {
     });
   };
 
+  const selectedQuote = fullQuoteData.find(
+    (quote: any) => quote.id === selectedId
+  );
+
+  console.log('selectedQuote', selectedQuote);
+
   return (
     <div className='pr-5 pb-5'>
       <div>
@@ -279,9 +289,11 @@ export default function Cotizaciones() {
             <TitleComponent titleName={'Cotización'} />
           </div>
         </div>
-        <div className='text-[#0E436B] font-semibold text-xl mb-4'>{title}</div>
         <div className='text-[#0E436B] font-semibold text-xl mb-4'>
-          Cliente: {clientName}
+          {!selectedId ? title : selectedQuote?.title}
+        </div>
+        <div className='text-[#0E436B] font-semibold text-xl mb-4'>
+          Cliente: {!selectedId ? clientName : selectedQuote?.client?.name}
         </div>
         <div className='bg-white mb-7  w-2/3'>
           <Suspense fallback={<span>Cargando...</span>}>
@@ -311,10 +323,18 @@ export default function Cotizaciones() {
       </div>
       <div className={`h-[300px] overflow-y-auto`}>
         <BaseTableCard>
-          <TableCotizacionActual
-            cotizacionData={combinedData}
-            onTotalChange={handleTotalChange}
-          />
+          {!selectedId ? (
+            <TableCotizacionActual
+              cotizacionData={combinedData}
+              onTotalChange={handleTotalChange}
+            />
+          ) : (
+            <TableEditCotizacionActual
+              cotizacionData={selectedQuote}
+              onTotalChange={handleTotalChange}
+              id={selectedId}
+            />
+          )}
         </BaseTableCard>
       </div>
       <div>
