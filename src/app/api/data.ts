@@ -892,6 +892,31 @@ export async function getFinancialMovements(token?: string) {
   return res.json();
 }
 
+export const updateGeneralExpenses = async (
+  token: string,
+  quoteUpdate: any
+) => {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/QuoteApi/UpdateQuote`,
+    {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(quoteUpdate),
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+
+  const data = await response.json();
+
+  return data;
+};
+
 export async function deleteFinancialMovement(token: string, id: number) {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/FinancialMovementsApi/DeleteFinancialMovements?id=${id}`,

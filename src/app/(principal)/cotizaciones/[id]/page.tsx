@@ -136,16 +136,17 @@ export default function CotizacionDetalle({
     return <div>Loading...</div>;
   }
 
-  console.log('fullQuoteData', fullQuoteData);
-
   let dataToPass: any = [];
-
-  console.log('activitydata', activitysData);
 
   fullQuoteData.forEach((quote: any) => {
     if (quote.id === Number(params.id)) {
       quote.quoteEnclosures.forEach((enclosure: any) => {
         enclosure.quoteEnclosureActivities.forEach((activity: any) => {
+          let totalManPower =
+            activity.activityMPUnitPrice * activity.activityUnits;
+          let totalMaterials =
+            activity.activityMaterialsUnitPrice * activity.activityUnits;
+
           let activityData = {
             title: quote.title,
             enclosure: enclosure.enclosure.name,
@@ -160,16 +161,10 @@ export default function CotizacionDetalle({
             units: activity.activityUnits,
             manPowerUnitPrice: activity.activityMPUnitPrice,
             materialsUnitPrice: activity.activityMaterialsUnitPrice,
-            totalManPower:
-              activity.activityMPUnitPrice * activity.activityUnits,
-            totalMaterials:
-              activity.activityMaterialsUnitPrice * activity.activityUnits,
+            totalManPower: totalManPower,
+            totalMaterials: totalMaterials,
             margin: activity.activityMarginPercentage,
-            totalActivity:
-              (activity.activityMPUnitPrice +
-                activity.activityMaterialsUnitPrice) *
-              activity.activityUnits *
-              (1 + activity.activityMarginPercentage / 100),
+            totalActivity: totalManPower + totalMaterials,
           };
 
           // Agrega el nuevo objeto a dataToPass
@@ -269,7 +264,8 @@ export default function CotizacionDetalle({
             <span className='text-[#797979] font-semibold text-md '>
               {formatPrice(
                 (params.id
-                  ? quoteData?.data[0]?.totalMargin
+                  ? quoteData?.data[0]?.totalMPUnitPrice +
+                    quoteData?.data[0]?.totalMaterialsUnitPrice
                   : quoteFinalData?.totals?.finalTotal) ?? 0
               )}
             </span>

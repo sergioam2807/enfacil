@@ -10,9 +10,7 @@ import {
   getEnclosureData,
   insertQuoteEnclosureActivities,
   insertQuoteEnclosures,
-  postQuoteEnclosure,
-  postQuoteEnclosuresMultipleActivities,
-  postQuoteWhitEnclosureData,
+  updateGeneralExpenses,
 } from '@/app/api/data';
 import { formatPrice } from '@/helpers/capitaliizeFirstLetter';
 import { useRouter } from 'next/navigation';
@@ -20,7 +18,6 @@ import { useRouter } from 'next/navigation';
 import { useClientQuoteStore, useQuotePostData } from '@/store/store';
 import { Enclosure } from './[id]/page';
 import Search from '@/app/components/common/Search';
-import { act } from 'react-dom/test-utils';
 import { useFullQuoteData, useSelectedIdStore } from '@/store/quote-store';
 import TableEditCotizacionActual from '@/app/components/tables/cotizacionTable/TableEditCotizacionActual';
 
@@ -44,7 +41,7 @@ export default function Cotizaciones() {
   const [allEnclosureData, setAllEnclosureData] = useState(enclosureData);
   const [filteredEnclosureData, setFilteredEnclosureData] =
     useState(enclosureData);
-  const { title, quoteId, clientName } = useClientQuoteStore();
+  const { title, quoteId, clientName, clientId } = useClientQuoteStore();
   const { enclosureQuotePost } = useQuotePostData();
   const { selectedId } = useSelectedIdStore();
   const { fullQuoteData } = useFullQuoteData();
@@ -133,8 +130,6 @@ export default function Cotizaciones() {
     return map;
   }, {});
 
-  console.log('fullQuoteData', fullQuoteData);
-
   const handleFinishQuote = async () => {
     const token = localStorage.getItem('token');
     const quoteDataItem = localStorage.getItem('quoteData');
@@ -164,8 +159,6 @@ export default function Cotizaciones() {
             const correspondingEnclosure = enclosureQuotePost.find(
               (enclosure: any) => enclosure.id === enclosureAdded[index].id
             );
-
-            console.log(correspondingEnclosure);
 
             if (!correspondingEnclosure) {
               console.error(
@@ -211,6 +204,19 @@ export default function Cotizaciones() {
         for (const activity of quoteEnclosureActivities) {
           await insertQuoteEnclosureActivities(token, activity);
         }
+        //UPDATE QUOTE GENERAL EXPENSES
+        // const quoteUpdateData = {
+        //   clientId: clientId,
+        //   id: quoteId,
+        //   title: title,
+        //   generalExpenses: quoteTotal.generalExpenses,
+        // };
+
+        // try {
+        //   updateGeneralExpenses(token, quoteUpdateData);
+        // } catch (error) {
+        //   console.error(error);
+        // }
       } catch (error) {
         console.error(error);
       } finally {
@@ -257,6 +263,11 @@ export default function Cotizaciones() {
       };
     });
   };
+
+  console.log(
+    'generalExpenses: quoteTotal.generalExpenses',
+    quoteTotal.generalExpenses
+  );
 
   const selectedQuote = fullQuoteData.find(
     (quote: any) => quote.id === selectedId
