@@ -205,14 +205,14 @@ const TableEditCotizacionActual = ({ onTotalChange }: any) => {
                 className='border rounded w-1/2 py-2 px-3 text-grey-darker'
               />
             </TableCell>
-            <TableCell>{formatPrice(row.manPowerTotal) ?? '-'}</TableCell>
-            <TableCell>{formatPrice(row.materialsTotal) ?? '-'}</TableCell>
             <TableCell>
-              {formatPrice(row.manPowerTotal * Number(row.unityCount)) || '-'}
+              {formatPrice(row?.precioManoObraUnitario ?? 0) ?? '-'}
             </TableCell>
             <TableCell>
-              {formatPrice(row.materialsTotal * Number(row.unityCount)) || '-'}
+              {formatPrice(row?.precioMaterialesUnitario ?? 0) ?? '-'}
             </TableCell>
+            <TableCell>{formatPrice(row.manPowerTotal) || '-'}</TableCell>
+            <TableCell>{formatPrice(row.materialsTotal) || '-'}</TableCell>
             <TableCell>
               <div className='flex items-center'>
                 <input
@@ -225,11 +225,7 @@ const TableEditCotizacionActual = ({ onTotalChange }: any) => {
               </div>
             </TableCell>
             <TableCell>
-              {formatPrice(
-                (row.manPowerTotal * Number(row.unityCount) +
-                  row.materialsTotal * Number(row.unityCount)) *
-                  (1 + row.margin / 100)
-              ) || '-'}
+              {formatPrice(row.manPowerTotal + row.materialsTotal) || '-'}
             </TableCell>
           </tr>
         ))}

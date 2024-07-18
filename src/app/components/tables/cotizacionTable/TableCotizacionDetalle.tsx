@@ -6,6 +6,7 @@ import { formatPrice } from '@/helpers/capitaliizeFirstLetter';
 import { Enclosure } from '@/app/(principal)/cotizaciones/[id]/page';
 
 const TableCotizacionDetalle = ({ quoteFinalData }: any) => {
+  console.log('quoteFinalData', quoteFinalData);
   return (
     <table className='w-full table-auto '>
       <thead>
@@ -32,22 +33,17 @@ const TableCotizacionDetalle = ({ quoteFinalData }: any) => {
             <TableCell>{row?.activityOne ?? '-'}</TableCell>
             <TableCell>{row?.metricUnit ?? '-'}</TableCell>
             <TableCell>{row?.unityCount ?? '-'}</TableCell>
-            <TableCell>{formatPrice(row?.manPowerTotal) ?? '-'}</TableCell>
-            <TableCell>{formatPrice(row.materialsTotal) ?? '-'}</TableCell>
             <TableCell>
-              {formatPrice(row?.manPowerTotal * Number(row?.unityCount)) || '-'}
+              {formatPrice(row?.precioManoObraUnitario ?? 0) ?? '-'}
             </TableCell>
             <TableCell>
-              {formatPrice(row?.materialsTotal * Number(row?.unityCount)) ||
-                '-'}
+              {formatPrice(row?.precioMaterialesUnitario ?? 0) ?? '-'}
             </TableCell>
+            <TableCell>{formatPrice(row?.manPowerTotal) || '-'}</TableCell>
+            <TableCell>{formatPrice(row?.materialsTotal) || '-'}</TableCell>
             <TableCell>%{row?.margin ?? '-'}</TableCell>
             <TableCell>
-              {formatPrice(
-                (row?.manPowerTotal * Number(row?.unityCount) +
-                  row?.materialsTotal * Number(row?.unityCount)) *
-                  (1 + row?.margin / 100)
-              ) || '-'}
+              {formatPrice(row?.manPowerTotal + row?.materialsTotal) || '-'}
             </TableCell>
           </tr>
         ))}

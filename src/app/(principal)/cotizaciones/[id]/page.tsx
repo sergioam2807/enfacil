@@ -25,6 +25,8 @@ export interface Enclosure {
   unityCount: number;
   metricUnit: string;
   margin: number;
+  precioManoObraUnitario?: number;
+  precioMaterialesUnitario?: number;
 }
 
 interface Totals {
@@ -55,6 +57,8 @@ export default function CotizacionDetalle({
   const [loading, setLoading] = useState(true);
   const { quote } = useQuoteStore();
   const { enclosuresInfo } = useQuoteInfoStore();
+
+  console.log('enclosuresInfo', enclosuresInfo);
 
   const openModal = () => {
     setModalOpen(true);
