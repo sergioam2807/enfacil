@@ -45,6 +45,7 @@ export default function Cotizaciones() {
   const { enclosureQuotePost } = useQuotePostData();
   const { selectedId } = useSelectedIdStore();
   const { fullQuoteData } = useFullQuoteData();
+  const [isLoading, setIsLoading] = useState(true);
 
   const route = useRouter();
 
@@ -74,6 +75,7 @@ export default function Cotizaciones() {
           setEnclosureData(data?.data);
           setAllEnclosureData(data?.data);
           setFilteredEnclosureData(data?.data);
+          setIsLoading(false);
         });
 
         const fetchData = async () => {
@@ -298,12 +300,14 @@ export default function Cotizaciones() {
         </div>
       </div>
       <div className={`h-[300px] overflow-y-auto`}>
-        <BaseTableCard>
-          <TableCotizacion
-            cotizacionData={filteredEnclosureData}
-            onData={handleData}
-          />
-        </BaseTableCard>
+        {!isLoading && (
+          <BaseTableCard>
+            <TableCotizacion
+              cotizacionData={allEnclosureData}
+              onData={handleData}
+            />
+          </BaseTableCard>
+        )}
       </div>
 
       <div className='flex justify-between items-center'>
