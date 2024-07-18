@@ -133,71 +133,7 @@ export default function Cotizaciones() {
     return map;
   }, {});
 
-  // const handleFinishQuote = async () => {
-  //   const token = localStorage.getItem('token');
-  //   const quoteDataItem = localStorage.getItem('quoteData');
-
-  //   if (!quoteDataItem) {
-  //     console.error('quoteData not found in localStorage');
-  //     return;
-  //   }
-
-  //   const quoteData = JSON.parse(quoteDataItem);
-  //   if (token && quoteData) {
-  //     const quoteWithEnclosure = {
-  //       quote: {
-  //         title: title,
-  //         clientId: clientId,
-  //         //add general expenses
-  //       },
-  //       quoteEnclosures: enclosureAdded.map((enclosure: Enclosure) => {
-  //         // Find the corresponding enclosure from the enclosureQuotePost data
-  //         const correspondingEnclosure = enclosureQuotePost.find(
-  //           (data: any) => data.id === enclosure.id
-  //         );
-  //         // Map the activities of the enclosure
-  //         const activities = ['activityOne', 'activityTwo', 'activityThree']
-  //           .filter((activityName) => (enclosure as any)[activityName] !== '-')
-  //           .map((activityName) => {
-  //             const activity =
-  //               activityMapping[(enclosure as any)[activityName]];
-
-  //             if (!activity) {
-  //               console.error(`Activity not found: ${activityName}`);
-  //               return null;
-  //             }
-  //             return {
-  //               quoteEnclosureId: 0,
-  //               activityId: activity.id,
-  //               activityMPUnitPrice: activity.manPowerUnitPricing,
-  //               activityMaterialsUnitPrice: activity.materialsUnitPricing,
-  //               activityUnits: correspondingEnclosure?.unityCount,
-  //               activityMarginPercentage: correspondingEnclosure?.margin,
-  //               activityAdvancementPercentage: 10,
-  //             };
-  //           })
-  //           .filter((activity) => activity !== null);
-
-  //         return {
-  //           quoteId: quoteId,
-  //           enclosureID: enclosure.id,
-  //           quoteEnclosureActivities: activities,
-  //         };
-  //       }),
-  //     };
-  //     try {
-  //       const data = await postQuoteWhitEnclosureData(
-  //         token,
-  //         quoteWithEnclosure
-  //       );
-  //       console.log(data);
-  //     } catch (error) {
-  //       console.error(error);
-  //     } finally {
-  //       route.push('/listado-cotizaciones');
-  //     }
-  //   }
-  // };
+  console.log('fullQuoteData', fullQuoteData);
 
   const handleFinishQuote = async () => {
     const token = localStorage.getItem('token');

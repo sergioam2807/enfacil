@@ -28,22 +28,22 @@ const TableCotizacionDetalle = ({ quoteFinalData }: any) => {
             key={row?.id}
             className='text-[#797979] font-medium text-sm border-t border-[#EAEAEA]'
           >
-            <td className='text-left pb-8 pt-7 pl-10'>{row?.name ?? '-'}</td>
-            <TableCell>{row?.activityOne ?? '-'}</TableCell>
+            <td className='text-left pb-8 pt-7 pl-10'>
+              {row?.enclosure ?? '-'}
+            </td>
+            <TableCell>{row?.activity ?? '-'}</TableCell>
             <TableCell>{row?.metricUnit ?? '-'}</TableCell>
-            <TableCell>{row?.unityCount ?? '-'}</TableCell>
+            <TableCell>{row?.units ?? '-'}</TableCell>
             <TableCell>
-              {formatPrice(row?.precioManoObraUnitario ?? 0) ?? '-'}
+              {formatPrice(row?.manPowerUnitPrice ?? 0) ?? '-'}
             </TableCell>
             <TableCell>
-              {formatPrice(row?.precioMaterialesUnitario ?? 0) ?? '-'}
+              {formatPrice(row?.materialsUnitPrice ?? 0) ?? '-'}
             </TableCell>
-            <TableCell>{formatPrice(row?.manPowerTotal) || '-'}</TableCell>
-            <TableCell>{formatPrice(row?.materialsTotal) || '-'}</TableCell>
+            <TableCell>{formatPrice(row?.totalManPower) || '-'}</TableCell>
+            <TableCell>{formatPrice(row?.totalMaterials) || '-'}</TableCell>
             <TableCell>%{row?.margin ?? '-'}</TableCell>
-            <TableCell>
-              {formatPrice(row?.manPowerTotal + row?.materialsTotal) || '-'}
-            </TableCell>
+            <TableCell>{formatPrice(row?.totalActivity) || '-'}</TableCell>
           </tr>
         ))}
       </tbody>

@@ -11,6 +11,7 @@ import ModalCotizacion from '@/app/components/modal/ModalCotizacion';
 import { useQuoteInfoStore, useQuoteStore } from '@/store/store';
 import { QuoteInfo } from '@/helpers/getEnclosure';
 import { getActivityTokenData } from '@/app/api/data';
+import { useFullQuoteData } from '@/store/quote-store';
 
 export interface Enclosure {
   id: number;
@@ -57,6 +58,7 @@ export default function CotizacionDetalle({
   const [loading, setLoading] = useState(true);
   const { quote } = useQuoteStore();
   const { enclosuresInfo } = useQuoteInfoStore();
+  const { fullQuoteData } = useFullQuoteData();
 
   const openModal = () => {
     setModalOpen(true);
@@ -134,25 +136,59 @@ export default function CotizacionDetalle({
     return <div>Loading...</div>;
   }
 
-  const dataToPass = params.id
-    ? quoteInfo?.enclosures.map((enclosureInfo) => ({
-        ...enclosureInfo,
-        metricUnit:
-          activitysData.find(
-            (activity) =>
-              activity.name.trim().toLowerCase() ===
-              enclosureInfo.activityOne.trim().toLowerCase()
-          )?.metricUnit ?? 'null',
-      }))
-    : quoteFinalData?.enclosures.map((enclosureInfo) => ({
-        ...enclosureInfo,
-        metricUnit:
-          activitysData.find(
-            (activity) =>
-              activity.name.trim().toLowerCase() ===
-              enclosureInfo.activityOne.trim().toLowerCase()
-          )?.metricUnit ?? 'null',
-      }));
+  console.log('fullQuoteData', fullQuoteData);
+
+  let dataToPass: any = [];
+
+  fullQuoteData.forEach((quote: any) => {
+    if (quote.id === Number(params.id)) {
+      quote.quoteEnclosures.forEach((enclosure: any) => {
+        enclosure.quoteEnclosureActivities.forEach((activity: any) => {
+          let activityData = {
+            title: quote.title,
+            enclosure: enclosure.enclosure.name,
+            activity: activity.activityId,
+            units: activity.activityUnits,
+            manPowerUnitPrice: activity.activityMPUnitPrice,
+            materialsUnitPrice: activity.activityMaterialsUnitPrice,
+            totalManPower:
+              activity.activityMPUnitPrice * activity.activityUnits,
+            totalMaterials:
+              activity.activityMaterialsUnitPrice * activity.activityUnits,
+            margin: activity.activityMarginPercentage,
+            totalActivity:
+              (activity.activityMPUnitPrice +
+                activity.activityMaterialsUnitPrice) *
+              activity.activityUnits *
+              (1 + activity.activityMarginPercentage / 100),
+          };
+
+          // Agrega el nuevo objeto a dataToPass
+          dataToPass.push(activityData);
+        });
+      });
+    }
+  });
+
+  // const dataToPass = params.id
+  //   ? quoteInfo?.enclosures.map((enclosureInfo) => ({
+  //       ...enclosureInfo,
+  //       metricUnit:
+  //         activitysData.find(
+  //           (activity) =>
+  //             activity.name.trim().toLowerCase() ===
+  //             enclosureInfo.activityOne.trim().toLowerCase()
+  //         )?.metricUnit ?? 'null',
+  //     }))
+  //   : quoteFinalData?.enclosures.map((enclosureInfo) => ({
+  //       ...enclosureInfo,
+  //       metricUnit:
+  //         activitysData.find(
+  //           (activity) =>
+  //             activity.name.trim().toLowerCase() ===
+  //             enclosureInfo.activityOne.trim().toLowerCase()
+  //         )?.metricUnit ?? 'null',
+  //     }));
 
   return (
     <div className='pr-5 pb-5'>
