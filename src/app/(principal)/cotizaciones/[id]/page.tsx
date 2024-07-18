@@ -140,6 +140,8 @@ export default function CotizacionDetalle({
 
   let dataToPass: any = [];
 
+  console.log('activitydata', activitysData);
+
   fullQuoteData.forEach((quote: any) => {
     if (quote.id === Number(params.id)) {
       quote.quoteEnclosures.forEach((enclosure: any) => {
@@ -147,7 +149,14 @@ export default function CotizacionDetalle({
           let activityData = {
             title: quote.title,
             enclosure: enclosure.enclosure.name,
-            activity: activity.activityId,
+            activity:
+              activitysData.find(
+                (activityItem) => activityItem.id === activity.activityId
+              )?.name ?? '',
+            metricUnit:
+              activitysData.find(
+                (activityItem) => activityItem.id === activity.activityId
+              )?.metricUnit ?? '-',
             units: activity.activityUnits,
             manPowerUnitPrice: activity.activityMPUnitPrice,
             materialsUnitPrice: activity.activityMaterialsUnitPrice,
@@ -169,26 +178,6 @@ export default function CotizacionDetalle({
       });
     }
   });
-
-  // const dataToPass = params.id
-  //   ? quoteInfo?.enclosures.map((enclosureInfo) => ({
-  //       ...enclosureInfo,
-  //       metricUnit:
-  //         activitysData.find(
-  //           (activity) =>
-  //             activity.name.trim().toLowerCase() ===
-  //             enclosureInfo.activityOne.trim().toLowerCase()
-  //         )?.metricUnit ?? 'null',
-  //     }))
-  //   : quoteFinalData?.enclosures.map((enclosureInfo) => ({
-  //       ...enclosureInfo,
-  //       metricUnit:
-  //         activitysData.find(
-  //           (activity) =>
-  //             activity.name.trim().toLowerCase() ===
-  //             enclosureInfo.activityOne.trim().toLowerCase()
-  //         )?.metricUnit ?? 'null',
-  //     }));
 
   return (
     <div className='pr-5 pb-5'>

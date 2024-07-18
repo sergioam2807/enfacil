@@ -23,7 +23,7 @@ const TableCotizacionDetalle = ({ quoteFinalData }: any) => {
         </tr>
       </thead>
       <tbody>
-        {quoteFinalData?.map((row: Enclosure) => (
+        {quoteFinalData?.map((row: any) => (
           <tr
             key={row?.id}
             className='text-[#797979] font-medium text-sm border-t border-[#EAEAEA]'
