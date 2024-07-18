@@ -132,10 +132,6 @@ export default function CotizacionDetalle({
     return <div>Loading...</div>;
   }
 
-  console.log('quoteData', quoteData);
-
-  console.log('quoteinfor', quoteInfo);
-
   const dataToPass = params.id
     ? quoteInfo?.enclosures.map((enclosureInfo) => ({
         ...enclosureInfo,
@@ -155,8 +151,6 @@ export default function CotizacionDetalle({
               enclosureInfo.activityOne.trim().toLowerCase()
           )?.metricUnit ?? 'null',
       }));
-
-  console.log('dataToPass', dataToPass);
 
   return (
     <div className='pr-5 pb-5'>

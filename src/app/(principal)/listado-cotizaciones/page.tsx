@@ -59,8 +59,6 @@ export default function ListadoCotizaciones() {
     }
   };
 
-  console.log('quoteData', fullQuoteData);
-
   const handleDelete = async (id: number | null) => {
     const token = localStorage.getItem('token');
     if (token) {
@@ -111,7 +109,7 @@ export default function ListadoCotizaciones() {
               onclick={handleAddEnclosure}
             />
           </div>
-          <div>
+          {/* <div>
             <CreateButton
               title='Crear Cotización'
               iconSize={14}
@@ -122,7 +120,7 @@ export default function ListadoCotizaciones() {
             {show && (
               <ModalCreateQuote onClose={handleClose} clientData={clientData} />
             )}
-          </div>
+          </div> */}
         </div>
       </div>
       <div className={`h-[600px] overflow-y-auto`}>

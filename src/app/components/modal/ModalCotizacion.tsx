@@ -41,14 +41,12 @@ const ModalCotizacion = ({
       throw new Error('No token found in local storage');
     }
 
-    console.log('clientId', clientId);
     const projectData = {
       quoteId: quoteFinalData?.id,
       name: projectName,
       clientId: Number(clientId),
     };
 
-    console.log('projectData', projectData);
     try {
       const data = await postProjectData(token, projectData);
       console.log(data);

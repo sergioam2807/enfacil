@@ -47,8 +47,6 @@ const QuoteTable = ({ quoteData, handleDelete }: quoteProps) => {
     finalPrice: item?.totalMargin,
   }));
 
-  console.log('selectedId', selectedId);
-
   return (
     <table className='w-full table-auto'>
       <thead>

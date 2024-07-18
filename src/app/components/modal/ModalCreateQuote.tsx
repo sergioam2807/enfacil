@@ -5,6 +5,7 @@ import { Client } from '@/types/types';
 import { postQuoteData } from '@/app/api/data';
 import { useClientQuoteStore } from '@/store/store';
 import InputComponent from '../input/InputComponent';
+import { useRouter } from 'next/navigation';
 
 interface Props {
   onClose: () => void;
@@ -15,6 +16,7 @@ const ModalCreateQuote = ({ onClose, clientData }: Props) => {
   const [quoteName, setQuoteName] = useState<string>('');
   const { setClientId, setTitle, setQuoteId, setClientName } =
     useClientQuoteStore();
+  const router = useRouter();
 
   const handleClientChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const client = clientData.find(
@@ -41,21 +43,23 @@ const ModalCreateQuote = ({ onClose, clientData }: Props) => {
         setClientName(selectedClient.name);
       }
 
-      // const token = localStorage.getItem("token");
-      // if (token) {
-      //   const quote = {
-      //     clientId: selectedClient.id,
-      //     title: quoteName,
-      //   };
+      const token = localStorage.getItem('token');
+      if (token) {
+        const quote = {
+          clientId: selectedClient.id,
+          title: quoteName,
+          generalExpense: 0,
+        };
 
-      //   try {
-      //     const response = await postQuoteData(token, quote);
-      //     console.log(response.data);
-      //     setQuoteId(response.data);
-      //   } catch (error) {
-      //     console.log(error);
-      //   }
-      // }
+        try {
+          const response = await postQuoteData(token, quote);
+
+          setQuoteId(response.data);
+          router.push('/cotizaciones');
+        } catch (error) {
+          console.log(error);
+        }
+      }
     }
 
     onClose();

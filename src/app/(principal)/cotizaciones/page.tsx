@@ -8,6 +8,8 @@ import { Suspense, useEffect, useState } from 'react';
 import {
   getActivityTokenData,
   getEnclosureData,
+  insertQuoteEnclosureActivities,
+  insertQuoteEnclosures,
   postQuoteEnclosure,
   postQuoteEnclosuresMultipleActivities,
   postQuoteWhitEnclosureData,
@@ -42,7 +44,7 @@ export default function Cotizaciones() {
   const [allEnclosureData, setAllEnclosureData] = useState(enclosureData);
   const [filteredEnclosureData, setFilteredEnclosureData] =
     useState(enclosureData);
-  const { clientId, title, quoteId, clientName } = useClientQuoteStore();
+  const { title, quoteId, clientName } = useClientQuoteStore();
   const { enclosureQuotePost } = useQuotePostData();
   const { selectedId } = useSelectedIdStore();
   const { fullQuoteData } = useFullQuoteData();
@@ -96,29 +98,6 @@ export default function Cotizaciones() {
     setFilteredEnclosureData(results);
   }, [searchTerm]);
 
-  // useEffect(() => {
-  //   if (typeof window !== "undefined") {
-  //     const clientName =
-  //       localStorage.getItem("selectedClientName") || "Nombre del cliente";
-
-  //     setClientName(clientName);
-  //   }
-  // }, []);
-
-  // useEffect(() => {
-  //   const handleStorageChange = (e: StorageEvent) => {
-  //     if (e.key === "selectedClientName") {
-  //       setClientName(e.newValue || "Nombre del cliente");
-  //     }
-  //   };
-
-  //   window.addEventListener("storage", handleStorageChange);
-
-  //   return () => {
-  //     window.removeEventListener("storage", handleStorageChange);
-  //   };
-  // }, []);
-
   useEffect(() => {
     const newEnclosureData = enclosureData?.map((enclosure: any) => {
       let manPowerTotal = 0;
@@ -149,25 +128,80 @@ export default function Cotizaciones() {
     return { ...enclosure, ...totalsForEnclosure };
   });
 
-  //TODO: Refactor this
-
-  // useEffect(() => {
-  //   const handleUnload = () => {
-  //     localStorage.removeItem("quoteData");
-  //   };
-
-  //   window.addEventListener("beforeunload", handleUnload);
-
-  //   return () => {
-  //     window.removeEventListener("beforeunload", handleUnload);
-  //   };
-  // }, []);
-
   const activityMapping = activityData.reduce((map, activity) => {
     map[activity.name] = activity;
     return map;
   }, {});
 
+  console.log('activityMapping', activityMapping);
+
+  // const handleFinishQuote = async () => {
+  //   const token = localStorage.getItem('token');
+  //   const quoteDataItem = localStorage.getItem('quoteData');
+
+  //   if (!quoteDataItem) {
+  //     console.error('quoteData not found in localStorage');
+  //     return;
+  //   }
+
+  //   const quoteData = JSON.parse(quoteDataItem);
+  //   if (token && quoteData) {
+  //     const quoteWithEnclosure = {
+  //       quote: {
+  //         title: title,
+  //         clientId: clientId,
+  //         //add general expenses
+  //       },
+  //       quoteEnclosures: enclosureAdded.map((enclosure: Enclosure) => {
+  //         // Find the corresponding enclosure from the enclosureQuotePost data
+  //         const correspondingEnclosure = enclosureQuotePost.find(
+  //           (data: any) => data.id === enclosure.id
+  //         );
+  //         // Map the activities of the enclosure
+  //         const activities = ['activityOne', 'activityTwo', 'activityThree']
+  //           .filter((activityName) => (enclosure as any)[activityName] !== '-')
+  //           .map((activityName) => {
+  //             const activity =
+  //               activityMapping[(enclosure as any)[activityName]];
+
+  //             if (!activity) {
+  //               console.error(`Activity not found: ${activityName}`);
+  //               return null;
+  //             }
+  //             return {
+  //               quoteEnclosureId: 0,
+  //               activityId: activity.id,
+  //               activityMPUnitPrice: activity.manPowerUnitPricing,
+  //               activityMaterialsUnitPrice: activity.materialsUnitPricing,
+  //               activityUnits: correspondingEnclosure?.unityCount,
+  //               activityMarginPercentage: correspondingEnclosure?.margin,
+  //               activityAdvancementPercentage: 10,
+  //             };
+  //           })
+  //           .filter((activity) => activity !== null);
+
+  //         return {
+  //           quoteId: quoteId,
+  //           enclosureID: enclosure.id,
+  //           quoteEnclosureActivities: activities,
+  //         };
+  //       }),
+  //     };
+  //     try {
+  //       const data = await postQuoteWhitEnclosureData(
+  //         token,
+  //         quoteWithEnclosure
+  //       );
+  //       console.log(data);
+  //     } catch (error) {
+  //       console.error(error);
+  //     } finally {
+  //       route.push('/listado-cotizaciones');
+  //     }
+  //   }
+  // };
+
+  console.log('enclosureQuotePost', enclosureQuotePost);
   const handleFinishQuote = async () => {
     const token = localStorage.getItem('token');
     const quoteDataItem = localStorage.getItem('quoteData');
@@ -179,55 +213,71 @@ export default function Cotizaciones() {
 
     const quoteData = JSON.parse(quoteDataItem);
     if (token && quoteData) {
-      // const storedData = JSON.parse(localStorage.getItem('quoteData') || '{}');
-      const quoteWithEnclosure = {
-        quote: {
-          title: title,
-          clientId: clientId,
-          //add general expenses
-        },
-        quoteEnclosures: enclosureAdded.map((enclosure: Enclosure) => {
-          // Find the corresponding enclosure from the enclosureQuotePost data
-          const correspondingEnclosure = enclosureQuotePost.find(
-            (data: any) => data.id === enclosure.id
-          );
-          // Map the activities of the enclosure
-          const activities = ['activityOne', 'activityTwo', 'activityThree']
-            .filter((activityName) => (enclosure as any)[activityName] !== '-')
-            .map((activityName) => {
-              const activity =
-                activityMapping[(enclosure as any)[activityName]];
+      const quoteEnclosures = enclosureAdded.map((enclosure: Enclosure) => {
+        return {
+          EnclosureId: enclosure.id,
+          quoteId: quoteId,
+        };
+      });
 
-              if (!activity) {
-                console.error(`Activity not found: ${activityName}`);
-                return null;
-              }
-              return {
-                quoteEnclosureId: 0,
-                activityId: activity.id,
-                activityMPUnitPrice: activity.manPowerUnitPricing,
-                activityMaterialsUnitPrice: activity.materialsUnitPricing,
-                activityUnits: correspondingEnclosure?.unityCount,
-                activityMarginPercentage: correspondingEnclosure?.margin,
-                activityAdvancementPercentage: 10,
-              };
-            })
-            .filter((activity) => activity !== null);
-          console.log('activity', activities);
-
-          return {
-            quoteId: quoteId,
-            enclosureID: enclosure.id,
-            quoteEnclosureActivities: activities,
-          };
-        }),
-      };
       try {
-        const data = await postQuoteWhitEnclosureData(
+        const quoteEnclosureResponse = await insertQuoteEnclosures(
           token,
-          quoteWithEnclosure
+          quoteEnclosures
         );
-        console.log(data);
+
+        const quoteEnclosureActivities = quoteEnclosureResponse.data
+          .map((quoteEnclosureId: number, index: number) => {
+            const correspondingEnclosure = enclosureQuotePost.find(
+              (enclosure: any) => enclosure.id === enclosureAdded[index].id
+            );
+
+            console.log(correspondingEnclosure);
+
+            if (!correspondingEnclosure) {
+              console.error(
+                `No corresponding enclosure found for index: ${index}`
+              );
+              return [];
+            }
+
+            const activities = ['activityOne', 'activityTwo', 'activityThree']
+              .filter(
+                (activityName) =>
+                  (correspondingEnclosure as any)[activityName] !== '-'
+              )
+              .map((activityName) => {
+                const activityNameInEnclosure = (correspondingEnclosure as any)[
+                  activityName
+                ];
+                const activity = activityMapping[activityNameInEnclosure];
+
+                if (!activity) {
+                  console.error(
+                    `Activity not found: ${activityNameInEnclosure}`
+                  );
+                  return null;
+                }
+
+                return {
+                  activityId: activity.id,
+                  quoteEnclosureId: quoteEnclosureId,
+                  activityMPUnitPrice: activity.manPowerUnitPricing,
+                  activityMaterialsUnitPrice: activity.materialsUnitPricing,
+                  activityUnits: correspondingEnclosure.unityCount || 10,
+                  activityMarginPercentage: correspondingEnclosure.margin || 20,
+                  activityAdvancementPercentage: 10,
+                };
+              })
+              .filter((activity) => activity !== null);
+
+            return activities;
+          })
+          .flat();
+
+        for (const activity of quoteEnclosureActivities) {
+          await insertQuoteEnclosureActivities(token, activity);
+        }
       } catch (error) {
         console.error(error);
       } finally {
@@ -278,8 +328,6 @@ export default function Cotizaciones() {
   const selectedQuote = fullQuoteData.find(
     (quote: any) => quote.id === selectedId
   );
-
-  console.log('selectedQuote', selectedQuote);
 
   return (
     <div className='pr-5 pb-5'>

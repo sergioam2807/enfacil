@@ -59,8 +59,6 @@ const TableEditCotizacionActual = ({ onTotalChange }: any) => {
     // ...
   }, [selectedId, enclosuresInfo]);
 
-  console.log('enclosureInfo', quoteInfo);
-
   const dataToPass = selectedId
     ? quoteInfo?.enclosures.map((enclosureInfo) => ({
         ...enclosureInfo,
