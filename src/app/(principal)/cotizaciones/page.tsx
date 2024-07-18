@@ -133,8 +133,6 @@ export default function Cotizaciones() {
     return map;
   }, {});
 
-  console.log('activityMapping', activityMapping);
-
   // const handleFinishQuote = async () => {
   //   const token = localStorage.getItem('token');
   //   const quoteDataItem = localStorage.getItem('quoteData');
@@ -201,7 +199,6 @@ export default function Cotizaciones() {
   //   }
   // };
 
-  console.log('enclosureQuotePost', enclosureQuotePost);
   const handleFinishQuote = async () => {
     const token = localStorage.getItem('token');
     const quoteDataItem = localStorage.getItem('quoteData');

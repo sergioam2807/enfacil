@@ -58,8 +58,6 @@ export default function CotizacionDetalle({
   const { quote } = useQuoteStore();
   const { enclosuresInfo } = useQuoteInfoStore();
 
-  console.log('enclosuresInfo', enclosuresInfo);
-
   const openModal = () => {
     setModalOpen(true);
   };
