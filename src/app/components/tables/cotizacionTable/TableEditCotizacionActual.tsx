@@ -3,7 +3,11 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import TableHead from '../../common/TableHead';
 import TableCell from '../../common/TableCell';
 import { formatPrice } from '@/helpers/capitaliizeFirstLetter';
-import { useQuoteInfoStore, useQuotePostData } from '@/store/store';
+import {
+  useEnclosureAdded,
+  useQuoteInfoStore,
+  useQuotePostData,
+} from '@/store/store';
 import { getActivityTokenData } from '@/app/api/data';
 import { QuoteData } from '@/app/(principal)/cotizaciones/[id]/page';
 import { QuoteInfo } from '@/helpers/getEnclosure';
@@ -24,7 +28,10 @@ export interface Cotizacion {
 }
 
 const TableEditCotizacionActual = ({ onTotalChange }: any) => {
-  const [enclosureAdded, setEnclosureAdded] = useState<Cotizacion[]>([]);
+  const { combinedData } = useEnclosureAdded();
+  const [enclosureAdded, setEnclosureAdded] = useState<Cotizacion[]>(
+    combinedData || []
+  );
   const [activitysData, setActivityData] = useState<any[]>([]);
   const [quoteFinalData, setQuoteFinalData] = useState<QuoteData | null>(null);
   const [quoteInfo, setQuoteInfo] = useState<QuoteInfo | null>(null);
@@ -32,6 +39,35 @@ const TableEditCotizacionActual = ({ onTotalChange }: any) => {
 
   const { setEnclosureQuotePost } = useQuotePostData();
   const { enclosuresInfo } = useQuoteInfoStore();
+
+  console.log('combinedData2', combinedData);
+
+  useEffect(() => {
+    const newItems =
+      combinedData?.filter(
+        (dataItem: Cotizacion) =>
+          !enclosureAdded.some(
+            (prevStateItem: Cotizacion) => prevStateItem?.id === dataItem?.id
+          )
+      ) || [];
+
+    const deletedItems =
+      enclosureAdded?.filter(
+        (prevStateItem: Cotizacion) =>
+          !combinedData.some(
+            (dataItem: Cotizacion) => dataItem?.id === prevStateItem?.id
+          )
+      ) || [];
+
+    if (newItems.length > 0 || deletedItems.length > 0) {
+      const updatedState = [...enclosureAdded, ...newItems].filter(
+        (item: Cotizacion) =>
+          !deletedItems.some((deletedItem) => deletedItem.id === item.id)
+      );
+      setEnclosureQuotePost(updatedState);
+      setEnclosureAdded(updatedState);
+    }
+  }, [combinedData]);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -59,25 +95,43 @@ const TableEditCotizacionActual = ({ onTotalChange }: any) => {
     // ...
   }, [selectedId, enclosuresInfo]);
 
-  const dataToPass = selectedId
-    ? quoteInfo?.enclosures.map((enclosureInfo) => ({
+  const dataToPass = [
+    ...(selectedId
+      ? quoteInfo?.enclosures?.map((enclosureInfo) => ({
+          ...enclosureInfo,
+          metricUnit:
+            activitysData.find(
+              (activity) =>
+                activity.name.trim().toLowerCase() ===
+                enclosureInfo.activityOne.trim().toLowerCase()
+            )?.metricUnit ?? 'null',
+          editable: false,
+        })) || []
+      : quoteFinalData?.enclosures?.map((enclosureInfo) => ({
+          ...enclosureInfo,
+          metricUnit:
+            activitysData.find(
+              (activity) =>
+                activity.name.trim().toLowerCase() ===
+                enclosureInfo.activityOne.trim().toLowerCase()
+            )?.metricUnit ?? 'null',
+          editable: false,
+        })) || []),
+    ...enclosureAdded.map((enclosureInfo) => {
+      const activity = activitysData.find(
+        (activity) =>
+          activity.name.trim().toLowerCase() ===
+          enclosureInfo.activityOne.trim().toLowerCase()
+      );
+      return {
         ...enclosureInfo,
-        metricUnit:
-          activitysData.find(
-            (activity) =>
-              activity.name.trim().toLowerCase() ===
-              enclosureInfo.activityOne.trim().toLowerCase()
-          )?.metricUnit ?? 'null',
-      }))
-    : quoteFinalData?.enclosures.map((enclosureInfo) => ({
-        ...enclosureInfo,
-        metricUnit:
-          activitysData.find(
-            (activity) =>
-              activity.name.trim().toLowerCase() ===
-              enclosureInfo.activityOne.trim().toLowerCase()
-          )?.metricUnit ?? 'null',
-      }));
+        metricUnit: activity?.metricUnit ?? 'null',
+        precioManoObraUnitario: enclosureInfo.manPowerTotal ?? 'null',
+        precioMaterialesUnitario: enclosureInfo.materialsTotal ?? 'null',
+        editable: true,
+      };
+    }),
+  ];
 
   const handleInputChange = (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -198,12 +252,16 @@ const TableEditCotizacionActual = ({ onTotalChange }: any) => {
             <TableCell>{row.activityOne ?? '-'}</TableCell>
             <TableCell>{row.metricUnit ?? '-'}</TableCell>
             <TableCell>
-              <input
-                type='text'
-                value={row.unityCount || 0}
-                onChange={(e) => handleInputChange(e, row.id)}
-                className='border rounded w-1/2 py-2 px-3 text-grey-darker'
-              />
+              {row.editable ? (
+                <input
+                  type='text'
+                  value={row.unityCount || 0}
+                  onChange={(e) => handleInputChange(e, row.id)}
+                  className='border rounded w-1/2 py-2 px-3 text-grey-darker'
+                />
+              ) : (
+                <TableCell>{row.unityCount || '-'}</TableCell>
+              )}
             </TableCell>
             <TableCell>
               {formatPrice(row?.precioManoObraUnitario ?? 0) ?? '-'}
@@ -211,21 +269,31 @@ const TableEditCotizacionActual = ({ onTotalChange }: any) => {
             <TableCell>
               {formatPrice(row?.precioMaterialesUnitario ?? 0) ?? '-'}
             </TableCell>
-            <TableCell>{formatPrice(row.manPowerTotal) || '-'}</TableCell>
-            <TableCell>{formatPrice(row.materialsTotal) || '-'}</TableCell>
             <TableCell>
-              <div className='flex items-center'>
-                <input
-                  type='text'
-                  value={row.margin | 0}
-                  onChange={(e) => handleMarginChange(e, row.id)}
-                  className='border rounded w-16 py-2 px-3 text-grey-darker'
-                />
-                <span className='ml-2'>%</span>
-              </div>
+              {formatPrice(row.manPowerTotal * Number(row.unityCount)) || '-'}
             </TableCell>
             <TableCell>
-              {formatPrice(row.manPowerTotal + row.materialsTotal) || '-'}
+              {formatPrice(row.materialsTotal * Number(row.unityCount)) || '-'}
+            </TableCell>
+            <TableCell>
+              {row.editable ? (
+                <div className='flex items-center'>
+                  <input
+                    type='text'
+                    value={row.margin | 0}
+                    onChange={(e) => handleMarginChange(e, row.id)}
+                    className='border rounded w-16 py-2 px-3 text-grey-darker'
+                  />
+                  <span className='ml-2'>%</span>
+                </div>
+              ) : (
+                <TableCell>{formatPrice(row.margin) || '-'}</TableCell>
+              )}
+            </TableCell>
+            <TableCell>
+              {formatPrice(
+                row.manPowerTotal * Number(row.unityCount) + row.materialsTotal
+              ) || '-'}
             </TableCell>
           </tr>
         ))}

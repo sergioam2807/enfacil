@@ -20,7 +20,7 @@ export interface Cotizacion {
 }
 
 const TableCotizacionActual = ({ onTotalChange }: any) => {
-  const { combinedData, deleteEnclosure } = useEnclosureAdded();
+  const { combinedData } = useEnclosureAdded();
   const [enclosureAdded, setEnclosureAdded] = useState<Cotizacion[]>(
     combinedData || []
   );

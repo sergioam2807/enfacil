@@ -165,7 +165,7 @@ export default function Cotizaciones() {
       const quoteEnclosures = enclosureAdded.map((enclosure: Enclosure) => {
         return {
           EnclosureId: enclosure.id,
-          quoteId: quoteId,
+          quoteId: selectedId ? selectedId : quoteId,
         };
       });
 
