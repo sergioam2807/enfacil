@@ -27,7 +27,9 @@ import TableEditCotizacionActual from '@/app/components/tables/cotizacionTable/T
 
 export default function Cotizaciones() {
   const [enclosureData, setEnclosureData] = useState<any[]>([]);
-  const [enclosureAdded, setEnclosureAdded] = useState<any[]>([]);
+  // const [enclosureAdded, setEnclosureAdded] = useState<any[]>([]);
+  const { setCombinedData, combinedData, enclosureAdded, setEnclosureAdded } =
+    useEnclosureAdded();
   const [activityData, setActivityData] = useState<any[]>([]);
   const [totals, setTotals] = useState<
     { manPowerTotal: number; materialsTotal: number }[]
@@ -52,10 +54,6 @@ export default function Cotizaciones() {
   const [isLoading, setIsLoading] = useState(true);
 
   const route = useRouter();
-
-  const handleData = (data: any) => {
-    setEnclosureAdded(data);
-  };
 
   console.log('enclosureAdded', enclosureAdded);
 
@@ -126,10 +124,12 @@ export default function Cotizaciones() {
     setTotals(newEnclosureData);
   }, [activityData]);
 
-  const { setCombinedData, combinedData } = useEnclosureAdded();
-
   useEffect(() => {
-    const combinedData = enclosureAdded.map((enclosure: any) => {
+    if (!enclosureAdded) {
+      return;
+    }
+
+    const combinedData = enclosureAdded?.map((enclosure: any) => {
       const totalsForEnclosure = totals.find(
         (total: any) => total.id === enclosure.id
       );
@@ -318,7 +318,8 @@ export default function Cotizaciones() {
           <BaseTableCard>
             <TableCotizacion
               cotizacionData={allEnclosureData}
-              onData={handleData}
+              setEnclosureAdded={setEnclosureAdded}
+              enclosureAdded={enclosureAdded}
             />
           </BaseTableCard>
         )}

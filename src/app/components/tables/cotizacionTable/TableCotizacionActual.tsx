@@ -149,9 +149,9 @@ const TableCotizacionActual = ({ onTotalChange }: any) => {
     localStorage.setItem('quoteData', JSON.stringify(combinedData));
   }
 
-  const handleDelete = (id: string) => {
-    deleteEnclosure(id);
-  };
+  // const handleDelete = (id: string) => {
+  //   deleteEnclosure(id);
+  // };
 
   return (
     <table className='w-full table-auto '>
@@ -167,7 +167,7 @@ const TableCotizacionActual = ({ onTotalChange }: any) => {
           <TableHead>Total materiales</TableHead>
           <TableHead>Margen</TableHead>
           <TableHead>Total Actividad</TableHead>
-          <th className='text-left pb-8 pt-5 pl-10'></th>
+          {/* <th className='text-left pb-8 pt-5 pl-10'></th> */}
         </tr>
       </thead>
       <tbody>
@@ -213,9 +213,9 @@ const TableCotizacionActual = ({ onTotalChange }: any) => {
                   (1 + row.margin / 100)
               ) || '-'}
             </TableCell>
-            <TableCell>
+            {/* <TableCell>
               <button onClick={() => handleDelete(row.id)}>Eliminar</button>
-            </TableCell>
+            </TableCell> */}
           </tr>
         ))}
       </tbody>

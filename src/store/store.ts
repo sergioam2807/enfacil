@@ -54,6 +54,9 @@ interface EnclosureAdded {
   combinedData: any[];
   setCombinedData: (data: any[]) => void;
   deleteEnclosure: (id: string) => void;
+  addEnclosure: (enclosure: any) => void;
+  enclosureAdded: any[];
+  setEnclosureAdded: (enclosureAdded: any[]) => void;
 }
 
 export const useClientQuoteStore = create<Store>((set) => ({
@@ -124,5 +127,30 @@ export const useEnclosureAdded = create<EnclosureAdded>((set, get) => ({
     const { combinedData } = get();
     const updatedData = combinedData.filter((item: any) => item.id !== id);
     set({ combinedData: updatedData });
+  },
+  addEnclosure: (enclosure: any) => {
+    const { combinedData } = get();
+    const isAlreadyAdded = combinedData.some(
+      (item: any) => item.id === enclosure.id
+    );
+
+    if (!isAlreadyAdded) {
+      set({ combinedData: [...combinedData, enclosure] });
+    }
+  },
+  enclosureAdded: [],
+  setEnclosureAdded: (enclosureAdded) => {
+    if (typeof enclosureAdded === 'function') {
+      set((prevState) => ({
+        enclosureAdded: (enclosureAdded as Function)(prevState.enclosureAdded),
+      }));
+    } else if (Array.isArray(enclosureAdded)) {
+      set({ enclosureAdded });
+    } else {
+      console.error(
+        'setEnclosureAdded called with non-array and non-function value:',
+        enclosureAdded
+      );
+    }
   },
 }));
