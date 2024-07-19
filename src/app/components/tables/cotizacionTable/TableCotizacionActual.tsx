@@ -3,7 +3,7 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import TableHead from '../../common/TableHead';
 import TableCell from '../../common/TableCell';
 import { formatPrice } from '@/helpers/capitaliizeFirstLetter';
-import { useQuotePostData } from '@/store/store';
+import { useEnclosureAdded, useQuotePostData } from '@/store/store';
 
 export interface Cotizacion {
   id: string;
@@ -19,26 +19,41 @@ export interface Cotizacion {
   totalActivity: number;
 }
 
-const TableCotizacionActual = ({ cotizacionData, onTotalChange }: any) => {
+const TableCotizacionActual = ({ onTotalChange }: any) => {
+  const { combinedData, deleteEnclosure } = useEnclosureAdded();
   const [enclosureAdded, setEnclosureAdded] = useState<Cotizacion[]>(
-    cotizacionData || []
+    combinedData || []
   );
   const { setEnclosureQuotePost } = useQuotePostData();
 
+  console.log('combinedData', combinedData);
+
   useEffect(() => {
     const newItems =
-      cotizacionData?.filter(
+      combinedData?.filter(
         (dataItem: Cotizacion) =>
           !enclosureAdded.some(
             (prevStateItem: Cotizacion) => prevStateItem?.id === dataItem?.id
           )
       ) || [];
-    if (newItems.length > 0) {
-      const updatedState = [...enclosureAdded, ...newItems];
+
+    const deletedItems =
+      enclosureAdded?.filter(
+        (prevStateItem: Cotizacion) =>
+          !combinedData.some(
+            (dataItem: Cotizacion) => dataItem?.id === prevStateItem?.id
+          )
+      ) || [];
+
+    if (newItems.length > 0 || deletedItems.length > 0) {
+      const updatedState = [...enclosureAdded, ...newItems].filter(
+        (item: Cotizacion) =>
+          !deletedItems.some((deletedItem) => deletedItem.id === item.id)
+      );
       setEnclosureQuotePost(updatedState);
       setEnclosureAdded(updatedState);
     }
-  }, [cotizacionData]);
+  }, [combinedData]);
 
   const handleInputChange = (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -57,6 +72,7 @@ const TableCotizacionActual = ({ cotizacionData, onTotalChange }: any) => {
   useEffect(() => {
     setEnclosureQuotePost(enclosureAdded);
   }, [enclosureAdded]);
+
   const handleMarginChange = (
     event: React.ChangeEvent<HTMLInputElement>,
     id: string
@@ -133,6 +149,10 @@ const TableCotizacionActual = ({ cotizacionData, onTotalChange }: any) => {
     localStorage.setItem('quoteData', JSON.stringify(combinedData));
   }
 
+  const handleDelete = (id: string) => {
+    deleteEnclosure(id);
+  };
+
   return (
     <table className='w-full table-auto '>
       <thead>
@@ -147,6 +167,7 @@ const TableCotizacionActual = ({ cotizacionData, onTotalChange }: any) => {
           <TableHead>Total materiales</TableHead>
           <TableHead>Margen</TableHead>
           <TableHead>Total Actividad</TableHead>
+          <th className='text-left pb-8 pt-5 pl-10'></th>
         </tr>
       </thead>
       <tbody>
@@ -191,6 +212,9 @@ const TableCotizacionActual = ({ cotizacionData, onTotalChange }: any) => {
                   row.materialsTotal * Number(row.unityCount)) *
                   (1 + row.margin / 100)
               ) || '-'}
+            </TableCell>
+            <TableCell>
+              <button onClick={() => handleDelete(row.id)}>Eliminar</button>
             </TableCell>
           </tr>
         ))}

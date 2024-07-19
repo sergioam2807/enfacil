@@ -50,6 +50,12 @@ interface DateFinancial {
   setSelectedDate: (date: string) => void;
 }
 
+interface EnclosureAdded {
+  combinedData: any[];
+  setCombinedData: (data: any[]) => void;
+  deleteEnclosure: (id: string) => void;
+}
+
 export const useClientQuoteStore = create<Store>((set) => ({
   clientId: 0,
   title: '',
@@ -76,6 +82,12 @@ export const useQuoteStore = create<QuoteStore>((set) => ({
 export const useQuotePostData = create<QuotePostDataState>((set) => ({
   enclosureQuotePost: [],
   setEnclosureQuotePost: (enclosureQuotePost) => set({ enclosureQuotePost }),
+  deleteFromEnclosureQuotePost: (id: string) =>
+    set((state) => ({
+      enclosureQuotePost: state.enclosureQuotePost.filter(
+        (item) => item.id !== id
+      ),
+    })),
 }));
 
 export const useQuoteDataStore = create<QuoteFinalData>((set) => ({
@@ -97,4 +109,20 @@ export const useReloadMovements = create<ReloadMovements>((set) => ({
 export const useDateStore = create<DateFinancial>((set) => ({
   selectedDate: '',
   setSelectedDate: (date: string) => set({ selectedDate: date }),
+}));
+
+export const useEnclosureAdded = create<EnclosureAdded>((set, get) => ({
+  combinedData: [],
+  setCombinedData: (data) => {
+    if (!Array.isArray(data)) {
+      console.error('setCombinedData called with non-array value:', data);
+      return;
+    }
+    set({ combinedData: data });
+  },
+  deleteEnclosure: (id: string) => {
+    const { combinedData } = get();
+    const updatedData = combinedData.filter((item: any) => item.id !== id);
+    set({ combinedData: updatedData });
+  },
 }));

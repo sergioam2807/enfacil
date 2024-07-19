@@ -15,7 +15,11 @@ import {
 import { formatPrice } from '@/helpers/capitaliizeFirstLetter';
 import { useRouter } from 'next/navigation';
 // import { CreateButton } from "@/app/components/common/CreateButton";
-import { useClientQuoteStore, useQuotePostData } from '@/store/store';
+import {
+  useClientQuoteStore,
+  useEnclosureAdded,
+  useQuotePostData,
+} from '@/store/store';
 import { Enclosure } from './[id]/page';
 import Search from '@/app/components/common/Search';
 import { useFullQuoteData, useSelectedIdStore } from '@/store/quote-store';
@@ -52,6 +56,8 @@ export default function Cotizaciones() {
   const handleData = (data: any) => {
     setEnclosureAdded(data);
   };
+
+  console.log('enclosureAdded', enclosureAdded);
 
   const handleSearchChange = (searchTerm: string) => {
     setSearchTerm(searchTerm);
@@ -120,12 +126,25 @@ export default function Cotizaciones() {
     setTotals(newEnclosureData);
   }, [activityData]);
 
-  const combinedData = enclosureAdded.map((enclosure: any) => {
-    const totalsForEnclosure = totals.find(
-      (total: any) => total.id === enclosure.id
-    );
-    return { ...enclosure, ...totalsForEnclosure };
-  });
+  const { setCombinedData, combinedData } = useEnclosureAdded();
+
+  useEffect(() => {
+    const combinedData = enclosureAdded.map((enclosure: any) => {
+      const totalsForEnclosure = totals.find(
+        (total: any) => total.id === enclosure.id
+      );
+      return { ...enclosure, ...totalsForEnclosure };
+    });
+
+    setCombinedData(combinedData);
+  }, [enclosureAdded, totals]);
+
+  // const combinedData = enclosureAdded.map((enclosure: any) => {
+  //   const totalsForEnclosure = totals.find(
+  //     (total: any) => total.id === enclosure.id
+  //   );
+  //   return { ...enclosure, ...totalsForEnclosure };
+  // });
 
   const activityMapping = activityData.reduce((map, activity) => {
     map[activity.name] = activity;
@@ -265,11 +284,6 @@ export default function Cotizaciones() {
       };
     });
   };
-
-  console.log(
-    'generalExpenses: quoteTotal.generalExpenses',
-    quoteTotal.generalExpenses
-  );
 
   const selectedQuote = fullQuoteData.find(
     (quote: any) => quote.id === selectedId
