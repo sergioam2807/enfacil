@@ -107,7 +107,12 @@ const QuoteTable = ({ quoteData, handleDelete }: quoteProps) => {
             <TableCell>
               {formatPrice(Number(row?.totalMaterialsPricing)) ?? '-'}
             </TableCell>
-            <TableCell>{formatPrice(Number(row?.finalPrice)) ?? '-'}</TableCell>
+            <TableCell>
+              {formatPrice(
+                Number(row.totalManPowerUnitPricing) +
+                  Number(row.totalMaterialsPricing)
+              ) ?? '-'}
+            </TableCell>
             <TableCell>
               <button onClick={() => handleDelete(row.id)}>
                 {' '}
