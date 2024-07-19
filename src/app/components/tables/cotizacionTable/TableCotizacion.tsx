@@ -20,6 +20,7 @@ interface Enclosure {
 interface cotizacionProps {
   cotizacionData: Enclosure[];
   setEnclosureAdded: any;
+  enclosureAdded: any;
   id?: string;
 }
 
